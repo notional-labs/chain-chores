@@ -2,6 +2,7 @@
 import os
 from pick import pick
 from CHAINS import VALIDATING_CHAINS
+import re
 
 '''
 Reece Williams | Notional - Started Oct 28th 2022
@@ -142,13 +143,20 @@ def go_mod_update(folder_name, values: list[str] = [], simulate: bool = False):
     for replacements in values:
         old = replacements[0]
         new = replacements[1]        
+        matches = re.search(old, data)
 
-        if old in data:
-            if simulate:            
-                print(f"{folder_name:<15} Would replace {old} w/ {new}")    
+        if matches: # allow for us to use regex
+            if matches.group(0) == new:
+                # ensure the matches are not exactly the new value
+                # print(f"Skipping {old} as it is already {new}")
+                continue
+
+            if simulate:   
+                # get the matches in string form from matches                         
+                print(f"{folder_name:<10} Would replace '{matches.group(0)}'\t-> {new}")    
             else:                
-                print(f"Replacing {old} with {new}")
-                data = data.replace(old, new)
+                print(f"Replacing {old} with {new}")                
+                data = re.sub(old, new, data)
 
     if simulate == False:
         with open("go.mod", "w") as f:
@@ -175,7 +183,7 @@ def oct_28_2022_patches():
 
         go_mod_update(chain, [
             # allow regex matching here? so we could do v3.*.* -> v3.3.1
-            ["github.com/cosmos/ibc-go/v3 v3.3.0", "github.com/cosmos/ibc-go/v3 v3.3.1"]
+            ["github.com/cosmos/ibc-go/v3 v3.3.*", "github.com/cosmos/ibc-go/v3 v3.3.1"]
         ], simulate=True)
 
         # lint(chain)
