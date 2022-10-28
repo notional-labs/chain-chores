@@ -3,6 +3,8 @@ import os
 from pick import pick
 from CHAINS import VALIDATING_CHAINS
 import re
+import multiprocessing as mp
+from pprint import pprint as pp
 
 '''
 Reece Williams | Notional - Started Oct 28th 2022
@@ -22,20 +24,123 @@ Goal:
 VERSION BUMPING:
 - Get current version from go.mod (ex: ibc-go v3.3.0)
 - Bump to v3.3.1
-
-TODO:
-- Use mp to run all of these in parallel
 '''
 
 # current dir of the file
 current_dir = os.path.dirname(os.path.realpath(__file__))
 yml_files = os.path.join(current_dir, ".yml_files")
+ISSUE_TEMPLATE = os.path.join(yml_files, "TEMPLATES")
 os.chdir(current_dir)
 
+PATCH_BRANCH_NAME = "reece-ibc331" # this is made on notional's fork, don't write on main
+SYNC_FORKS = False
+
+def main():
+    # vers = get_chain_versions()
+    # pp(vers['ibc'])
+    
+    # chain_options = [chain for chain, _ in get_chains()]
+    # print(chain_options)
+    # selected_chains = pick(chain_options, "Select chains to lint", multi_select=True, min_selection_count=0)
+    # # select_chains = []
+
+    # print(selected_chains)
+    # exit()
+    # download_chains(selected_chains) # gets latest data from each fork
+
+    for chain, _ in get_chains():
+        Workflow(chain).add_dependabot(simulate=True)        
+        # workflows(chain)
+
+        # go_mod_update(chain, [
+        #     ["github.com/cosmos/ibc-go/v3 v3.3.0", "github.com/cosmos/ibc-go/v3 v3.3.1"],
+        # ], simulate=False)
+        # # TODO: when we do update, we need to create a new git branch for us to PR off of (do not build off of main)
+
+        # open_in_vscode(chain)
+        # # lint(chain)
+        # pass
+
+# === Logic ===
 def get_chains():
     for chain, locations in VALIDATING_CHAINS.items():
-        yield chain, locations
+        yield chain, locations    
 
+def get_chain_info(folder_name):
+    sdk_version, ibc_version, wasm_version, wasmvm = "", "", "", ""
+
+    with open(os.path.join(current_dir, folder_name, "go.mod"), "r") as f:
+        data = f.read()
+    
+    for line in data.split("\n"):
+        if re.search(r"(.*)\sv\d+\.\d+\.\d+", line):
+            version = line.split(" ")[1] # -1 or 2 = // indirect in some cases
+            if not re.search(r"\d", version):
+                # if version does not contain any numbers, then continue
+                continue
+
+            if "=>" in line:
+                continue
+
+            if "github.com/CosmWasm/wasmd" in line:
+                wasm_version = line.split(" ")[1] or ""
+            elif "github.com/CosmWasm/wasmvm" in line:
+                wasmvm = line.split(" ")[1] or ""
+            elif "github.com/cosmos/ibc-go" in line:
+                ibc_version = line.split(" ")[1] or ""
+            elif "github.com/cosmos/cosmos-sdk" in line:
+                sdk_version = line.split(" ")[1] or ""
+
+    return {
+        "sdk": sdk_version,
+        "ibc": ibc_version,
+        "wasm": wasm_version,
+        "wasmvm": wasmvm,
+    }
+
+def get_chain_versions():
+    sdk_chain_version, ibc_version, wasm_ver, wasmvm_ver = {}, {}, {}, {}
+
+    for chain, _ in get_chains():
+        info = get_chain_info(chain)
+        sdk_version = info["sdk"]
+        ibc = info["ibc"]
+        wasm = info["wasm"]
+        wasmvm = info["wasmvm"]
+
+        if sdk_version not in sdk_chain_version:
+            sdk_chain_version[sdk_version] = []
+        sdk_chain_version[sdk_version].append(chain)
+
+        if ibc not in ibc_version:
+            ibc_version[ibc] = []
+        ibc_version[ibc].append(chain)
+
+        if wasm not in ibc_version:
+            wasm_ver[wasm] = []
+        wasm_ver[wasm].append(chain)
+
+        if wasmvm not in ibc_version:
+            wasmvm_ver[wasmvm] = []
+        wasmvm_ver[wasmvm].append(chain)
+    
+    return {
+        "sdk": sdk_chain_version,
+        "ibc": ibc_version,
+        "wasm": wasm_ver,
+        "wasmvm": wasmvm_ver,
+    }
+
+def download_chains(select_chains: list = []):
+    to_run = []
+    for chain, loc in get_chains():
+        if len(select_chains) > 0 and chain not in select_chains:
+            continue
+        to_run.append((chain, SYNC_FORKS))
+
+    # run all to_run in parallel with mp
+    with mp.Pool(mp.cpu_count()) as pool:
+        pool.starmap(pull_latest, to_run)
 
 def pull_latest(folder_name, repo_sync=False):
     # git clone if it is not there already, if it is, cd into dir and git pull    
@@ -45,53 +150,102 @@ def pull_latest(folder_name, repo_sync=False):
     repo_link = VALIDATING_CHAINS[folder_name]["notional"]    
 
     # check if folder_name exists
-    if os.path.isdir(os.path.join(current_dir, folder_name)):        
-        print(f"pulling latest {folder_name}")
-        os.chdir(folder_name)
-        os.system("git pull origin")
-        # os.chdir("..")
-    else:
-        # run a system command to get git clone
+    if not os.path.isdir(os.path.join(current_dir, folder_name)):        
         print(f"Cloning {folder_name} from {repo_link}")
-        os.system(f"git clone {repo_link} {folder_name}")    
+        os.system(f"git clone {repo_link} {folder_name}")
+        os.chdir(os.path.join(current_dir, folder_name))
+        os.system(f"git remote add upstream {repo_link}") # may want to do this after cloning
 
-    # print(f"Syncing fork to latest of parent main/master branch (overwriting any main/master changes)")    
-    os.system(f"git remote add upstream {repo_link}") # if not already
+    os.chdir(os.path.join(current_dir, folder_name))
     if repo_sync:
+        print(f"Syncing fork to latest of parent main/master branch (overwriting any main/master changes)")    
         os.system(f"gh repo sync {repo_link.replace('git@github.com:', '').replace('.git', '')} --force")
 
     # pull after we sync to the new files in the notional repo which we will build off of
-    os.system("git pull")
+    os.system("git pull origin")  
+    os.system("git pull upstream")
 
     os.chdir(current_dir)
 
+# === Linting ===
+class Lint():
+    def __init__(self, folder_name) -> None:
+        self.folder_name = folder_name        
 
-def lint(folder_name):
-    print(f"Linting {folder_name}...")
-    os.chdir(os.path.join(current_dir, folder_name))
-    os.system("golangci-lint run --fix")
-    os.system("gofmt -s -w .")
-    os.system("go vet ./...")
-    os.system("go mod tidy")
-    os.chdir(current_dir)
+    def auto_fix(self):
+        self._cmd("golangci-lint run --fix")
 
+    def gofmt(self):
+        self._cmd("gofmt -s -w .")
+    
+    def govet(self):
+        self._cmd("go vet ./...")
 
-def dependabot(folder_name):
-    # https://github.com/eve-network/eve, put in .yml_files folder
-    # check if folder chains .github/dependabot.yml dir
+    def tidy(self):
+        self._cmd("go mod tidy")
 
-    repo = os.path.join(current_dir, folder_name)
-    main_branch = VALIDATING_CHAINS[folder_name]["branch"] # main, master, etc
+    def _cmd(self, cmd):
+        os.chdir(os.path.join(current_dir, self.folder_name))
+        os.system(cmd)
+        os.chdir(current_dir)
 
-    os.chdir(repo)
-    if not os.path.exists(".github/dependabot.yml"):
-        os.makedirs(".github", exist_ok=True)        
-        # write yml_files/dependabot.yml to .github/dependabot.yml
-        print(f"Writing dependabot.yml to .github/dependabot.yml for {folder_name} as it did not have it...")
-        with open(f".github/dependabot.yml", "w") as f:
-            with open(os.path.join(yml_files, "dependabot.yml"), "r") as f2:
-                f.write(f2.read().replace("_MAIN_BRANCH_", main_branch))
-    os.chdir(current_dir)
+def lint_all(folder_name):
+    print(f"Linting {folder_name}...")    
+    l = Lint(folder_name)
+    l.auto_fix()
+    l.gofmt()
+    l.govet()
+    l.tidy()
+    
+
+# === Workflows ===
+class Workflow():
+    def __init__(self, folder_name) -> None:
+        self.folder_name = folder_name
+
+    def add_dependabot(self, simulate=False):
+
+        # check if self.folder_name/.github exists, if so see if any files have "dependabot" in them
+        p = os.path.join(current_dir, self.folder_name, ".github")
+        if not os.path.isdir(p):
+            os.mkdir(p)
+        
+        containsDependABot = False
+        for root, dirs, files in os.walk(p, topdown=True):
+            # for name in dirs:
+                # print(os.path.join(root, name))
+            for name in files:
+                # print(os.path.join(root, name))
+                if "dependabot" in name:
+                    containsDependABot = True
+                    break
+
+        if containsDependABot:
+            if simulate == False:
+                print(f"{self.folder_name} already has dependabot")
+            return
+
+        # https://github.com/eve-network/eve, put in .yml_files folder
+        # check if folder chains .github/dependabot.yml dir
+        repo = os.path.join(current_dir, self.folder_name)
+        main_branch = VALIDATING_CHAINS[self.folder_name]["branch"] # main, master, etc
+
+        if simulate:
+            print(f"SIMULATE: Would add dependabot to {self.folder_name}")
+            return
+        else:
+            print(f"Adding dependabot to {self.folder_name}...")
+            os.chdir(repo)
+            if not os.path.exists(".github/dependabot.yml"):
+                os.makedirs(".github", exist_ok=True)        
+                # write yml_files/dependabot.yml to .github/dependabot.yml
+                print(f"Writing dependabot.yml to .github/dependabot.yml for {self.folder_name} as it did not have it...")
+                with open(f".github/dependabot.yml", "w") as f:
+                    with open(os.path.join(yml_files, "dependabot.yml"), "r") as f2:
+                        f.write(f2.read().replace("_MAIN_BRANCH_", main_branch))
+            os.chdir(current_dir)
+
+    
 
 
 def _write_workflow(folder_name, workflow_name, main_branch_name):
@@ -171,32 +325,9 @@ def open_in_vscode(folder_name):
     # This way we can commit and push changes we have made
     os.system(f"code {os.path.join(current_dir, folder_name)}")    
 
-PATCH_BRANCH_NAME = "reece-ibc331" # this is made on notionals fork
-def oct_28_2022_patches():
-    
-    select_chains = ["Kava"]
-    for chain, loc in get_chains():
-        if len(select_chains) > 0 and chain not in select_chains:
-            continue
-
-        # print(f"Chain: {chain}")
-        pull_latest(chain, repo_sync=False)
-        # dependabot(chain)
-        # workflows(chain)
-
-        go_mod_update(chain, [
-            ["github.com/cosmos/ibc-go/v3 v3.3.0", "github.com/cosmos/ibc-go/v3 v3.3.1"],
-        ], simulate=False)
-        # TODO: when we do update, we need to create a new git branch for us to PR off of (do not build off of main)
-
-        open_in_vscode(chain)
-
-        # lint(chain)
-
-
-
-try:
-    oct_28_2022_patches()
-except Exception as e:
-    print(e)
-    print("Something went wrong, please check the logs above")
+if __name__ == "__main__":
+    # try:
+    main()
+    # except Exception as e:
+    #     print(e)
+    #     print("Something went wrong, please check the logs above")
