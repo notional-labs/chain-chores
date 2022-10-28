@@ -167,24 +167,29 @@ def go_mod_update(folder_name, values: list[str] = [], simulate: bool = False):
     os.chdir(current_dir)
 
 
+def open_in_vscode(folder_name):
+    # This way we can commit and push changes we have made
+    os.system(f"code {os.path.join(current_dir, folder_name)}")    
 
 PATCH_BRANCH_NAME = "reece-ibc331" # this is made on notionals fork
 def oct_28_2022_patches():
     
-    select_chains = []
+    select_chains = ["Kava"]
     for chain, loc in get_chains():
         if len(select_chains) > 0 and chain not in select_chains:
             continue
 
         # print(f"Chain: {chain}")
-        # pull_latest(chain, repo_sync=False)
+        pull_latest(chain, repo_sync=False)
         # dependabot(chain)
         # workflows(chain)
 
         go_mod_update(chain, [
-            # allow regex matching here? so we could do v3.*.* -> v3.3.1
-            ["github.com/cosmos/ibc-go/v3 v3.3.*", "github.com/cosmos/ibc-go/v3 v3.3.1"]
-        ], simulate=True)
+            ["github.com/cosmos/ibc-go/v3 v3.3.0", "github.com/cosmos/ibc-go/v3 v3.3.1"],
+        ], simulate=False)
+        # TODO: when we do update, we need to create a new git branch for us to PR off of (do not build off of main)
+
+        open_in_vscode(chain)
 
         # lint(chain)
 
