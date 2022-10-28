@@ -75,11 +75,15 @@ VALIDATING_CHAINS = {
     #     "root": "git@github.com:OmniFlix/omniflixhub.git",
     #     "notional": "git@github.com:notional-labs/mainnet-1.git"
     # },
-    "Cyber": {
-        "branch": "main",
-
-        "root": "git@github.com:cybercongress/go-cyber.git",
-        "notional": "git@github.com:notional-labs/go-cyber.git"
+    # "Cyber": {
+    #     "branch": "main",
+    #     "root": "git@github.com:cybercongress/go-cyber.git",
+    #     "notional": "git@github.com:notional-labs/go-cyber.git"
+    # },
+    "Jackal": {
+        "branch": "master",
+        "root": "git@github.com:JackalLabs/canine-chain.git",
+        "notional": "git@github.com:notional-labs/canine-chain.git"
     },
     # "Secret-Network": "git@github.com:scrtlabs/SecretNetwork.git",
     # "Regen": "git@github.com:regen-network/regen-ledger.git",
@@ -134,8 +138,9 @@ def pull_latest(folder_name):
 def lint(folder_name):
     print(f"Linting {folder_name}...")
     os.chdir(os.path.join(current_dir, folder_name))
-    # os.system("gofmt")
-    # os.system("golangci-lint run")
+    os.system("golangci-lint run")
+    os.system("gofmt -s -w .")
+    os.system("go vet ./...")
     os.system("go mod tidy")
     os.chdir(current_dir)
 
@@ -191,7 +196,36 @@ def workflows(folder_name):
     os.chdir(current_dir)
 
 
+
+
+def go_mod_update(folder_name):
+    OLD = "github.com/cosmos/ibc-go/v3 v3.0.0"
+    NEW = "github.com/cosmos/ibc-go/v3 v3.3.1"
+    os.chdir(os.path.join(current_dir, folder_name))
     
+    # read go.mod data
+    with open("go.mod", "r") as f:
+        data = f.read()
+
+    # replace OLD with NEW
+    data = data.replace(OLD, NEW)
+
+    # write data to go.mod
+    with open("go.mod", "w") as f:
+        f.write(data)
+
+    # go vet ./...
+
+    os.system("go mod tidy")
+    os.chdir(current_dir)
+
+    
+class Panel:
+    def __init__():
+        pass
+    # like the MC panel, each section allow for modifying all chains
+
+
 
 
 def oct_28_2022_patches():
@@ -202,7 +236,11 @@ def oct_28_2022_patches():
         print(f"Chain: {chain}. Location: {loc}")
         # pull_latest(chain)
         # dependabot(chain)
-        workflows(chain)
+        # workflows(chain)
+        # go_mod_update(chain)
+        lint(chain)
+
+
 
 
 oct_28_2022_patches()
