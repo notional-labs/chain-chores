@@ -26,30 +26,98 @@ VERSION BUMPING:
 - Bump to v3.3.1
 '''
 
-# current dir of the file
+SYNC_FORKS = False
+
+# global file locations relative to current filepath
 current_dir = os.path.dirname(os.path.realpath(__file__))
 yml_files = os.path.join(current_dir, ".yml_files")
+WORKFLOWS = os.path.join(yml_files, "workflows")
 ISSUE_TEMPLATE = os.path.join(yml_files, "TEMPLATES")
 os.chdir(current_dir)
 
-PATCH_BRANCH_NAME = "reece-ibc331" # this is made on notional's fork, don't write on main
-SYNC_FORKS = False
+
+class Chains():
+    def __init__(self) -> None:
+        self.selected_chains = self.get_downloaded_chains()
+        if len(self.selected_chains) == 0:
+            self.download_chains("Download some chains to get started... (space to select)")
+
+    def panel(self):
+        options = {            
+            "d": ["Downlaod Chains", self.download_chains, ()],
+            "dchains": ["Downloaded Chains", self.get_downloaded_chains, True],
+
+            "sdkv": ["Show SDK Versions", self.show_version, "SDK Versions", "sdk"],
+            "ibcv": ["Show IBC Versions", self.show_version, "IBC Versions", "ibc"],
+
+            # "e": exit,
+            # "exit": exit
+        }
+        while True:
+            print(f"\n{'='*20} CHAIN PANEL {'='*20}")
+            for k, v in options.items():
+                print(f"{k}. {v[0]}")
+            res = input("\nSelect an option: ")
+            if res in options:
+                func = options[res][1]
+                if len(options[res]) >= 3:
+                    func(*options[res][2:])
+                else:
+                    func()
+            else:
+                print("Invalid option")    
+
+
+    def download_chains(self, title="Select chains to do functions on (space to select)"):
+        chain_options = sorted([chain for chain, _ in get_chains()], key=str.lower, reverse=False)            
+        pick_chains = [chain[0] for chain in pick(chain_options, title, multiselect=True, min_selection_count=0, indicator="=> ")]
+
+        if len(pick_chains) == 0:
+            res = input("No chains selected, [d]ownload all or [c] continue? (d/c)").lower()
+            if res == "d":
+                self.selected_chains = chain_options
+                download_chains(self.selected_chains)
+        else:       
+            download_chains(pick_chains)
+
+        self.selected_chains = self.get_downloaded_chains()
+    
+    def get_downloaded_chains(self, show=False):        
+        valid_chains = [chain[0] for chain in get_chains()]
+        v = [folder for folder in os.listdir(current_dir) if os.path.isdir(folder) and folder in valid_chains]
+        if show: 
+            input(f"\n{'='*20} Downloaded Chains {'='*20}\n{', '.join(v)}\n\n(( Enter to continue... ))")
+        return v
+
+         
+    def show_version(self, title, value):        
+        print(f"{'='*20} {title} {'='*20}")
+        versions = {}
+        for chain in self.selected_chains:            
+            info = get_chain_info(chain)            
+            if info[value] not in versions:
+                versions[info[value]] = [chain]
+            else:
+                versions[info[value]].append(chain)
+
+        pp(versions, indent=4)
+        input("\nPress enter to continue...")        
 
 def main():
     # vers = get_chain_versions()
     # pp(vers['ibc'])
     
-    # chain_options = [chain for chain, _ in get_chains()]
-    # print(chain_options)
-    # selected_chains = pick(chain_options, "Select chains to lint", multi_select=True, min_selection_count=0)
-    # # select_chains = []
+    chains = Chains()
 
-    # print(selected_chains)
-    # exit()
-    # download_chains(selected_chains) # gets latest data from each fork
+    chains.panel()
 
-    for chain, _ in get_chains():
-        Workflow(chain).add_dependabot(simulate=True)        
+    # workflows
+    # for chain in chains.selected_chains:        
+    #     Workflow(chain).add_workflows()
+
+
+    # for chain, _ in get_chains():
+    #     Workflow(chain).add_dependabot(simulate=True)        
         # workflows(chain)
 
         # go_mod_update(chain, [
@@ -163,7 +231,7 @@ def pull_latest(folder_name, repo_sync=False):
 
     # pull after we sync to the new files in the notional repo which we will build off of
     os.system("git pull origin")  
-    os.system("git pull upstream")
+    # os.system("git pull upstream")
 
     os.chdir(current_dir)
 
@@ -202,20 +270,48 @@ def lint_all(folder_name):
 class Workflow():
     def __init__(self, folder_name) -> None:
         self.folder_name = folder_name
+        self.chain_dir = os.path.join(current_dir, self.folder_name)
+
+    def available_workflows(self):          
+        return os.listdir(WORKFLOWS)
+
+    def _write_workflow(self, workflow_name):
+        if workflow_name not in self.available_workflows():
+            print(f"Workflow {workflow_name} not found in {WORKFLOWS}")
+            return
+
+        main_branch_name = VALIDATING_CHAINS[self.folder_name]["branch"]
+        
+        os.chdir(os.path.join(current_dir, self.folder_name))
+        print(f"Writing {workflow_name} to .github/workflows/{workflow_name} for {self.folder_name}")
+        with open(os.path.join(yml_files, "workflows", workflow_name), "r") as f2:
+            with open(f".github/workflows/{workflow_name}", "w") as f:
+                f.write(f2.read().replace("_MAIN_BRANCH_", main_branch_name))
+        os.chdir(current_dir)
+
+    def add_workflows(self):
+        os.chdir(self.chain_dir)
+        if not os.path.exists(".github/workflows"):
+            os.makedirs(".github/workflows", exist_ok=True) 
+
+        workflow_options = [x for x in os.listdir(WORKFLOWS) if x not in os.listdir(".github/workflows")]
+
+        title = "Workflow options to install (space, then enter) [ignores already installed]"
+        selected = [s[0] for s in pick(workflow_options, title, multiselect=True, min_selection_count=0, indicator="=> ")]
+
+        for file in selected:
+            self._write_workflow(file)
+        os.chdir(current_dir)
 
     def add_dependabot(self, simulate=False):
-
-        # check if self.folder_name/.github exists, if so see if any files have "dependabot" in them
-        p = os.path.join(current_dir, self.folder_name, ".github")
+        # check if self.folder_name/.github exists, if so see if any files have "dependabot" in them        
+        p = os.path.join(self.chain_dir, ".github")
         if not os.path.isdir(p):
             os.mkdir(p)
         
         containsDependABot = False
         for root, dirs, files in os.walk(p, topdown=True):
-            # for name in dirs:
-                # print(os.path.join(root, name))
-            for name in files:
-                # print(os.path.join(root, name))
+            for name in files:                
                 if "dependabot" in name:
                     containsDependABot = True
                     break
@@ -226,8 +322,7 @@ class Workflow():
             return
 
         # https://github.com/eve-network/eve, put in .yml_files folder
-        # check if folder chains .github/dependabot.yml dir
-        repo = os.path.join(current_dir, self.folder_name)
+        # check if folder chains .github/dependabot.yml dir        
         main_branch = VALIDATING_CHAINS[self.folder_name]["branch"] # main, master, etc
 
         if simulate:
@@ -235,7 +330,7 @@ class Workflow():
             return
         else:
             print(f"Adding dependabot to {self.folder_name}...")
-            os.chdir(repo)
+            os.chdir(self.chain_dir)
             if not os.path.exists(".github/dependabot.yml"):
                 os.makedirs(".github", exist_ok=True)        
                 # write yml_files/dependabot.yml to .github/dependabot.yml
@@ -246,42 +341,6 @@ class Workflow():
             os.chdir(current_dir)
 
     
-
-
-def _write_workflow(folder_name, workflow_name, main_branch_name):
-    # we are already in the folder_name here    
-    print(f"Writing {workflow_name} to .github/workflows/{workflow_name} for {folder_name}")
-    with open(os.path.join(yml_files, "workflows", workflow_name), "r") as f2:
-        with open(f".github/workflows/{workflow_name}", "w") as f:
-            f.write(f2.read().replace("_MAIN_BRANCH_", main_branch_name))
-
-
-def workflows(folder_name):
-    # https://github.com/eve-network/eve, put in .yml_files folder
-    # check if folder chains .github/dependabot.yml dir
-    repo = os.path.join(current_dir, folder_name)   
-    main_branch = VALIDATING_CHAINS[folder_name]["branch"] # main, master, etc 
-
-    os.chdir(repo)
-    if not os.path.exists(".github/workflows"):
-        os.makedirs(".github/workflows", exist_ok=True)        
-        
-    # TODO: multiselect pick here
-
-    all_workflow_options = os.listdir(os.path.join(yml_files, "workflows"))    
-    workflow_options = [x for x in all_workflow_options if x not in os.listdir(".github/workflows")]
-
-    title = "Workflow options to install (space, then enter)"
-    selected = pick(workflow_options, title, multiselect=True, min_selection_count=0, indicator="=> ")
-    # print(selected)
-
-    for file, idx in selected:
-        _write_workflow(folder_name, file, main_branch)
-
-    os.chdir(current_dir)
-
-
-
 
 def go_mod_update(folder_name, values: list[str] = [], simulate: bool = False):
     os.chdir(os.path.join(current_dir, folder_name))
