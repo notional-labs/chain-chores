@@ -138,7 +138,7 @@ def pull_latest(folder_name):
 def lint(folder_name):
     print(f"Linting {folder_name}...")
     os.chdir(os.path.join(current_dir, folder_name))
-    os.system("golangci-lint run")
+    os.system("golangci-lint run --fix")
     os.system("gofmt -s -w .")
     os.system("go vet ./...")
     os.system("go mod tidy")
