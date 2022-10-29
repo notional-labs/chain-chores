@@ -29,6 +29,7 @@ import shutil
 from pprint import pprint as pp
 
 from pick import pick
+from webbrowser import open as open_url
 
 from CHAINS import VALIDATING_CHAINS
 
@@ -51,6 +52,8 @@ yml_files = os.path.join(current_dir, ".yml_files")
 WORKFLOWS = os.path.join(yml_files, "workflows")
 ISSUE_TEMPLATE = os.path.join(yml_files, "TEMPLATES")
 os.chdir(current_dir)
+
+GIT_PATHS = ["parent", "fork"]
 
 # === CLASSES ===
 class GoMod():
@@ -119,13 +122,16 @@ class Chains():
             "flows": ["Workflows", self.workflows],   
             "dbot": ["Adds dependabot if not already", self.dependabot],   
 
+
+            "web": ["Open chains github pages", self.website],   
+
             "e": ["Exit", exit],
         }
         while True:
             print(f"\n{'='*20} CHAIN PANEL {'='*20}")
             for k, v in options.items():
-                print(f"[{k:^10}] {v[0]}")
-            res = input("\nSelect an option: ")
+                print(f"[{k:^10}] {v[0]}")            
+            res = input("\nSelect an option: ").lower()
             if res in options:
                 func = options[res][1]
                 if len(options[res]) >= 3:
@@ -134,6 +140,16 @@ class Chains():
                     func()
             else:
                 print("Invalid option")    
+
+    def website(self):
+        chains = [c[0] for c in pick(self.get_downloaded_chains(), "Select a chain(s) to open the website for (space to select)", multiselect=True, min_selection_count=1, indicator="=> ")]
+        location = pick(GIT_PATHS, "Open the 'parent' repo or 'fork' version? (select 1)")[0]
+        print(f"Opening Website for: {','.join(chains)}...")
+        for chain in chains:
+            info = VALIDATING_CHAINS.get(chain, None)
+            if info == None: continue
+            url_path = info[location].replace(".git", "").split(":")[1]            
+            open_url(f"https://github.com/{url_path}")                
 
     def workflows(self):
         # select a chain, and add workflows to it
@@ -165,9 +181,9 @@ class Chains():
             res = input("No chains selected, [d]ownload all or [c] continue? (d/c): ").lower()
             if res == "d":
                 self.selected_chains = chain_options
-                download_chains(self.selected_chains)
+                Git().download_chains_locally(self.selected_chains)
         else:       
-            download_chains(pick_chains)
+            Git().download_chains_locally(pick_chains)
 
         self.selected_chains = self.get_downloaded_chains()
     
@@ -240,6 +256,55 @@ class Chains():
         for chain in selected_chains:
             self.edit_single_gomod(chain=chain, simulate=SIMULATION, pause=True)  
 
+class Git():
+    def __init__(self) -> None:
+        pass
+
+    def download_chains_locally(self, select_chains: list = []):
+        to_run = []
+        sync_forks = input("Sync forks as well when you download? (y/n): ").lower() == "y"
+        for chain, loc in get_chains():
+            if len(select_chains) > 0 and chain not in select_chains:
+                continue
+            # to_run.append((chain, SYNC_FORKS))
+            to_run.append((chain, sync_forks))
+
+        # run all to_run in parallel with mp
+        with mp.Pool(mp.cpu_count()) as pool:
+            pool.starmap(self.pull_latest, to_run)
+
+    def sync_forks(self, repo_link:str = "", enabled:bool =SYNC_FORKS):
+        '''
+        NOTE: You must already be in the repo dir to run this.
+        '''
+        if shutil.which("gh") != None: # check if user has gh installed
+            print(f"Syncing fork to latest of parent main/master branch (overwriting any main/master changes)")    
+            os.system(f"gh repo sync {repo_link.replace('git@github.com:', '').replace('.git', '')} --force")        
+        else:
+            print("You need to install github cli (gh) to sync forks. See https://cli.github.com/")
+            return
+
+    def pull_latest(self, folder_name, repo_sync=False):
+        # git clone if it is not there already, if it is, cd into dir and git pull    
+        os.chdir(current_dir)
+
+        parent_link = VALIDATING_CHAINS[folder_name]["parent"]    
+        repo_link = VALIDATING_CHAINS[folder_name]["fork"]    
+        
+        if not os.path.isdir(os.path.join(current_dir, folder_name)):        
+            print(f"Cloning {folder_name} from {repo_link}")
+            os.system(f"git clone {repo_link} {folder_name}")
+            os.chdir(os.path.join(current_dir, folder_name))
+            os.system(f"git remote add upstream {repo_link}") # may want to do this after cloning
+
+        os.chdir(os.path.join(current_dir, folder_name))
+        if repo_sync:    
+            self.sync_forks(repo_link=repo_link, enabled=repo_sync)
+        # pull after we sync to the new files in the notional repo which we will build off of
+        os.system("git pull origin")  
+        # os.system("git pull upstream")
+        os.chdir(current_dir)
+
 def main():    
     chains = Chains()
     chains.panel()
@@ -250,7 +315,7 @@ def main():
     # for chain, _ in get_chains():               
         # # lint(chain)        
 
-# === Logic ===
+# === Logic === (move these into Chains class)
 def get_chains():
     for chain, locations in VALIDATING_CHAINS.items():
         yield chain, locations    
@@ -306,53 +371,6 @@ def get_chain_versions():
         "wasm": wasm_ver,
     }
 
-def download_chains(select_chains: list = []):
-    to_run = []
-    sync_forks = input("Sync forks as well when you download? (y/n): ").lower() == "y"
-    for chain, loc in get_chains():
-        if len(select_chains) > 0 and chain not in select_chains:
-            continue
-        # to_run.append((chain, SYNC_FORKS))
-        to_run.append((chain, sync_forks))
-
-    # run all to_run in parallel with mp
-    with mp.Pool(mp.cpu_count()) as pool:
-        pool.starmap(pull_latest, to_run)
-
-
-def sync_forks(chains:list = [], repo_link:str = "", enabled:bool =SYNC_FORKS):
-    # todo: you must already be in the repo dir to run this.
-    if shutil.which("gh") != None: # check if user has gh installed
-        print(f"Syncing fork to latest of parent main/master branch (overwriting any main/master changes)")    
-        os.system(f"gh repo sync {repo_link.replace('git@github.com:', '').replace('.git', '')} --force")        
-    else:
-        print("You need to install github cli (gh) to sync forks. See https://cli.github.com/")
-        return
-
-def pull_latest(folder_name, repo_sync=False):
-    # git clone if it is not there already, if it is, cd into dir and git pull    
-    os.chdir(current_dir)
-
-    parent_link = VALIDATING_CHAINS[folder_name]["root"]    
-    repo_link = VALIDATING_CHAINS[folder_name]["notional"]    
-
-    # check if folder_name exists
-    if not os.path.isdir(os.path.join(current_dir, folder_name)):        
-        print(f"Cloning {folder_name} from {repo_link}")
-        os.system(f"git clone {repo_link} {folder_name}")
-        os.chdir(os.path.join(current_dir, folder_name))
-        os.system(f"git remote add upstream {repo_link}") # may want to do this after cloning
-
-    os.chdir(os.path.join(current_dir, folder_name))
-    if repo_sync:    
-        sync_forks(chains=[folder_name], repo_link=repo_link, enabled=repo_sync)
-
-
-    # pull after we sync to the new files in the notional repo which we will build off of
-    os.system("git pull origin")  
-    # os.system("git pull upstream")
-
-    os.chdir(current_dir)
 
 # === Linting ===
 class Lint():
