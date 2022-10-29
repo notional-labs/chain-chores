@@ -35,28 +35,84 @@ WORKFLOWS = os.path.join(yml_files, "workflows")
 ISSUE_TEMPLATE = os.path.join(yml_files, "TEMPLATES")
 os.chdir(current_dir)
 
+GO_MOD_REPLACES = { # ensure the right hand side is the latest non state beraking version
+    "ibc3->ibc331": [
+        ["github.com/cosmos/ibc-go/v3 v3.*.*", "github.com/cosmos/ibc-go/v3 v3.3.1"],
+    ],
+    "test": [
+        ["github.com/gogo/protobuf v*", "github.com/gogo/protobuf v6.9.0"],
+    ],
+}
+
+class GoMod():
+    def __init__(self, chain):
+        self.chain = chain        
+
+    def go_mod_update(self, replace_values: list[list[str]] = [], simulate: bool = False, pause: bool = False):
+        os.chdir(os.path.join(current_dir, self.chain))
+        
+        if "go.mod" not in os.listdir():
+            print(f"{self.chain} does not have a go.mod file, skipping...")
+            return
+
+        # read go.mod data
+        with open("go.mod", "r") as f:
+            data = f.read()
+            
+        for replacements in replace_values:
+            old = replacements[0]
+            new = replacements[1]        
+            matches = re.search(old, data)
+
+            if matches: # allow for us to use regex
+                if matches.group(0) == new:
+                    # ensure the matches are not exactly the new value
+                    # print(f"Skipping {old} as it is already {new}")
+                    continue
+
+                if simulate:   
+                    # get the matches in string form from matches                         
+                    print(f"{self.chain:<10} Would replace '{matches.group(0)}'\t-> {new}")    
+                else:                
+                    print(f"Replacing {old} with {new}")                
+                    data = re.sub(old, new, data)
+
+        if simulate == False:
+            with open("go.mod", "w") as f:
+                print(f"Writing go.mod for {self.chain}")
+                f.write(data)
+
+            os.system("go mod tidy")
+
+        if pause:
+            input("\nPaused, Press enter to continue...")
+        os.chdir(current_dir)
+
 
 class Chains():
     def __init__(self) -> None:
         self.selected_chains = self.get_downloaded_chains()
         if len(self.selected_chains) == 0:
-            self.download_chains("Download some chains to get started... (space to select)")
+            self.download_chains()
 
     def panel(self):
         options = {            
-            "d": ["Downlaod Chains", self.download_chains, ()],
-            "dchains": ["Downloaded Chains", self.get_downloaded_chains, True],
+            "d": ["Download Chains", self.download_chains],
+            "chains": ["Get Downloaded", self.get_downloaded_chains, True],
 
             "sdkv": ["Show SDK Versions", self.show_version, "SDK Versions", "sdk"],
             "ibcv": ["Show IBC Versions", self.show_version, "IBC Versions", "ibc"],
 
-            # "e": exit,
-            # "exit": exit
+            "code": ["VSCode edit a chain", self.vscode_edit],            
+            "gomod": ["Update GoMod for a chain", self.edit_single_gomod], # also need a mass edit gomod        
+            "mass-gomod": ["Update gomod for many chains", self.edit_mass_gomod], # also need a mass edit gomod        
+
+            "e": ["Exit", exit],
         }
         while True:
             print(f"\n{'='*20} CHAIN PANEL {'='*20}")
             for k, v in options.items():
-                print(f"{k}. {v[0]}")
+                print(f"[{k:^10}] {v[0]}")
             res = input("\nSelect an option: ")
             if res in options:
                 func = options[res][1]
@@ -67,9 +123,12 @@ class Chains():
             else:
                 print("Invalid option")    
 
+    def vscode_edit(self):
+        chain = pick(self.get_downloaded_chains(), "Select a chain to edit in VSCode")[0]
+        os.system(f"code {os.path.join(current_dir, chain)}")        
 
-    def download_chains(self, title="Select chains to do functions on (space to select)"):
-        chain_options = sorted([chain for chain, _ in get_chains()], key=str.lower, reverse=False)            
+    def download_chains(self, title="Select chains to do download (space to select)"):
+        chain_options = sorted([chain for chain, _ in get_chains() if chain not in self.get_downloaded_chains()], key=str.lower, reverse=False)
         pick_chains = [chain[0] for chain in pick(chain_options, title, multiselect=True, min_selection_count=0, indicator="=> ")]
 
         if len(pick_chains) == 0:
@@ -88,8 +147,7 @@ class Chains():
         if show: 
             input(f"\n{'='*20} Downloaded Chains {'='*20}\n{', '.join(v)}\n\n(( Enter to continue... ))")
         return v
-
-         
+   
     def show_version(self, title, value):        
         print(f"{'='*20} {title} {'='*20}")
         versions = {}
@@ -102,6 +160,58 @@ class Chains():
 
         pp(versions, indent=4)
         input("\nPress enter to continue...")        
+
+    # TODO:
+    def edit_single_gomod(self, chain=None, simulate=False, pause=False):
+        # select chains we have downloaded
+        if chain == None:
+            chain = pick(self.get_downloaded_chains(), "Select chain to edit go.mod", multiselect=False, min_selection_count=1)[0]
+
+        info = get_chain_info(chain)        
+        replaces = [r[0] for r in pick(list(GO_MOD_REPLACES.keys()), f"{chain} select replace values (Spaces to select)\n\tCurrent: {info}", multiselect=True, min_selection_count=1, indicator="=> ")]
+        
+        # combine all replaces into a single list        
+        replace_values = []
+        for r in replaces:
+            replace_values.extend(GO_MOD_REPLACES[r])
+        input(replace_values)
+
+        GoMod(chain).go_mod_update(replace_values, simulate=simulate, pause=pause)
+
+    def edit_mass_gomod(self):
+        chains = self.get_downloaded_chains()
+
+        sort_by = pick(['sdk', 'ibc', "wasm"], "Sort by version:")[0]
+
+        options = {}
+        for c in chains:
+            info = get_chain_info(c)
+            sdkv, ibc, wasm = info['sdk'], info['ibc'], info['wasm']
+
+            new_c = f"{c} ({sdkv}, {ibc}"
+            if len(wasm) > 0:
+                new_c += f", {wasm}"
+            new_c += ")"
+
+            if sort_by not in options:
+                options[info[sort_by]] = [new_c]
+            else:
+                options[info[sort_by]].append(new_c)
+
+        # ssorts keys based off of the version of the value we want (ex: largest sdk version to smallest)
+        options = [options[k] for k in sorted(options.keys(), key=lambda x: [int(i) for i in x.replace("v", "").split(".") if len(x) > 0], reverse=True)]
+        options = [item for sublist in options for item in sublist]                
+
+        selected_chains = [chain[0].split(" ")[0] for chain in pick(options, "Select chains to edit go.mod (sdk, ibc, wasm)", multiselect=True, min_selection_count=1, indicator="=> ")]
+        print(f"selected_chains={selected_chains}")
+
+        for chain in selected_chains:
+            self.edit_single_gomod(chain=chain, simulate=True, pause=True)  
+        
+
+
+    def add_workflows(self):
+        pass
 
 def main():
     # vers = get_chain_versions()
@@ -340,53 +450,9 @@ class Workflow():
                         f.write(f2.read().replace("_MAIN_BRANCH_", main_branch))
             os.chdir(current_dir)
 
-    
-
-def go_mod_update(folder_name, values: list[str] = [], simulate: bool = False):
-    os.chdir(os.path.join(current_dir, folder_name))
-    
-    if "go.mod" not in os.listdir():
-        print(f"{folder_name} does not have a go.mod file, skipping...")
-        return
-
-    # read go.mod data
-    with open("go.mod", "r") as f:
-        data = f.read()
-        
-    for replacements in values:
-        old = replacements[0]
-        new = replacements[1]        
-        matches = re.search(old, data)
-
-        if matches: # allow for us to use regex
-            if matches.group(0) == new:
-                # ensure the matches are not exactly the new value
-                # print(f"Skipping {old} as it is already {new}")
-                continue
-
-            if simulate:   
-                # get the matches in string form from matches                         
-                print(f"{folder_name:<10} Would replace '{matches.group(0)}'\t-> {new}")    
-            else:                
-                print(f"Replacing {old} with {new}")                
-                data = re.sub(old, new, data)
-
-    if simulate == False:
-        with open("go.mod", "w") as f:
-            print(f"Writing go.mod for {folder_name}")
-            f.write(data)
-
-        os.system("go mod tidy")
-    os.chdir(current_dir)
-
-
-def open_in_vscode(folder_name):
-    # This way we can commit and push changes we have made
-    os.system(f"code {os.path.join(current_dir, folder_name)}")    
 
 if __name__ == "__main__":
-    # try:
-    main()
-    # except Exception as e:
-    #     print(e)
-    #     print("Something went wrong, please check the logs above")
+    try:
+        main()
+    except KeyboardInterrupt as e:        
+        print("\nExited via keyboard quit...")
