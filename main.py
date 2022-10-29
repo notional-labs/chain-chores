@@ -1,11 +1,4 @@
 # https://www.notion.so/List-Of-Chains-2497cbaae9c6447b8bdb049e7acd806b
-import os
-from pick import pick
-from CHAINS import VALIDATING_CHAINS
-import re
-import multiprocessing as mp
-from pprint import pprint as pp
-
 '''
 Reece Williams | Notional - Started Oct 28th 2022
 
@@ -24,16 +17,24 @@ Goal:
 VERSION BUMPING:
 - Get current version from go.mod (ex: ibc-go v3.3.0)
 - Bump to v3.3.1
+
+TODO: 
+- when we update code, we need to create a new git branch for us to PR off of (do not build off of main) [probably fine with the vscode option]
 '''
 
-SYNC_FORKS = False
+import multiprocessing as mp
+import os
+import re
+import shutil
+from pprint import pprint as pp
 
-# global file locations relative to current filepath
-current_dir = os.path.dirname(os.path.realpath(__file__))
-yml_files = os.path.join(current_dir, ".yml_files")
-WORKFLOWS = os.path.join(yml_files, "workflows")
-ISSUE_TEMPLATE = os.path.join(yml_files, "TEMPLATES")
-os.chdir(current_dir)
+from pick import pick
+
+from CHAINS import VALIDATING_CHAINS
+
+# === SETTINGS ===
+SYNC_FORKS = False
+SIMULATION = True
 
 GO_MOD_REPLACES = { # ensure the right hand side is the latest non state beraking version
     "ibc3->ibc331": [
@@ -44,6 +45,14 @@ GO_MOD_REPLACES = { # ensure the right hand side is the latest non state berakin
     ],
 }
 
+# === FILE PATHS ===
+current_dir = os.path.dirname(os.path.realpath(__file__))
+yml_files = os.path.join(current_dir, ".yml_files")
+WORKFLOWS = os.path.join(yml_files, "workflows")
+ISSUE_TEMPLATE = os.path.join(yml_files, "TEMPLATES")
+os.chdir(current_dir)
+
+# === CLASSES ===
 class GoMod():
     def __init__(self, chain):
         self.chain = chain        
@@ -104,8 +113,11 @@ class Chains():
             "ibcv": ["Show IBC Versions", self.show_version, "IBC Versions", "ibc"],
 
             "code": ["VSCode edit a chain", self.vscode_edit],            
-            "gomod": ["Update GoMod for a chain", self.edit_single_gomod], # also need a mass edit gomod        
-            "mass-gomod": ["Update gomod for many chains", self.edit_mass_gomod], # also need a mass edit gomod        
+            "gomod": ["Update GoMod for a chain", self.edit_single_gomod],    
+            "mass-gomod": ["Update gomod for many chains", self.edit_mass_gomod], 
+
+            "flows": ["Workflows", self.workflows],   
+            "dbot": ["Adds dependabot if not already", self.dependabot],   
 
             "e": ["Exit", exit],
         }
@@ -123,16 +135,34 @@ class Chains():
             else:
                 print("Invalid option")    
 
-    def vscode_edit(self):
-        chain = pick(self.get_downloaded_chains(), "Select a chain to edit in VSCode")[0]
-        os.system(f"code {os.path.join(current_dir, chain)}")        
+    def workflows(self):
+        # select a chain, and add workflows to it
+        chain = pick(self.selected_chains, "Select a chain to add workflows to")[0]
+        # os.chdir(os.path.join(current_dir, chain))
+        print(f"Adding workflows to {chain}")
+        Workflow(chain).add_workflows()
 
-    def download_chains(self, title="Select chains to do download (space to select)"):
+    def dependabot(self): # combine with workflows?
+        chain = pick(self.selected_chains, "Select a chain to add dependabot to")[0]
+        print(f"Adding dependabot to {chain} if it is not already there")
+        Workflow(chain).add_dependabot()
+
+    def vscode_edit(self):
+        # chain = pick(self.get_downloaded_chains(), "Select a chain to edit in VSCode")[0]
+        chains = [c[0] for c in pick(self.get_downloaded_chains(), "Select a chain(s) to open in vscode (space to select)", multi_select=True)]
+        for c in chains:
+            os.system(f"code {os.path.join(current_dir, c)}")        
+
+    def download_chains(self, title="Select chains to do download (space to select) [leave empty for all]"):
         chain_options = sorted([chain for chain, _ in get_chains() if chain not in self.get_downloaded_chains()], key=str.lower, reverse=False)
+        if len(chain_options) == 0:
+            input("All chains are downloaded already...\nEnter to continue")
+            return
+
         pick_chains = [chain[0] for chain in pick(chain_options, title, multiselect=True, min_selection_count=0, indicator="=> ")]
 
         if len(pick_chains) == 0:
-            res = input("No chains selected, [d]ownload all or [c] continue? (d/c)").lower()
+            res = input("No chains selected, [d]ownload all or [c] continue? (d/c): ").lower()
             if res == "d":
                 self.selected_chains = chain_options
                 download_chains(self.selected_chains)
@@ -143,7 +173,9 @@ class Chains():
     
     def get_downloaded_chains(self, show=False):        
         valid_chains = [chain[0] for chain in get_chains()]
-        v = [folder for folder in os.listdir(current_dir) if os.path.isdir(folder) and folder in valid_chains]
+        v = [folder for folder in os.listdir(current_dir) if os.path.isdir(folder) and folder in valid_chains]        
+        v.sort(key=str.lower)
+
         if show: 
             input(f"\n{'='*20} Downloaded Chains {'='*20}\n{', '.join(v)}\n\n(( Enter to continue... ))")
         return v
@@ -159,7 +191,7 @@ class Chains():
                 versions[info[value]].append(chain)
 
         pp(versions, indent=4)
-        input("\nPress enter to continue...")        
+        input("\nPress enter to continue...")
 
     # TODO:
     def edit_single_gomod(self, chain=None, simulate=False, pause=False):
@@ -206,38 +238,17 @@ class Chains():
         print(f"selected_chains={selected_chains}")
 
         for chain in selected_chains:
-            self.edit_single_gomod(chain=chain, simulate=True, pause=True)  
-        
+            self.edit_single_gomod(chain=chain, simulate=SIMULATION, pause=True)  
 
-
-    def add_workflows(self):
-        pass
-
-def main():
-    # vers = get_chain_versions()
-    # pp(vers['ibc'])
-    
+def main():    
     chains = Chains()
-
     chains.panel()
 
     # workflows
     # for chain in chains.selected_chains:        
     #     Workflow(chain).add_workflows()
-
-
-    # for chain, _ in get_chains():
-    #     Workflow(chain).add_dependabot(simulate=True)        
-        # workflows(chain)
-
-        # go_mod_update(chain, [
-        #     ["github.com/cosmos/ibc-go/v3 v3.3.0", "github.com/cosmos/ibc-go/v3 v3.3.1"],
-        # ], simulate=False)
-        # # TODO: when we do update, we need to create a new git branch for us to PR off of (do not build off of main)
-
-        # open_in_vscode(chain)
-        # # lint(chain)
-        # pass
+    # for chain, _ in get_chains():               
+        # # lint(chain)        
 
 # === Logic ===
 def get_chains():
@@ -277,48 +288,46 @@ def get_chain_info(folder_name):
     }
 
 def get_chain_versions():
-    sdk_chain_version, ibc_version, wasm_ver, wasmvm_ver = {}, {}, {}, {}
+    sdk_chain_version, ibc_version, wasm_ver = {}, {}, {}
 
     for chain, _ in get_chains():
         info = get_chain_info(chain)
         sdk_version = info["sdk"]
         ibc = info["ibc"]
         wasm = info["wasm"]
-        wasmvm = info["wasmvm"]
-
-        if sdk_version not in sdk_chain_version:
-            sdk_chain_version[sdk_version] = []
-        sdk_chain_version[sdk_version].append(chain)
-
-        if ibc not in ibc_version:
-            ibc_version[ibc] = []
-        ibc_version[ibc].append(chain)
-
-        if wasm not in ibc_version:
-            wasm_ver[wasm] = []
-        wasm_ver[wasm].append(chain)
-
-        if wasmvm not in ibc_version:
-            wasmvm_ver[wasmvm] = []
-        wasmvm_ver[wasmvm].append(chain)
+        
+        sdk_chain_version.get(sdk_version, []).append(chain)        
+        ibc_version.get(ibc, []).append(chain)
+        wasm_ver.get(wasm, []).append(chain)        
     
     return {
         "sdk": sdk_chain_version,
         "ibc": ibc_version,
         "wasm": wasm_ver,
-        "wasmvm": wasmvm_ver,
     }
 
 def download_chains(select_chains: list = []):
     to_run = []
+    sync_forks = input("Sync forks as well when you download? (y/n): ").lower() == "y"
     for chain, loc in get_chains():
         if len(select_chains) > 0 and chain not in select_chains:
             continue
-        to_run.append((chain, SYNC_FORKS))
+        # to_run.append((chain, SYNC_FORKS))
+        to_run.append((chain, sync_forks))
 
     # run all to_run in parallel with mp
     with mp.Pool(mp.cpu_count()) as pool:
         pool.starmap(pull_latest, to_run)
+
+
+def sync_forks(chains:list = [], repo_link:str = "", enabled:bool =SYNC_FORKS):
+    # todo: you must already be in the repo dir to run this.
+    if shutil.which("gh") != None: # check if user has gh installed
+        print(f"Syncing fork to latest of parent main/master branch (overwriting any main/master changes)")    
+        os.system(f"gh repo sync {repo_link.replace('git@github.com:', '').replace('.git', '')} --force")        
+    else:
+        print("You need to install github cli (gh) to sync forks. See https://cli.github.com/")
+        return
 
 def pull_latest(folder_name, repo_sync=False):
     # git clone if it is not there already, if it is, cd into dir and git pull    
@@ -335,9 +344,9 @@ def pull_latest(folder_name, repo_sync=False):
         os.system(f"git remote add upstream {repo_link}") # may want to do this after cloning
 
     os.chdir(os.path.join(current_dir, folder_name))
-    if repo_sync:
-        print(f"Syncing fork to latest of parent main/master branch (overwriting any main/master changes)")    
-        os.system(f"gh repo sync {repo_link.replace('git@github.com:', '').replace('.git', '')} --force")
+    if repo_sync:    
+        sync_forks(chains=[folder_name], repo_link=repo_link, enabled=repo_sync)
+
 
     # pull after we sync to the new files in the notional repo which we will build off of
     os.system("git pull origin")  
@@ -349,6 +358,13 @@ def pull_latest(folder_name, repo_sync=False):
 class Lint():
     def __init__(self, folder_name) -> None:
         self.folder_name = folder_name        
+
+    def lint_all(self):
+        print(f"Linting {self.folder_name}...")            
+        self.auto_fix()
+        self.gofmt()
+        self.govet()
+        self.tidy()
 
     def auto_fix(self):
         self._cmd("golangci-lint run --fix")
@@ -366,14 +382,6 @@ class Lint():
         os.chdir(os.path.join(current_dir, self.folder_name))
         os.system(cmd)
         os.chdir(current_dir)
-
-def lint_all(folder_name):
-    print(f"Linting {folder_name}...")    
-    l = Lint(folder_name)
-    l.auto_fix()
-    l.gofmt()
-    l.govet()
-    l.tidy()
     
 
 # === Workflows ===
