@@ -3,36 +3,36 @@
 # # "Konstellation": "",
 
 VALIDATING_CHAINS = {
-    # "Osmosis": { # currently protected main
-    #     "branch": "main",
-    #     "root": "git@github.com:osmosis-labs/osmosis.git",
-    #     "notional": "git@github.com:notional-labs/osmosis.git"
-    # },
-    # "Gaia": {
-    #     "branch": "main",
-    #     "root": "git@github.com:cosmos/gaia.git",
-    #     "notional": "git@github.com:notional-labs/gaia.git"
-    # },    
-    # "Juno": { 
-    #     "branch": "main",
-    #     "root": "git@github.com:CosmosContracts/juno.git",
-    #     "notional": "git@github.com:notional-labs/juno.git"
-    # },
-    # "Sifchain": { 
-    #     "branch": "master",
-    #     "root": "git@github.com:Sifchain/sifnode.git",
-    #     "notional": "git@github.com:notional-labs/sifnode.git"
-    # },    
-    # "Omniflix": {
-    #     "branch": "main",
-    #     "root": "git@github.com:OmniFlix/omniflixhub.git",
-    #     "notional": "git@github.com:notional-labs/omniflixhub.git"
-    # },
-    # "Secret": {
-    #     "branch": "master",
-    #     "root": "git@github.com:scrtlabs/SecretNetwork.git",
-    #     "notional": "git@github.com:notional-labs/SecretNetwork.git"
-    # },
+    "Osmosis": {
+        "branch": "main",
+        "root": "git@github.com:osmosis-labs/osmosis.git",
+        "notional": "git@github.com:notional-labs/osmosis.git"
+    },
+    "Gaia": {
+        "branch": "main",
+        "root": "git@github.com:cosmos/gaia.git",
+        "notional": "git@github.com:notional-labs/gaia.git"
+    },    
+    "Juno": { 
+        "branch": "main",
+        "root": "git@github.com:CosmosContracts/juno.git",
+        "notional": "git@github.com:notional-labs/juno.git"
+    },
+    "Sifchain": { 
+        "branch": "master",
+        "root": "git@github.com:Sifchain/sifnode.git",
+        "notional": "git@github.com:notional-labs/sifnode.git"
+    },    
+    "Omniflix": {
+        "branch": "main",
+        "root": "git@github.com:OmniFlix/omniflixhub.git",
+        "notional": "git@github.com:notional-labs/omniflixhub.git"
+    },
+    "Secret": {
+        "branch": "master",
+        "root": "git@github.com:scrtlabs/SecretNetwork.git",
+        "notional": "git@github.com:notional-labs/SecretNetwork.git"
+    },
     "Starname-IOV": {
         "branch": "master",
         "root": "git@github.com:iov-one/starnamed.git",

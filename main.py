@@ -149,7 +149,7 @@ class Chains():
 
     def vscode_edit(self):
         # chain = pick(self.get_downloaded_chains(), "Select a chain to edit in VSCode")[0]
-        chains = [c[0] for c in pick(self.get_downloaded_chains(), "Select a chain(s) to open in vscode (space to select)", multi_select=True)]
+        chains = [c[0] for c in pick(self.get_downloaded_chains(), "Select a chain(s) to open in vscode (space to select)", multiselect=True, min_selection_count=1, indicator="=> ")]
         for c in chains:
             os.system(f"code {os.path.join(current_dir, c)}")        
 
