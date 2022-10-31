@@ -1,5 +1,7 @@
-# python3 -m pip install -r requirements.txt
+# python3 -m pip install -r requirements.txt --upgrade
 
 pick # https://pypi.org/project/pick/
 
 multiprocess # https://pypi.org/project/multiprocess/
+
+pyfiglet # https://pypi.org/project/pyfiglet/

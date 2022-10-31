@@ -23,9 +23,13 @@ TODO:
 '''
 
 import multiprocessing as mp
+import datetime
+import pyfiglet
+import shutil
 import os
 import re
-import shutil
+
+from subprocess import PIPE, Popen
 from pprint import pprint as pp
 
 from pick import pick
@@ -49,8 +53,12 @@ GO_MOD_REPLACES = { # ensure the right hand side is the latest non state berakin
 # === FILE PATHS ===
 current_dir = os.path.dirname(os.path.realpath(__file__))
 yml_files = os.path.join(current_dir, ".yml_files")
+test_output = os.path.join(current_dir, ".test_output")
 WORKFLOWS = os.path.join(yml_files, "workflows")
 ISSUE_TEMPLATE = os.path.join(yml_files, "TEMPLATES")
+for paths in [test_output, yml_files, WORKFLOWS, ISSUE_TEMPLATE]:    
+    os.makedirs(paths, exist_ok=True)
+
 os.chdir(current_dir)
 
 GIT_PATHS = ["parent", "fork"]
@@ -100,6 +108,65 @@ class GoMod():
             input("\nPaused, Press enter to continue...")
         os.chdir(current_dir)
 
+class Utils():
+    # https://github.com/Reecepbcups/minecraft-panel/blob/main/src/utils/cosmetics.py    
+    @staticmethod
+    def getColorDict() -> dict:
+        return { 
+        '&1': '\u001b[38;5;4m', '&2': '\u001b[38;5;2m', '&3': '\u001b[38;5;6m', '&4': '\u001b[38;5;1m', '&5': '\u001b[38;5;5m', 
+        '&6': '\u001b[38;5;3m', '&7': '\u001b[38;5;7m', '&8': '\u001b[38;5;8m', '&0': '\u001b[38;5;0m', '&a': '\u001b[38;5;10m', 
+        '&b': '\u001b[38;5;14m', '&c': '\u001b[38;5;9m', '&d': '\u001b[38;5;13m', '&e': '\u001b[38;5;11m', '&f': '\u001b[38;5;15m', 
+        '&r': '\u001b[0m',
+    }
+
+    @staticmethod
+    def splitColors(myStr) -> list:
+        # "&at&bt&ct" -> ['', '&a', 't', '&b', 't', '&c', 't']
+        # _str = "&at&bt&ct"; splitColors(_str)
+        return re.split("(&[a-zA-Z0-9])", myStr)
+
+    @staticmethod
+    def cfiglet(clr, text, clearScreen=False): # prints fancy text
+        if clearScreen:
+            os.system('clear')
+        # standard, small, computer, bulbhead, cybersmall, cybermedium, digital,  doom, madrid, maxfour, mini, rounded
+        print(Utils.color(clr+pyfiglet.figlet_format(text, font="small")))
+
+    @staticmethod
+    def color(text):
+        '''
+        Translates the color codes in text to the color codes in colors
+        '''
+        colors = Utils.getColorDict()
+        text = text.replace("§", "&")
+        formatted = ""
+        i = 0
+        while i in range(0, len(text)):
+            
+            if text[i:i+2] in colors:
+                formatted += colors[text[i:i+2]]
+                i += 1
+            else:
+                formatted += text[i]
+            i += 1
+        return formatted + colors['&r']
+
+    def cprint(text):  
+        print(Utils.color(str(text)))  
+
+    def cinput(text=""):
+        msg = Utils.color(str(text))
+        try:
+            user_input = input(msg)
+            if user_input == "\x18": # ctrl + c
+                exit(0)
+            return user_input
+        except KeyboardInterrupt:
+            Utils.cprint("\n&cKeyboard Interrupt, Exiting...\n")
+            exit(0)
+        except ValueError:
+            Utils.cprint("\n&cExit on input, Exiting...\n")
+            exit(0)
 
 class Chains():
     def __init__(self) -> None:
@@ -107,10 +174,18 @@ class Chains():
         if len(self.selected_chains) == 0:
             self.download_chains()
 
+    def _select_chains(self, title, min_selection_count=0) -> list[str]:
+        chains = [c[0] for c in pick(self.get_downloaded_chains(), title, multiselect=True, min_selection_count=min_selection_count, indicator="=> ")]
+        if len(chains) == 0: chains = self.get_downloaded_chains()
+        return chains
+
     def panel(self):
         options = {            
             "d": ["Download Chains", self.download_chains],
             "chains": ["Get Downloaded", self.get_downloaded_chains, True],
+
+            "t": ["Test chains", self.test],
+            "b": ["Build chains", self.build],
 
             "sdkv": ["Show SDK Versions", self.show_version, "SDK Versions", "sdk"],
             "ibcv": ["Show IBC Versions", self.show_version, "IBC Versions", "ibc"],
@@ -127,8 +202,8 @@ class Chains():
 
             "e": ["Exit", exit],
         }
-        while True:
-            print(f"\n{'='*20} CHAIN PANEL {'='*20}")
+        while True:            
+            Utils.cfiglet("&a", "Chain Chores", True)
             for k, v in options.items():
                 print(f"[{k:^10}] {v[0]}")            
             res = input("\nSelect an option: ").lower()
@@ -141,8 +216,26 @@ class Chains():
             else:
                 print("Invalid option")    
 
-    def website(self):
-        chains = [c[0] for c in pick(self.get_downloaded_chains(), "Select a chain(s) to open the website for (space to select)", multiselect=True, min_selection_count=1, indicator="=> ")]
+    def test(self):
+        chains = self._select_chains("Select chains you want to test. (space to select, none for all)")
+        to_run = []        
+        for chain in chains:                   
+            to_run.append(Testing(chain))
+
+        with mp.Pool(mp.cpu_count()) as p:
+            p.map(Testing.run_tests, to_run)   
+
+    def build(self):
+        chains = self._select_chains("Select chains you want to build. (space to select, none for all)")
+        to_run = []        
+        for chain in chains:            
+            to_run.append(Testing(chain))            
+        with mp.Pool(mp.cpu_count()) as p:
+            p.map(Testing.build_binary, to_run)
+
+
+    def website(self):        
+        chains = self._select_chains("Select a chain(s) to open the website for (space to select)")
         location = pick(GIT_PATHS, "Open the 'parent' repo or 'fork' version? (select 1)")[0]
         print(f"Opening Website for: {','.join(chains)}...")
         for chain in chains:
@@ -164,8 +257,7 @@ class Chains():
         Workflow(chain).add_dependabot()
 
     def vscode_edit(self):
-        # chain = pick(self.get_downloaded_chains(), "Select a chain to edit in VSCode")[0]
-        chains = [c[0] for c in pick(self.get_downloaded_chains(), "Select a chain(s) to open in vscode (space to select)", multiselect=True, min_selection_count=1, indicator="=> ")]
+        chains = self._select_chains("Select chains to edit in VSCode", min_selection_count=1)
         for c in chains:
             os.system(f"code {os.path.join(current_dir, c)}")        
 
@@ -372,8 +464,71 @@ def get_chain_versions():
     }
 
 
+class Testing():
+    def __init__(self, chain) -> None:
+        self.chain = chain
+
+    def build_binary(self):
+        '''
+        Build binary (appd) from makefile if it is there, if not, go install ./...
+        '''
+        os.chdir(os.path.join(current_dir, self.chain))        
+        if not os.path.isfile("Makefile"):
+            print(f"[!] No Makefile, {self.chain} (go install ./...)")
+            os.system("go install ./...")
+            return
+        
+        with open("Makefile", "r") as f:
+            data = f.read()
+            if "install:" not in data:
+                print(f"[!] No 'install' in makefile, {self.chain} (go install ./...)")
+                os.system("go install ./...")
+                return
+        
+        print(f"[+] Building {self.chain} from Makefile install")
+        os.system("make install")
+        os.chdir(os.path.join(current_dir))
+
+    def run_tests(self, hideNoTestFound=False):
+        '''
+        go test ./... and saves output to a single file appending more on each run
+        '''
+        os.chdir(os.path.join(current_dir, self.chain))
+        print(f"[+] Running tests for {self.chain}")
+        
+        # run go test ./... and save output to a file including stderr and stdout
+        p = Popen(["go", "test", "./..."], stdout=PIPE, stderr=PIPE)
+        output, err = p.communicate()
+
+        output = output.decode("utf-8")
+        err = err.decode("utf-8")            
+
+        if hideNoTestFound:
+            output = ""
+            for line in output.split("\n"):
+                if "no test files" not in line:
+                    output += line + "\n"
+
+        # # save to a file as current_dir/testing.txt
+        current_time = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+        with open(os.path.join(test_output, "testing.txt"), "a") as f:
+            f.write(f"="*40)
+            f.write(f"\n{self.chain} {current_time}\n{output}\n\n")
+
+        if len(err) > 0:
+            with open(os.path.join(test_output, "errors.txt"), "a") as f:
+                f.write(f"="*40)               
+                f.write(f"\n{self.chain} {current_time}\n{err}\n\n")
+        
+        print(f"[+] Test finished for {self.chain}")
+        os.chdir(os.path.join(current_dir))
+            
+        
+
 # === Linting ===
-class Lint():
+class Linting():
+    # TODO: save output from these commands to their own folder / files for review
+    # Try and make it so we can click on the Txt file to open the folder based on absolute path?
     def __init__(self, folder_name) -> None:
         self.folder_name = folder_name        
 

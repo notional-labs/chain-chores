@@ -1,0 +1,1416 @@
+========================================
+Chihuahua 2022-10-31 12:23:38
+?   	github.com/ChihuahuaChain/chihuahua/app	[no test files]
+?   	github.com/ChihuahuaChain/chihuahua/app/params	[no test files]
+?   	github.com/ChihuahuaChain/chihuahua/app/upgrades/v3.1.0	[no test files]
+?   	github.com/ChihuahuaChain/chihuahua/cmd/chihuahuad	[no test files]
+?   	github.com/ChihuahuaChain/chihuahua/cmd/chihuahuad/cmd	[no test files]
+?   	github.com/ChihuahuaChain/chihuahua/docs	[no test files]
+
+
+========================================
+Juno 2022-10-31 12:23:38
+?   	github.com/CosmosContracts/juno/v11/app	[no test files]
+?   	github.com/CosmosContracts/juno/v11/app/params	[no test files]
+?   	github.com/CosmosContracts/juno/v11/app/upgrades	[no test files]
+?   	github.com/CosmosContracts/juno/v11/cmd/junod	[no test files]
+?   	github.com/CosmosContracts/juno/v11/docs	[no test files]
+ok  	github.com/CosmosContracts/juno/v11/x/mint	(cached)
+?   	github.com/CosmosContracts/juno/v11/x/mint/client/cli	[no test files]
+?   	github.com/CosmosContracts/juno/v11/x/mint/client/rest	[no test files]
+?   	github.com/CosmosContracts/juno/v11/x/mint/client/testutil	[no test files]
+ok  	github.com/CosmosContracts/juno/v11/x/mint/keeper	(cached)
+?   	github.com/CosmosContracts/juno/v11/x/mint/migrations/v2	[no test files]
+ok  	github.com/CosmosContracts/juno/v11/x/mint/simulation	(cached)
+ok  	github.com/CosmosContracts/juno/v11/x/mint/types	(cached)
+
+
+========================================
+Jackal 2022-10-31 12:23:40
+FAIL	github.com/jackal-dao/canine/x/dsig [setup failed]
+FAIL	github.com/jackal-dao/canine/x/dsig/client/cli [setup failed]
+FAIL	github.com/jackal-dao/canine/x/dsig/keeper [setup failed]
+FAIL	github.com/jackal-dao/canine/x/dsig/types [setup failed]
+FAIL	github.com/jackal-dao/canine/x/lp [setup failed]
+ok  	github.com/jackal-dao/canine/app	(cached)
+?   	github.com/jackal-dao/canine/app/params	[no test files]
+ok  	github.com/jackal-dao/canine/benchmarks	(cached) [no tests to run]
+?   	github.com/jackal-dao/canine/cmd/canined	[no test files]
+?   	github.com/jackal-dao/canine/cmd/contract_tests	[no test files]
+?   	github.com/jackal-dao/canine/docs	[no test files]
+FAIL	github.com/jackal-dao/canine/x/filetree [build failed]
+FAIL	github.com/jackal-dao/canine/x/filetree/client/cli [build failed]
+FAIL	github.com/jackal-dao/canine/x/filetree/keeper [build failed]
+FAIL	github.com/jackal-dao/canine/x/filetree/types [build failed]
+FAIL	github.com/jackal-dao/canine/x/jklmint [build failed]
+FAIL	github.com/jackal-dao/canine/x/jklmint/keeper [build failed]
+ok  	github.com/jackal-dao/canine/x/jklmint/types	(cached)
+FAIL	github.com/jackal-dao/canine/x/lp/client/cli [build failed]
+FAIL	github.com/jackal-dao/canine/x/lp/keeper [build failed]
+FAIL	github.com/jackal-dao/canine/x/lp/types [build failed]
+FAIL	github.com/jackal-dao/canine/x/notifications [build failed]
+FAIL	github.com/jackal-dao/canine/x/notifications/client/cli [build failed]
+FAIL	github.com/jackal-dao/canine/x/notifications/keeper [build failed]
+ok  	github.com/jackal-dao/canine/x/notifications/types	(cached)
+FAIL	github.com/jackal-dao/canine/x/rns/client/cli [build failed]
+ok  	github.com/jackal-dao/canine/x/rns/types	(cached)
+FAIL	github.com/jackal-dao/canine/x/storage [build failed]
+FAIL	github.com/jackal-dao/canine/x/storage/client/cli [build failed]
+FAIL	github.com/jackal-dao/canine/x/storage/keeper [build failed]
+ok  	github.com/jackal-dao/canine/x/storage/types	(cached)
+
+
+========================================
+BandChain 2022-10-31 12:23:52
+?   	github.com/bandprotocol/chain/v2/app	[no test files]
+?   	github.com/bandprotocol/chain/v2/app/params	[no test files]
+panic: exec: "wat2wasm": executable file not found in $PATH
+
+goroutine 1 [running]:
+github.com/bandprotocol/chain/v2/testing/testapp.wat2wasm({0xc00046f75c, 0x474, 0x474})
+	/home/reece/Desktop/notional-chain-chores/BandChain/testing/testapp/wasm_util.go:34 +0x2b1
+github.com/bandprotocol/chain/v2/testing/testapp.init()
+	/home/reece/Desktop/notional-chain-chores/BandChain/testing/testapp/wasm_1_simple.go:11 +0x527
+FAIL	github.com/bandprotocol/chain/v2/benchmark	0.493s
+?   	github.com/bandprotocol/chain/v2/client	[no test files]
+?   	github.com/bandprotocol/chain/v2/cmd/bandd	[no test files]
+?   	github.com/bandprotocol/chain/v2/cmd/bandd/cmd	[no test files]
+?   	github.com/bandprotocol/chain/v2/cmd/bandevmbot	[no test files]
+?   	github.com/bandprotocol/chain/v2/cmd/yoda	[no test files]
+ok  	github.com/bandprotocol/chain/v2/pkg/bandrng	(cached)
+ok  	github.com/bandprotocol/chain/v2/pkg/filecache	(cached)
+ok  	github.com/bandprotocol/chain/v2/pkg/gzip	(cached)
+ok  	github.com/bandprotocol/chain/v2/pkg/obi	(cached)
+?   	github.com/bandprotocol/chain/v2/testing	[no test files]
+?   	github.com/bandprotocol/chain/v2/testing/testapp	[no test files]
+?   	github.com/bandprotocol/chain/v2/x/bank	[no test files]
+?   	github.com/bandprotocol/chain/v2/x/bank/keeper	[no test files]
+?   	github.com/bandprotocol/chain/v2/x/bank/types	[no test files]
+panic: exec: "wat2wasm": executable file not found in $PATH
+
+goroutine 1 [running]:
+github.com/bandprotocol/chain/v2/testing/testapp.wat2wasm({0xc000cdf75c, 0x474, 0x474})
+	/home/reece/Desktop/notional-chain-chores/BandChain/testing/testapp/wasm_util.go:34 +0x2b1
+github.com/bandprotocol/chain/v2/testing/testapp.init()
+	/home/reece/Desktop/notional-chain-chores/BandChain/testing/testapp/wasm_1_simple.go:11 +0x527
+FAIL	github.com/bandprotocol/chain/v2/x/oracle	0.196s
+panic: exec: "wat2wasm": executable file not found in $PATH
+
+goroutine 1 [running]:
+github.com/bandprotocol/chain/v2/testing/testapp.wat2wasm({0xc000c5f75c, 0x474, 0x474})
+	/home/reece/Desktop/notional-chain-chores/BandChain/testing/testapp/wasm_util.go:34 +0x2b1
+github.com/bandprotocol/chain/v2/testing/testapp.init()
+	/home/reece/Desktop/notional-chain-chores/BandChain/testing/testapp/wasm_1_simple.go:11 +0x527
+FAIL	github.com/bandprotocol/chain/v2/x/oracle/ante	0.413s
+?   	github.com/bandprotocol/chain/v2/x/oracle/client/cli	[no test files]
+ok  	github.com/bandprotocol/chain/v2/x/oracle/client/common/proof	(cached)
+?   	github.com/bandprotocol/chain/v2/x/oracle/client/rest	[no test files]
+panic: exec: "wat2wasm": executable file not found in $PATH
+
+goroutine 1 [running]:
+github.com/bandprotocol/chain/v2/testing/testapp.wat2wasm({0xc000cbf75c, 0x474, 0x474})
+	/home/reece/Desktop/notional-chain-chores/BandChain/testing/testapp/wasm_util.go:34 +0x2b1
+github.com/bandprotocol/chain/v2/testing/testapp.init()
+	/home/reece/Desktop/notional-chain-chores/BandChain/testing/testapp/wasm_1_simple.go:11 +0x527
+FAIL	github.com/bandprotocol/chain/v2/x/oracle/keeper	0.449s
+?   	github.com/bandprotocol/chain/v2/x/oracle/legacy/v039	[no test files]
+ok  	github.com/bandprotocol/chain/v2/x/oracle/types	(cached)
+?   	github.com/bandprotocol/chain/v2/yoda	[no test files]
+ok  	github.com/bandprotocol/chain/v2/yoda/executor	(cached)
+FAIL
+
+
+========================================
+Bitsong 2022-10-31 12:24:16
+?   	github.com/bitsongofficial/go-bitsong/app	[no test files]
+?   	github.com/bitsongofficial/go-bitsong/app/params	[no test files]
+?   	github.com/bitsongofficial/go-bitsong/app/testing	[no test files]
+?   	github.com/bitsongofficial/go-bitsong/app/upgrades/v010	[no test files]
+?   	github.com/bitsongofficial/go-bitsong/app/upgrades/v011	[no test files]
+?   	github.com/bitsongofficial/go-bitsong/cmd/bitsongd	[no test files]
+?   	github.com/bitsongofficial/go-bitsong/cmd/bitsongd/cmd	[no test files]
+?   	github.com/bitsongofficial/go-bitsong/swagger/statik	[no test files]
+ok  	github.com/bitsongofficial/go-bitsong/x/fantoken	(cached)
+?   	github.com/bitsongofficial/go-bitsong/x/fantoken/client	[no test files]
+--- FAIL: TestIntegrationTestSuite (27.02s)
+    cli_test.go:37: setting up integration test suite
+    network.go:173: acquiring test network lock
+    network.go:178: created temporary directory: /tmp/TestIntegrationTestSuite2914311348/001/bitsong-test-1385900755
+    network.go:187: preparing test network...
+    network.go:381: starting test network...
+    network.go:386: started test network
+    --- FAIL: TestIntegrationTestSuite/TestCmdBurn (0.91s)
+        cli_test.go:79: 
+            	Error Trace:	cli_test.go:79
+            	            				cli_test.go:259
+            	Error:      	Not equal: 
+            	            	expected: 0x0
+            	            	actual  : 0x5
+            	Test:       	TestIntegrationTestSuite/TestCmdBurn
+    --- FAIL: TestIntegrationTestSuite/TestCmdDisableMint (0.70s)
+        cli_test.go:79: 
+            	Error Trace:	cli_test.go:79
+            	            				cli_test.go:349
+            	Error:      	Not equal: 
+            	            	expected: 0x0
+            	            	actual  : 0x5
+            	Test:       	TestIntegrationTestSuite/TestCmdDisableMint
+    --- FAIL: TestIntegrationTestSuite/TestCmdIssue (0.91s)
+        cli_test.go:79: 
+            	Error Trace:	cli_test.go:79
+            	            				cli_test.go:233
+            	Error:      	Not equal: 
+            	            	expected: 0x0
+            	            	actual  : 0x5
+            	Test:       	TestIntegrationTestSuite/TestCmdIssue
+    --- FAIL: TestIntegrationTestSuite/TestCmdMint (0.71s)
+        cli_test.go:79: 
+            	Error Trace:	cli_test.go:79
+            	            				cli_test.go:242
+            	Error:      	Not equal: 
+            	            	expected: 0x0
+            	            	actual  : 0x5
+            	Test:       	TestIntegrationTestSuite/TestCmdMint
+    --- FAIL: TestIntegrationTestSuite/TestCmdQueryFanToken (0.90s)
+        cli_test.go:79: 
+            	Error Trace:	cli_test.go:79
+            	            				cli_test.go:376
+            	Error:      	Not equal: 
+            	            	expected: 0x0
+            	            	actual  : 0x5
+            	Test:       	TestIntegrationTestSuite/TestCmdQueryFanToken
+    --- FAIL: TestIntegrationTestSuite/TestCmdQueryFanTokens (0.71s)
+        cli_test.go:79: 
+            	Error Trace:	cli_test.go:79
+            	            				cli_test.go:396
+            	Error:      	Not equal: 
+            	            	expected: 0x0
+            	            	actual  : 0x5
+            	Test:       	TestIntegrationTestSuite/TestCmdQueryFanTokens
+    --- FAIL: TestIntegrationTestSuite/TestCmdQueryParams (0.00s)
+        cli_test.go:424: 
+            	Error Trace:	cli_test.go:424
+            	Error:      	Not equal: 
+            	            	expected: types.Coin{Denom:"stake", Amount:types.Int{i:(*big.Int)(0xc0057a8a60)}}
+            	            	actual  : types.Coin{Denom:"stake", Amount:types.Int{i:(*big.Int)(0xc0057a8a00)}}
+            	            	
+            	            	Diff:
+            	            	--- Expected
+            	            	+++ Actual
+            	            	@@ -6,3 +6,3 @@
+            	            	    abs: (big.nat) (len=1) {
+            	            	-    (big.Word) 1000000
+            	            	+    (big.Word) 1000000000
+            	            	    }
+            	Test:       	TestIntegrationTestSuite/TestCmdQueryParams
+    --- FAIL: TestIntegrationTestSuite/TestCmdSetAuthority (0.91s)
+        cli_test.go:79: 
+            	Error Trace:	cli_test.go:79
+            	            				cli_test.go:281
+            	Error:      	Not equal: 
+            	            	expected: 0x0
+            	            	actual  : 0x5
+            	Test:       	TestIntegrationTestSuite/TestCmdSetAuthority
+    --- FAIL: TestIntegrationTestSuite/TestCmdSetMinter (0.90s)
+        cli_test.go:79: 
+            	Error Trace:	cli_test.go:79
+            	            				cli_test.go:304
+            	Error:      	Not equal: 
+            	            	expected: 0x0
+            	            	actual  : 0x5
+            	Test:       	TestIntegrationTestSuite/TestCmdSetMinter
+    --- FAIL: TestIntegrationTestSuite/TestCmdSetUri (0.91s)
+        cli_test.go:79: 
+            	Error Trace:	cli_test.go:79
+            	            				cli_test.go:326
+            	Error:      	Not equal: 
+            	            	expected: 0x0
+            	            	actual  : 0x5
+            	Test:       	TestIntegrationTestSuite/TestCmdSetUri
+    cli_test.go:50: tearing down integration test suite
+    network.go:473: cleaning up test network...
+    network.go:496: finished cleaning up test network
+    network.go:470: released test network lock
+FAIL
+FAIL	github.com/bitsongofficial/go-bitsong/x/fantoken/client/cli	27.345s
+ok  	github.com/bitsongofficial/go-bitsong/x/fantoken/keeper	(cached)
+ok  	github.com/bitsongofficial/go-bitsong/x/fantoken/types	(cached)
+--- FAIL: TestExpiredMerkledropHeight (0.01s)
+    abci_test.go:100: 
+        	Error Trace:	abci_test.go:100
+        	Error:      	Received unexpected error:
+        	            	
+        	            	github.com/bitsongofficial/go-bitsong/x/merkledrop/keeper.msgServer.Create
+        	            		/home/reece/Desktop/notional-chain-chores/Bitsong/x/merkledrop/keeper/msg_server.go:94
+        	            	github.com/bitsongofficial/go-bitsong/x/merkledrop_test.TestExpiredMerkledropHeight
+        	            		/home/reece/Desktop/notional-chain-chores/Bitsong/x/merkledrop/abci_test.go:99
+        	            	6000stake: error transfer coins
+        	Test:       	TestExpiredMerkledropHeight
+--- FAIL: TestExpiredMerkledrop (0.02s)
+    abci_test.go:223: 
+        	Error Trace:	abci_test.go:223
+        	Error:      	Received unexpected error:
+        	            	
+        	            	github.com/bitsongofficial/go-bitsong/x/merkledrop/keeper.msgServer.Create
+        	            		/home/reece/Desktop/notional-chain-chores/Bitsong/x/merkledrop/keeper/msg_server.go:94
+        	            	github.com/bitsongofficial/go-bitsong/x/merkledrop_test.TestExpiredMerkledrop
+        	            		/home/reece/Desktop/notional-chain-chores/Bitsong/x/merkledrop/abci_test.go:222
+        	            	1stake: error transfer coins
+        	Test:       	TestExpiredMerkledrop
+FAIL
+FAIL	github.com/bitsongofficial/go-bitsong/x/merkledrop	0.183s
+?   	github.com/bitsongofficial/go-bitsong/x/merkledrop/client	[no test files]
+--- FAIL: TestIntegrationTestSuite (16.85s)
+    cli_test.go:30: setting up integration test suite
+    network.go:173: acquiring test network lock
+    network.go:178: created temporary directory: /tmp/TestIntegrationTestSuite201930596/001/bitsong-test-130394083
+    network.go:187: preparing test network...
+    network.go:381: starting test network...
+    network.go:386: started test network
+    --- FAIL: TestIntegrationTestSuite/TestGetCmdQueryMerkledrop (0.51s)
+        cli_test.go:124: 
+            	Error Trace:	cli_test.go:124
+            	Error:      	Not equal: 
+            	            	expected: 0x0
+            	            	actual  : 0x5
+            	Test:       	TestIntegrationTestSuite/TestGetCmdQueryMerkledrop
+    cli_test.go:41: tearing down integration test suite
+    network.go:473: cleaning up test network...
+    network.go:496: finished cleaning up test network
+    network.go:470: released test network lock
+FAIL
+FAIL	github.com/bitsongofficial/go-bitsong/x/merkledrop/client/cli	17.190s
+ok  	github.com/bitsongofficial/go-bitsong/x/merkledrop/keeper	(cached)
+ok  	github.com/bitsongofficial/go-bitsong/x/merkledrop/types	(cached)
+FAIL
+
+
+========================================
+Omniflix 2022-10-31 12:25:21
+ok  	github.com/OmniFlix/omniflixhub/app	0.505s [no tests to run]
+?   	github.com/OmniFlix/omniflixhub/app/decorators	[no test files]
+?   	github.com/OmniFlix/omniflixhub/app/helpers	[no test files]
+?   	github.com/OmniFlix/omniflixhub/app/params	[no test files]
+?   	github.com/OmniFlix/omniflixhub/cmd/omniflixhubd	[no test files]
+?   	github.com/OmniFlix/omniflixhub/cmd/omniflixhubd/cmd	[no test files]
+?   	github.com/OmniFlix/omniflixhub/custom/auth/client/rest	[no test files]
+?   	github.com/OmniFlix/omniflixhub/docs	[no test files]
+?   	github.com/OmniFlix/omniflixhub/testutil/network	[no test files]
+?   	github.com/OmniFlix/omniflixhub/testutil/simapp	[no test files]
+?   	github.com/OmniFlix/omniflixhub/x/alloc	[no test files]
+?   	github.com/OmniFlix/omniflixhub/x/alloc/client/cli	[no test files]
+--- FAIL: TestKeeperTestSuite (0.00s)
+    --- FAIL: TestKeeperTestSuite/TestDistribution (0.00s)
+        suite.go:77: test panicked: value from ParamSetPair is invalid: total distributions ratio should be equal to 100%
+            goroutine 34 [running]:
+            runtime/debug.Stack()
+            	/usr/lib/go/src/runtime/debug/stack.go:24 +0x65
+            github.com/stretchr/testify/suite.failOnPanic(0xc00023a1a0, {0x167a7a0, 0xc000f24b80})
+            	/home/reece/go/pkg/mod/github.com/stretchr/testify@v1.8.0/suite/suite.go:77 +0x3b
+            github.com/stretchr/testify/suite.Run.func1.1()
+            	/home/reece/go/pkg/mod/github.com/stretchr/testify@v1.8.0/suite/suite.go:161 +0x252
+            panic({0x167a7a0, 0xc000f24b80})
+            	/usr/lib/go/src/runtime/panic.go:884 +0x212
+            github.com/cosmos/cosmos-sdk/x/params/types.Subspace.SetParamSet({{0x224d2d0, 0xc000eaad80}, 0xc000200ea8, {0x22305a0, 0xc000ee4b20}, {0x22305f0, 0xc000ee4be0}, {0xc000493a60, 0x5, 0x1d}, ...}, ...)
+            	/home/reece/go/pkg/mod/github.com/cosmos/cosmos-sdk@v0.45.9/x/params/types/subspace.go:246 +0x2ad
+            github.com/OmniFlix/omniflixhub/x/alloc/keeper.Keeper.SetParams(...)
+            	/home/reece/Desktop/notional-chain-chores/Omniflix/x/alloc/keeper/params.go:16
+            github.com/OmniFlix/omniflixhub/x/alloc/keeper_test.(*KeeperTestSuite).SetupTest(0xc000230000)
+            	/home/reece/Desktop/notional-chain-chores/Omniflix/x/alloc/keeper/keeper_test.go:27 +0x41f
+            github.com/stretchr/testify/suite.Run.func1(0xc00023a1a0)
+            	/home/reece/go/pkg/mod/github.com/stretchr/testify@v1.8.0/suite/suite.go:165 +0x1ee
+            testing.tRunner(0xc00023a1a0, 0xc000eb8000)
+            	/usr/lib/go/src/testing/testing.go:1446 +0x10b
+            created by testing.(*T).Run
+            	/usr/lib/go/src/testing/testing.go:1493 +0x35f
+FAIL
+FAIL	github.com/OmniFlix/omniflixhub/x/alloc/keeper	0.507s
+ok  	github.com/OmniFlix/omniflixhub/x/alloc/types	0.625s
+FAIL
+
+
+========================================
+Cheqd 2022-10-31 12:25:35
+ok  	github.com/cheqd/cheqd-node/app	0.426s
+?   	github.com/cheqd/cheqd-node/app/params	[no test files]
+?   	github.com/cheqd/cheqd-node/cmd/cheqd-noded	[no test files]
+?   	github.com/cheqd/cheqd-node/cmd/cheqd-noded/cmd	[no test files]
+?   	github.com/cheqd/cheqd-node/x/cheqd	[no test files]
+?   	github.com/cheqd/cheqd-node/x/cheqd/client/cli	[no test files]
+?   	github.com/cheqd/cheqd-node/x/cheqd/keeper	[no test files]
+ok  	github.com/cheqd/cheqd-node/x/cheqd/tests	0.360s
+ok  	github.com/cheqd/cheqd-node/x/cheqd/types	0.363s
+ok  	github.com/cheqd/cheqd-node/x/cheqd/utils	0.092s
+ok  	github.com/cheqd/cheqd-node/x/cheqd/utils/strings	0.177s
+
+
+========================================
+Akash 2022-10-31 12:25:38
+ok  	github.com/ovrclk/akash/app	(cached)
+?   	github.com/ovrclk/akash/app/params	[no test files]
+?   	github.com/ovrclk/akash/client	[no test files]
+?   	github.com/ovrclk/akash/client/broadcaster	[no test files]
+?   	github.com/ovrclk/akash/client/broadcaster/mocks	[no test files]
+?   	github.com/ovrclk/akash/client/docs/statik	[no test files]
+?   	github.com/ovrclk/akash/client/mocks	[no test files]
+?   	github.com/ovrclk/akash/cmd/akash	[no test files]
+ok  	github.com/ovrclk/akash/cmd/akash/cmd	(cached)
+ok  	github.com/ovrclk/akash/cmd/common	(cached)
+?   	github.com/ovrclk/akash/docgen	[no test files]
+ok  	github.com/ovrclk/akash/events	(cached)
+?   	github.com/ovrclk/akash/events/cmd	[no test files]
+?   	github.com/ovrclk/akash/manifest/v1	[no test files]
+?   	github.com/ovrclk/akash/manifest/v2beta1	[no test files]
+ok  	github.com/ovrclk/akash/pubsub	(cached)
+?   	github.com/ovrclk/akash/sdkutil	[no test files]
+ok  	github.com/ovrclk/akash/sdl	(cached)
+ok  	github.com/ovrclk/akash/sdl/util	(cached) [no tests to run]
+?   	github.com/ovrclk/akash/testutil	[no test files]
+?   	github.com/ovrclk/akash/testutil/cli	[no test files]
+?   	github.com/ovrclk/akash/testutil/cosmos_mock	[no test files]
+?   	github.com/ovrclk/akash/testutil/state	[no test files]
+?   	github.com/ovrclk/akash/types/unit	[no test files]
+ok  	github.com/ovrclk/akash/types/v1beta1	(cached)
+ok  	github.com/ovrclk/akash/types/v1beta2	(cached)
+?   	github.com/ovrclk/akash/types/v1beta2/migrate	[no test files]
+?   	github.com/ovrclk/akash/util/cli	[no test files]
+ok  	github.com/ovrclk/akash/util/ctxlog	(cached) [no tests to run]
+ok  	github.com/ovrclk/akash/util/legacy/v015	(cached)
+?   	github.com/ovrclk/akash/util/metrics	[no test files]
+?   	github.com/ovrclk/akash/util/network	[no test files]
+?   	github.com/ovrclk/akash/util/runner	[no test files]
+?   	github.com/ovrclk/akash/util/validation	[no test files]
+ok  	github.com/ovrclk/akash/util/wsutil	(cached)
+ok  	github.com/ovrclk/akash/validation	(cached)
+?   	github.com/ovrclk/akash/validation/constants	[no test files]
+?   	github.com/ovrclk/akash/x/audit	[no test files]
+ok  	github.com/ovrclk/akash/x/audit/client/cli	(cached) [no tests to run]
+?   	github.com/ovrclk/akash/x/audit/client/rest	[no test files]
+ok  	github.com/ovrclk/akash/x/audit/handler	(cached)
+ok  	github.com/ovrclk/akash/x/audit/keeper	(cached)
+?   	github.com/ovrclk/akash/x/audit/legacy/v015	[no test files]
+?   	github.com/ovrclk/akash/x/audit/query	[no test files]
+?   	github.com/ovrclk/akash/x/audit/types/v1beta1	[no test files]
+?   	github.com/ovrclk/akash/x/audit/types/v1beta2	[no test files]
+?   	github.com/ovrclk/akash/x/cert	[no test files]
+ok  	github.com/ovrclk/akash/x/cert/client/cli	(cached)
+?   	github.com/ovrclk/akash/x/cert/errors	[no test files]
+ok  	github.com/ovrclk/akash/x/cert/handler	(cached)
+ok  	github.com/ovrclk/akash/x/cert/keeper	(cached)
+?   	github.com/ovrclk/akash/x/cert/legacy/v015	[no test files]
+?   	github.com/ovrclk/akash/x/cert/simulation	[no test files]
+?   	github.com/ovrclk/akash/x/cert/types/v1beta1	[no test files]
+?   	github.com/ovrclk/akash/x/cert/types/v1beta2	[no test files]
+?   	github.com/ovrclk/akash/x/cert/utils	[no test files]
+?   	github.com/ovrclk/akash/x/deployment	[no test files]
+ok  	github.com/ovrclk/akash/x/deployment/client/cli	103.172s
+?   	github.com/ovrclk/akash/x/deployment/client/rest	[no test files]
+ok  	github.com/ovrclk/akash/x/deployment/handler	0.742s
+?   	github.com/ovrclk/akash/x/deployment/handler/mocks	[no test files]
+ok  	github.com/ovrclk/akash/x/deployment/keeper	1.482s
+?   	github.com/ovrclk/akash/x/deployment/legacy/v015	[no test files]
+?   	github.com/ovrclk/akash/x/deployment/query	[no test files]
+?   	github.com/ovrclk/akash/x/deployment/simulation	[no test files]
+ok  	github.com/ovrclk/akash/x/deployment/types/v1beta1	(cached)
+ok  	github.com/ovrclk/akash/x/deployment/types/v1beta2	(cached)
+?   	github.com/ovrclk/akash/x/deployment/types/v1beta2/migrate	[no test files]
+?   	github.com/ovrclk/akash/x/escrow	[no test files]
+?   	github.com/ovrclk/akash/x/escrow/client/cli	[no test files]
+?   	github.com/ovrclk/akash/x/escrow/client/rest	[no test files]
+?   	github.com/ovrclk/akash/x/escrow/client/util	[no test files]
+ok  	github.com/ovrclk/akash/x/escrow/keeper	0.613s
+?   	github.com/ovrclk/akash/x/escrow/keeper/mocks	[no test files]
+?   	github.com/ovrclk/akash/x/escrow/legacy/v015	[no test files]
+?   	github.com/ovrclk/akash/x/escrow/query	[no test files]
+?   	github.com/ovrclk/akash/x/escrow/types/v1beta1	[no test files]
+?   	github.com/ovrclk/akash/x/escrow/types/v1beta2	[no test files]
+?   	github.com/ovrclk/akash/x/icaauth	[no test files]
+?   	github.com/ovrclk/akash/x/icaauth/client/cli	[no test files]
+?   	github.com/ovrclk/akash/x/icaauth/keeper	[no test files]
+?   	github.com/ovrclk/akash/x/icaauth/types	[no test files]
+?   	github.com/ovrclk/akash/x/inflation	[no test files]
+?   	github.com/ovrclk/akash/x/inflation/keeper	[no test files]
+?   	github.com/ovrclk/akash/x/inflation/simulation	[no test files]
+ok  	github.com/ovrclk/akash/x/inflation/types/v1beta2	(cached) [no tests to run]
+?   	github.com/ovrclk/akash/x/market	[no test files]
+ok  	github.com/ovrclk/akash/x/market/client/cli	85.401s
+?   	github.com/ovrclk/akash/x/market/client/rest	[no test files]
+ok  	github.com/ovrclk/akash/x/market/handler	0.789s
+?   	github.com/ovrclk/akash/x/market/hooks	[no test files]
+ok  	github.com/ovrclk/akash/x/market/keeper	1.168s
+ok  	github.com/ovrclk/akash/x/market/keeper/keys	(cached)
+?   	github.com/ovrclk/akash/x/market/legacy/v015	[no test files]
+?   	github.com/ovrclk/akash/x/market/query	[no test files]
+?   	github.com/ovrclk/akash/x/market/simulation	[no test files]
+ok  	github.com/ovrclk/akash/x/market/types/v1beta1	(cached)
+ok  	github.com/ovrclk/akash/x/market/types/v1beta2	(cached)
+?   	github.com/ovrclk/akash/x/market/types/v1beta2/migrate	[no test files]
+?   	github.com/ovrclk/akash/x/provider	[no test files]
+ok  	github.com/ovrclk/akash/x/provider/client/cli	45.230s
+?   	github.com/ovrclk/akash/x/provider/client/rest	[no test files]
+?   	github.com/ovrclk/akash/x/provider/config	[no test files]
+ok  	github.com/ovrclk/akash/x/provider/handler	0.576s
+ok  	github.com/ovrclk/akash/x/provider/keeper	1.334s
+?   	github.com/ovrclk/akash/x/provider/legacy/v015	[no test files]
+?   	github.com/ovrclk/akash/x/provider/query	[no test files]
+?   	github.com/ovrclk/akash/x/provider/simulation	[no test files]
+ok  	github.com/ovrclk/akash/x/provider/types/v1beta1	(cached)
+ok  	github.com/ovrclk/akash/x/provider/types/v1beta2	(cached)
+
+
+========================================
+FetchAI 2022-10-31 12:25:45
+?   	github.com/fetchai/fetchd/app	[no test files]
+?   	github.com/fetchai/fetchd/app/params	[no test files]
+?   	github.com/fetchai/fetchd/cmd/fetchd	[no test files]
+?   	github.com/fetchai/fetchd/cmd/fetchd/cmd	[no test files]
+
+
+========================================
+Starname-IOV 2022-10-31 12:25:56
+ok  	github.com/iov-one/starnamed/app	(cached)
+ok  	github.com/iov-one/starnamed/benchmarks	(cached) [no tests to run]
+?   	github.com/iov-one/starnamed/client/docs/statik	[no test files]
+?   	github.com/iov-one/starnamed/cmd/contract_tests	[no test files]
+?   	github.com/iov-one/starnamed/cmd/faucet	[no test files]
+?   	github.com/iov-one/starnamed/cmd/faucet/pkg	[no test files]
+?   	github.com/iov-one/starnamed/cmd/wasmd	[no test files]
+?   	github.com/iov-one/starnamed/mock	[no test files]
+?   	github.com/iov-one/starnamed/pkg/queries	[no test files]
+ok  	github.com/iov-one/starnamed/pkg/utils	(cached)
+?   	github.com/iov-one/starnamed/testutil/keeper	[no test files]
+?   	github.com/iov-one/starnamed/x/burner	[no test files]
+?   	github.com/iov-one/starnamed/x/burner/types	[no test files]
+ok  	github.com/iov-one/starnamed/x/configuration	(cached)
+?   	github.com/iov-one/starnamed/x/configuration/client/cli	[no test files]
+?   	github.com/iov-one/starnamed/x/configuration/client/rest	[no test files]
+?   	github.com/iov-one/starnamed/x/configuration/migrations/v2	[no test files]
+ok  	github.com/iov-one/starnamed/x/configuration/types	(cached)
+ok  	github.com/iov-one/starnamed/x/escrow	(cached)
+?   	github.com/iov-one/starnamed/x/escrow/client/cli	[no test files]
+?   	github.com/iov-one/starnamed/x/escrow/client/rest	[no test files]
+ok  	github.com/iov-one/starnamed/x/escrow/keeper	(cached)
+?   	github.com/iov-one/starnamed/x/escrow/simulation	[no test files]
+?   	github.com/iov-one/starnamed/x/escrow/test	[no test files]
+ok  	github.com/iov-one/starnamed/x/escrow/types	(cached)
+?   	github.com/iov-one/starnamed/x/offchain	[no test files]
+?   	github.com/iov-one/starnamed/x/offchain/client/cli	[no test files]
+ok  	github.com/iov-one/starnamed/x/offchain/types	(cached)
+ok  	github.com/iov-one/starnamed/x/starname	(cached)
+?   	github.com/iov-one/starnamed/x/starname/client/cli	[no test files]
+?   	github.com/iov-one/starnamed/x/starname/client/codec	[no test files]
+ok  	github.com/iov-one/starnamed/x/starname/client/rest	(cached) [no tests to run]
+ok  	github.com/iov-one/starnamed/x/starname/keeper	(cached)
+ok  	github.com/iov-one/starnamed/x/starname/types	(cached)
+ok  	github.com/iov-one/starnamed/x/wasm	(cached)
+?   	github.com/iov-one/starnamed/x/wasm/client/cli	[no test files]
+ok  	github.com/iov-one/starnamed/x/wasm/keeper	(cached) [no tests to run]
+ok  	github.com/iov-one/starnamed/x/wasm/types	(cached)
+
+
+========================================
+Emoney 2022-10-31 12:25:59
+FAIL	github.com/ixofoundation/ixo-blockchain/app [build failed]
+?   	github.com/ixofoundation/ixo-blockchain/app/helpers	[no test files]
+?   	github.com/ixofoundation/ixo-blockchain/app/params	[no test files]
+?   	github.com/ixofoundation/ixo-blockchain/client/tx	[no test files]
+ok  	github.com/ixofoundation/ixo-blockchain/x/bonds/types	0.316s
+ok  	github.com/ixofoundation/ixo-blockchain/x/did/exported	0.559s
+FAIL	github.com/ixofoundation/ixo-blockchain/x/did/keeper [build failed]
+FAIL	github.com/ixofoundation/ixo-blockchain/x/payments/keeper [build failed]
+FAIL	github.com/ixofoundation/ixo-blockchain/x/project [build failed]
+FAIL	github.com/ixofoundation/ixo-blockchain/x/project/keeper [build failed]
+
+
+========================================
+Passage3D 2022-10-31 12:26:06
+ok  	github.com/envadiv/Passage3D/app	0.684s
+?   	github.com/envadiv/Passage3D/app/params	[no test files]
+?   	github.com/envadiv/Passage3D/cmd/passage	[no test files]
+ok  	github.com/envadiv/Passage3D/cmd/passage/cmd	1.875s
+?   	github.com/envadiv/Passage3D/testutil/network	[no test files]
+ok  	github.com/envadiv/Passage3D/x/claim	0.359s
+?   	github.com/envadiv/Passage3D/x/claim/client/cli	[no test files]
+ok  	github.com/envadiv/Passage3D/x/claim/client/testutil	19.601s
+ok  	github.com/envadiv/Passage3D/x/claim/keeper	0.333s
+ok  	github.com/envadiv/Passage3D/x/claim/types	0.357s
+
+
+========================================
+Gaia 2022-10-31 12:26:14
+?   	github.com/cosmos/gaia/v8/ante	[no test files]
+ok  	github.com/cosmos/gaia/v8/app	0.557s
+?   	github.com/cosmos/gaia/v8/app/helpers	[no test files]
+?   	github.com/cosmos/gaia/v8/app/keepers	[no test files]
+?   	github.com/cosmos/gaia/v8/app/params	[no test files]
+?   	github.com/cosmos/gaia/v8/app/upgrades	[no test files]
+?   	github.com/cosmos/gaia/v8/app/upgrades/v7	[no test files]
+?   	github.com/cosmos/gaia/v8/app/upgrades/v8	[no test files]
+?   	github.com/cosmos/gaia/v8/cmd/gaiad	[no test files]
+ok  	github.com/cosmos/gaia/v8/cmd/gaiad/cmd	0.902s
+ok  	github.com/cosmos/gaia/v8/pkg/address	0.114s
+ok  	github.com/cosmos/gaia/v8/x/globalfee	0.640s
+?   	github.com/cosmos/gaia/v8/x/globalfee/ante	[no test files]
+ok  	github.com/cosmos/gaia/v8/x/globalfee/ante/antetest	1.352s
+?   	github.com/cosmos/gaia/v8/x/globalfee/client/cli	[no test files]
+?   	github.com/cosmos/gaia/v8/x/globalfee/types	[no test files]
+?   	github.com/cosmos/gaia/v8/x/icamauth	[no test files]
+?   	github.com/cosmos/gaia/v8/x/icamauth/client/cli	[no test files]
+ok  	github.com/cosmos/gaia/v8/x/icamauth/keeper	12.788s
+?   	github.com/cosmos/gaia/v8/x/icamauth/types	[no test files]
+
+
+========================================
+Secret 2022-10-31 12:26:34
+?   	github.com/scrtlabs/SecretNetwork/app	[no test files]
+?   	github.com/scrtlabs/SecretNetwork/app/keepers	[no test files]
+?   	github.com/scrtlabs/SecretNetwork/app/legacy	[no test files]
+?   	github.com/scrtlabs/SecretNetwork/app/legacy/v120	[no test files]
+?   	github.com/scrtlabs/SecretNetwork/app/upgrades	[no test files]
+?   	github.com/scrtlabs/SecretNetwork/app/upgrades/v1.3	[no test files]
+?   	github.com/scrtlabs/SecretNetwork/app/upgrades/v1.4	[no test files]
+?   	github.com/scrtlabs/SecretNetwork/app/upgrades/v1.5	[no test files]
+?   	github.com/scrtlabs/SecretNetwork/client/docs/statik	[no test files]
+ok  	github.com/scrtlabs/SecretNetwork/go-cosmwasm/types	0.123s
+FAIL	github.com/scrtlabs/SecretNetwork/x/compute/client/utils [build failed]
+FAIL	github.com/scrtlabs/SecretNetwork/x/compute/internal/keeper [build failed]
+ok  	github.com/scrtlabs/SecretNetwork/x/compute/internal/types	0.599s
+FAIL	github.com/scrtlabs/SecretNetwork/x/mauth/keeper [build failed]
+FAIL	github.com/scrtlabs/SecretNetwork/x/registration [build failed]
+ok  	github.com/scrtlabs/SecretNetwork/x/registration/internal/keeper	0.361s
+ok  	github.com/scrtlabs/SecretNetwork/x/registration/internal/types	0.477s
+ok  	github.com/scrtlabs/SecretNetwork/x/registration/remote_attestation	0.133s
+
+
+========================================
+BitCanna 2022-10-31 12:26:45
+ok  	github.com/BitCannaGlobal/bcna/app	(cached) [no tests to run]
+?   	github.com/BitCannaGlobal/bcna/app/params	[no test files]
+?   	github.com/BitCannaGlobal/bcna/cmd/bcnad	[no test files]
+?   	github.com/BitCannaGlobal/bcna/cmd/bcnad/cmd	[no test files]
+?   	github.com/BitCannaGlobal/bcna/docs	[no test files]
+?   	github.com/BitCannaGlobal/bcna/testutil/keeper	[no test files]
+?   	github.com/BitCannaGlobal/bcna/testutil/network	[no test files]
+?   	github.com/BitCannaGlobal/bcna/testutil/nullify	[no test files]
+?   	github.com/BitCannaGlobal/bcna/testutil/sample	[no test files]
+ok  	github.com/BitCannaGlobal/bcna/x/bcna	(cached)
+ok  	github.com/BitCannaGlobal/bcna/x/bcna/client/cli	176.517s
+ok  	github.com/BitCannaGlobal/bcna/x/bcna/keeper	(cached)
+?   	github.com/BitCannaGlobal/bcna/x/bcna/simulation	[no test files]
+ok  	github.com/BitCannaGlobal/bcna/x/bcna/types	(cached)
+
+
+========================================
+QuickSilver 2022-10-31 12:26:58
+ok  	github.com/ingenuity-build/quicksilver/app	0.636s
+?   	github.com/ingenuity-build/quicksilver/client/docs/statik	[no test files]
+?   	github.com/ingenuity-build/quicksilver/cmd/config	[no test files]
+ok  	github.com/ingenuity-build/quicksilver/cmd/quicksilverd	0.471s
+?   	github.com/ingenuity-build/quicksilver/internal/multierror	[no test files]
+?   	github.com/ingenuity-build/quicksilver/server/config	[no test files]
+?   	github.com/ingenuity-build/quicksilver/utils	[no test files]
+?   	github.com/ingenuity-build/quicksilver/version	[no test files]
+?   	github.com/ingenuity-build/quicksilver/x/airdrop	[no test files]
+?   	github.com/ingenuity-build/quicksilver/x/airdrop/client/cli	[no test files]
+?   	github.com/ingenuity-build/quicksilver/x/airdrop/keeper	[no test files]
+ok  	github.com/ingenuity-build/quicksilver/x/airdrop/types	0.403s
+ok  	github.com/ingenuity-build/quicksilver/x/epochs	0.772s
+?   	github.com/ingenuity-build/quicksilver/x/epochs/client/cli	[no test files]
+ok  	github.com/ingenuity-build/quicksilver/x/epochs/keeper	1.291s
+?   	github.com/ingenuity-build/quicksilver/x/epochs/simulation	[no test files]
+ok  	github.com/ingenuity-build/quicksilver/x/epochs/types	0.543s
+ok  	github.com/ingenuity-build/quicksilver/x/interchainquery	1.635s
+ok  	github.com/ingenuity-build/quicksilver/x/interchainquery/keeper	8.860s
+ok  	github.com/ingenuity-build/quicksilver/x/interchainquery/types	1.619s
+?   	github.com/ingenuity-build/quicksilver/x/interchainstaking	[no test files]
+?   	github.com/ingenuity-build/quicksilver/x/interchainstaking/client	[no test files]
+ok  	github.com/ingenuity-build/quicksilver/x/interchainstaking/client/cli	17.546s
+ok  	github.com/ingenuity-build/quicksilver/x/interchainstaking/keeper	2.914s
+ok  	github.com/ingenuity-build/quicksilver/x/interchainstaking/types	0.470s
+?   	github.com/ingenuity-build/quicksilver/x/mint	[no test files]
+?   	github.com/ingenuity-build/quicksilver/x/mint/client/cli	[no test files]
+?   	github.com/ingenuity-build/quicksilver/x/mint/client/rest	[no test files]
+?   	github.com/ingenuity-build/quicksilver/x/mint/keeper	[no test files]
+ok  	github.com/ingenuity-build/quicksilver/x/mint/types	0.376s [no tests to run]
+ok  	github.com/ingenuity-build/quicksilver/x/participationrewards	0.834s
+?   	github.com/ingenuity-build/quicksilver/x/participationrewards/client	[no test files]
+?   	github.com/ingenuity-build/quicksilver/x/participationrewards/client/cli	[no test files]
+ok  	github.com/ingenuity-build/quicksilver/x/participationrewards/keeper	20.462s
+?   	github.com/ingenuity-build/quicksilver/x/participationrewards/types	[no test files]
+
+
+========================================
+Vidulum 2022-10-31 12:27:32
+?   	github.com/vidulum/vidulum/app	[no test files]
+?   	github.com/vidulum/vidulum/cmd/vidulumd	[no test files]
+?   	github.com/vidulum/vidulum/docs	[no test files]
+?   	github.com/vidulum/vidulum/testutil/keeper	[no test files]
+?   	github.com/vidulum/vidulum/testutil/network	[no test files]
+?   	github.com/vidulum/vidulum/testutil/sample	[no test files]
+?   	github.com/vidulum/vidulum/testutil/simapp	[no test files]
+ok  	github.com/vidulum/vidulum/x/vidulum	0.382s
+?   	github.com/vidulum/vidulum/x/vidulum/client/cli	[no test files]
+ok  	github.com/vidulum/vidulum/x/vidulum/keeper	0.411s [no tests to run]
+ok  	github.com/vidulum/vidulum/x/vidulum/types	0.475s
+
+
+========================================
+Sentinel 2022-10-31 12:27:36
+?   	github.com/sentinel-official/hub	[no test files]
+?   	github.com/sentinel-official/hub/cmd/sentinelhub	[no test files]
+?   	github.com/sentinel-official/hub/cmd/sentinelhub/cmd	[no test files]
+?   	github.com/sentinel-official/hub/params	[no test files]
+ok  	github.com/sentinel-official/hub/types	0.445s
+?   	github.com/sentinel-official/hub/types/simulation	[no test files]
+?   	github.com/sentinel-official/hub/x/deposit	[no test files]
+?   	github.com/sentinel-official/hub/x/deposit/client/cli	[no test files]
+?   	github.com/sentinel-official/hub/x/deposit/client/rest	[no test files]
+?   	github.com/sentinel-official/hub/x/deposit/expected	[no test files]
+?   	github.com/sentinel-official/hub/x/deposit/keeper	[no test files]
+?   	github.com/sentinel-official/hub/x/deposit/simulation	[no test files]
+ok  	github.com/sentinel-official/hub/x/deposit/types	0.451s
+?   	github.com/sentinel-official/hub/x/mint	[no test files]
+?   	github.com/sentinel-official/hub/x/mint/expected	[no test files]
+?   	github.com/sentinel-official/hub/x/mint/keeper	[no test files]
+?   	github.com/sentinel-official/hub/x/mint/types	[no test files]
+?   	github.com/sentinel-official/hub/x/node	[no test files]
+?   	github.com/sentinel-official/hub/x/node/client/cli	[no test files]
+?   	github.com/sentinel-official/hub/x/node/client/rest	[no test files]
+?   	github.com/sentinel-official/hub/x/node/expected	[no test files]
+?   	github.com/sentinel-official/hub/x/node/keeper	[no test files]
+?   	github.com/sentinel-official/hub/x/node/simulation	[no test files]
+ok  	github.com/sentinel-official/hub/x/node/types	106.073s
+?   	github.com/sentinel-official/hub/x/plan	[no test files]
+?   	github.com/sentinel-official/hub/x/plan/client/cli	[no test files]
+?   	github.com/sentinel-official/hub/x/plan/client/rest	[no test files]
+?   	github.com/sentinel-official/hub/x/plan/expected	[no test files]
+?   	github.com/sentinel-official/hub/x/plan/keeper	[no test files]
+?   	github.com/sentinel-official/hub/x/plan/simulation	[no test files]
+ok  	github.com/sentinel-official/hub/x/plan/types	60.352s
+?   	github.com/sentinel-official/hub/x/provider	[no test files]
+?   	github.com/sentinel-official/hub/x/provider/client/cli	[no test files]
+?   	github.com/sentinel-official/hub/x/provider/client/rest	[no test files]
+?   	github.com/sentinel-official/hub/x/provider/expected	[no test files]
+?   	github.com/sentinel-official/hub/x/provider/keeper	[no test files]
+?   	github.com/sentinel-official/hub/x/provider/simulation	[no test files]
+ok  	github.com/sentinel-official/hub/x/provider/types	0.508s
+?   	github.com/sentinel-official/hub/x/session	[no test files]
+?   	github.com/sentinel-official/hub/x/session/client/cli	[no test files]
+?   	github.com/sentinel-official/hub/x/session/client/rest	[no test files]
+?   	github.com/sentinel-official/hub/x/session/expected	[no test files]
+?   	github.com/sentinel-official/hub/x/session/keeper	[no test files]
+?   	github.com/sentinel-official/hub/x/session/simulation	[no test files]
+ok  	github.com/sentinel-official/hub/x/session/types	0.455s
+?   	github.com/sentinel-official/hub/x/subscription	[no test files]
+?   	github.com/sentinel-official/hub/x/subscription/client/cli	[no test files]
+?   	github.com/sentinel-official/hub/x/subscription/client/rest	[no test files]
+?   	github.com/sentinel-official/hub/x/subscription/expected	[no test files]
+?   	github.com/sentinel-official/hub/x/subscription/keeper	[no test files]
+?   	github.com/sentinel-official/hub/x/subscription/simulation	[no test files]
+ok  	github.com/sentinel-official/hub/x/subscription/types	0.580s
+?   	github.com/sentinel-official/hub/x/swap	[no test files]
+?   	github.com/sentinel-official/hub/x/swap/client/cli	[no test files]
+?   	github.com/sentinel-official/hub/x/swap/client/rest	[no test files]
+?   	github.com/sentinel-official/hub/x/swap/expected	[no test files]
+?   	github.com/sentinel-official/hub/x/swap/keeper	[no test files]
+?   	github.com/sentinel-official/hub/x/swap/simulation	[no test files]
+ok  	github.com/sentinel-official/hub/x/swap/types	0.393s
+?   	github.com/sentinel-official/hub/x/vpn	[no test files]
+?   	github.com/sentinel-official/hub/x/vpn/client/cli	[no test files]
+?   	github.com/sentinel-official/hub/x/vpn/client/rest	[no test files]
+?   	github.com/sentinel-official/hub/x/vpn/expected	[no test files]
+?   	github.com/sentinel-official/hub/x/vpn/keeper	[no test files]
+?   	github.com/sentinel-official/hub/x/vpn/simulation	[no test files]
+?   	github.com/sentinel-official/hub/x/vpn/types	[no test files]
+
+
+========================================
+Stargaze 2022-10-31 12:27:51
+ok  	github.com/public-awesome/stargaze/v8/app	0.333s
+?   	github.com/public-awesome/stargaze/v8/cmd/starsd	[no test files]
+?   	github.com/public-awesome/stargaze/v8/cmd/starsd/cmd	[no test files]
+?   	github.com/public-awesome/stargaze/v8/docs	[no test files]
+ok  	github.com/public-awesome/stargaze/v8/internal/ante	0.410s
+?   	github.com/public-awesome/stargaze/v8/internal/statesync	[no test files]
+?   	github.com/public-awesome/stargaze/v8/internal/wasm	[no test files]
+?   	github.com/public-awesome/stargaze/v8/testutil/keeper	[no test files]
+?   	github.com/public-awesome/stargaze/v8/testutil/network	[no test files]
+?   	github.com/public-awesome/stargaze/v8/testutil/readiness-checker	[no test files]
+?   	github.com/public-awesome/stargaze/v8/testutil/sample	[no test files]
+?   	github.com/public-awesome/stargaze/v8/testutil/simapp	[no test files]
+?   	github.com/public-awesome/stargaze/v8/testutil/watcher	[no test files]
+?   	github.com/public-awesome/stargaze/v8/x/alloc	[no test files]
+?   	github.com/public-awesome/stargaze/v8/x/alloc/client/cli	[no test files]
+ok  	github.com/public-awesome/stargaze/v8/x/alloc/keeper	0.291s
+ok  	github.com/public-awesome/stargaze/v8/x/alloc/types	0.960s
+?   	github.com/public-awesome/stargaze/v8/x/alloc/wasm	[no test files]
+?   	github.com/public-awesome/stargaze/v8/x/claim	[no test files]
+?   	github.com/public-awesome/stargaze/v8/x/claim/client/cli	[no test files]
+ok  	github.com/public-awesome/stargaze/v8/x/claim/keeper	0.556s
+?   	github.com/public-awesome/stargaze/v8/x/claim/simulation	[no test files]
+ok  	github.com/public-awesome/stargaze/v8/x/claim/types	0.601s
+?   	github.com/public-awesome/stargaze/v8/x/claim/wasm	[no test files]
+ok  	github.com/public-awesome/stargaze/v8/x/mint	0.344s
+?   	github.com/public-awesome/stargaze/v8/x/mint/client/cli	[no test files]
+?   	github.com/public-awesome/stargaze/v8/x/mint/client/rest	[no test files]
+ok  	github.com/public-awesome/stargaze/v8/x/mint/keeper	0.306s
+ok  	github.com/public-awesome/stargaze/v8/x/mint/types	0.479s
+
+
+========================================
+Evmos 2022-10-31 12:27:56
+ok  	github.com/evmos/evmos/v9/app	1.901s
+ok  	github.com/evmos/evmos/v9/app/ante	1.009s
+ok  	github.com/evmos/evmos/v9/app/upgrades/v7	1.650s
+ok  	github.com/evmos/evmos/v9/app/upgrades/v8	1.220s
+?   	github.com/evmos/evmos/v9/app/upgrades/v8_1	[no test files]
+?   	github.com/evmos/evmos/v9/app/upgrades/v8_2	[no test files]
+ok  	github.com/evmos/evmos/v9/app/upgrades/v9	1.591s
+ok  	github.com/evmos/evmos/v9/app/upgrades/v9_1	3.061s
+?   	github.com/evmos/evmos/v9/client/docs/statik	[no test files]
+?   	github.com/evmos/evmos/v9/cmd/config	[no test files]
+ok  	github.com/evmos/evmos/v9/cmd/evmosd	0.856s
+?   	github.com/evmos/evmos/v9/contracts	[no test files]
+?   	github.com/evmos/evmos/v9/crypto/keyring	[no test files]
+ok  	github.com/evmos/evmos/v9/ibc	0.946s
+?   	github.com/evmos/evmos/v9/ibc/testing	[no test files]
+?   	github.com/evmos/evmos/v9/testutil	[no test files]
+?   	github.com/evmos/evmos/v9/testutil/network	[no test files]
+ok  	github.com/evmos/evmos/v9/types	0.466s
+?   	github.com/evmos/evmos/v9/version	[no test files]
+ok  	github.com/evmos/evmos/v9/x/claims	1.414s
+?   	github.com/evmos/evmos/v9/x/claims/client/cli	[no test files]
+ok  	github.com/evmos/evmos/v9/x/claims/keeper	59.531s
+?   	github.com/evmos/evmos/v9/x/claims/migrations/v1/types	[no test files]
+ok  	github.com/evmos/evmos/v9/x/claims/migrations/v2	1.062s
+ok  	github.com/evmos/evmos/v9/x/claims/types	0.346s
+ok  	github.com/evmos/evmos/v9/x/epochs	1.046s
+?   	github.com/evmos/evmos/v9/x/epochs/client/cli	[no test files]
+ok  	github.com/evmos/evmos/v9/x/epochs/keeper	3.086s
+ok  	github.com/evmos/evmos/v9/x/epochs/types	0.712s
+ok  	github.com/evmos/evmos/v9/x/erc20	1.138s
+?   	github.com/evmos/evmos/v9/x/erc20/client	[no test files]
+ok  	github.com/evmos/evmos/v9/x/erc20/client/cli	0.597s
+ok  	github.com/evmos/evmos/v9/x/erc20/keeper	33.355s
+ok  	github.com/evmos/evmos/v9/x/erc20/migrations/v2	1.136s
+ok  	github.com/evmos/evmos/v9/x/erc20/types	0.629s
+?   	github.com/evmos/evmos/v9/x/incentives	[no test files]
+?   	github.com/evmos/evmos/v9/x/incentives/client	[no test files]
+?   	github.com/evmos/evmos/v9/x/incentives/client/cli	[no test files]
+ok  	github.com/evmos/evmos/v9/x/incentives/keeper	24.069s
+ok  	github.com/evmos/evmos/v9/x/incentives/types	0.363s
+?   	github.com/evmos/evmos/v9/x/inflation	[no test files]
+?   	github.com/evmos/evmos/v9/x/inflation/client/cli	[no test files]
+ok  	github.com/evmos/evmos/v9/x/inflation/keeper	6.122s
+ok  	github.com/evmos/evmos/v9/x/inflation/types	0.579s
+ok  	github.com/evmos/evmos/v9/x/recovery	0.891s
+?   	github.com/evmos/evmos/v9/x/recovery/client/cli	[no test files]
+ok  	github.com/evmos/evmos/v9/x/recovery/keeper	33.066s
+ok  	github.com/evmos/evmos/v9/x/recovery/types	0.387s
+ok  	github.com/evmos/evmos/v9/x/revenue	1.365s
+?   	github.com/evmos/evmos/v9/x/revenue/client/cli	[no test files]
+ok  	github.com/evmos/evmos/v9/x/revenue/keeper	12.379s
+ok  	github.com/evmos/evmos/v9/x/revenue/types	0.726s
+?   	github.com/evmos/evmos/v9/x/vesting	[no test files]
+?   	github.com/evmos/evmos/v9/x/vesting/client/cli	[no test files]
+ok  	github.com/evmos/evmos/v9/x/vesting/keeper	11.209s
+ok  	github.com/evmos/evmos/v9/x/vesting/types	0.346s
+
+
+========================================
+Uume 2022-10-31 12:28:12
+ok  	github.com/umee-network/umee/v3/ante	0.246s
+?   	github.com/umee-network/umee/v3/app	[no test files]
+?   	github.com/umee-network/umee/v3/app/params	[no test files]
+ok  	github.com/umee-network/umee/v3/app/upgradev3	0.207s
+?   	github.com/umee-network/umee/v3/cmd/umeed	[no test files]
+?   	github.com/umee-network/umee/v3/cmd/umeed/cmd	[no test files]
+?   	github.com/umee-network/umee/v3/swagger	[no test files]
+--- FAIL: TestIntegrationTestSuite (2.79s)
+    e2e_setup_test.go:78: setting up e2e integration test suite...
+    e2e_setup_test.go:84: starting e2e infrastructure; chain-id: chain-UPjlLw; datadir: /tmp/umee-e2e-testnet-115936683
+    e2e_setup_test.go:92: Ethereum and peggo are disable due to Ethereum PoS migration and PoW fork
+    e2e_setup_test.go:228: starting e2e infrastructure; validator_0 config: /tmp/umee-e2e-testnet-115936683/chain-UPjlLw/umee0/config/genesis.json
+    e2e_setup_test.go:530: starting Umee validator containers...
+    e2e_setup_test.go:560: 
+        	Error Trace:	/home/reece/Desktop/notional-chain-chores/Uume/tests/e2e/e2e_setup_test.go:560
+        	            				/home/reece/Desktop/notional-chain-chores/Uume/tests/e2e/e2e_setup_test.go:119
+        	            				/home/reece/Desktop/notional-chain-chores/Uume/tests/e2e/suite.go:132
+        	            				/home/reece/Desktop/notional-chain-chores/Uume/tests/e2e/e2e_setup_test.go:74
+        	Error:      	Received unexpected error:
+        	            	API error (404): pull access denied for umeenet/umeed-e2e, repository does not exist or may require 'docker login': denied: requested access to the resource is denied
+        	            	
+        	            	github.com/ory/dockertest/v3.(*Pool).RunWithOptions
+        	            		/home/reece/go/pkg/mod/github.com/ory/dockertest/v3@v3.9.1/dockertest.go:413
+        	            	github.com/umee-network/umee/v3/tests/e2e.(*IntegrationTestSuite).runValidators
+        	            		/home/reece/Desktop/notional-chain-chores/Uume/tests/e2e/e2e_setup_test.go:559
+        	            	github.com/umee-network/umee/v3/tests/e2e.(*IntegrationTestSuite).SetupSuite
+        	            		/home/reece/Desktop/notional-chain-chores/Uume/tests/e2e/e2e_setup_test.go:119
+        	            	github.com/stretchr/testify/suite.Run
+        	            		/home/reece/go/pkg/mod/github.com/stretchr/testify@v1.8.1/suite/suite.go:132
+        	            	github.com/umee-network/umee/v3/tests/e2e.TestIntegrationTestSuite
+        	            		/home/reece/Desktop/notional-chain-chores/Uume/tests/e2e/e2e_setup_test.go:74
+        	            	testing.tRunner
+        	            		/usr/lib/go/src/testing/testing.go:1446
+        	            	runtime.goexit
+        	            		/usr/lib/go/src/runtime/asm_amd64.s:1594
+        	Test:       	TestIntegrationTestSuite
+FAIL
+FAIL	github.com/umee-network/umee/v3/tests/e2e	2.928s
+ok  	github.com/umee-network/umee/v3/tests/simulation	0.245s
+?   	github.com/umee-network/umee/v3/tests/util	[no test files]
+?   	github.com/umee-network/umee/v3/util/checkers	[no test files]
+?   	github.com/umee-network/umee/v3/util/cli	[no test files]
+?   	github.com/umee-network/umee/v3/util/coin	[no test files]
+ok  	github.com/umee-network/umee/v3/util/genmap	0.200s
+?   	github.com/umee-network/umee/v3/util/sim	[no test files]
+?   	github.com/umee-network/umee/v3/x/ibctransfer	[no test files]
+ok  	github.com/umee-network/umee/v3/x/ibctransfer/keeper	0.170s
+?   	github.com/umee-network/umee/v3/x/ibctransfer/types	[no test files]
+ok  	github.com/umee-network/umee/v3/x/leverage	0.247s
+?   	github.com/umee-network/umee/v3/x/leverage/client	[no test files]
+ok  	github.com/umee-network/umee/v3/x/leverage/client/cli	0.224s
+?   	github.com/umee-network/umee/v3/x/leverage/client/tests	[no test files]
+?   	github.com/umee-network/umee/v3/x/leverage/fixtures	[no test files]
+ok  	github.com/umee-network/umee/v3/x/leverage/keeper	0.958s
+ok  	github.com/umee-network/umee/v3/x/leverage/simulation	0.438s
+ok  	github.com/umee-network/umee/v3/x/leverage/types	0.310s
+?   	github.com/umee-network/umee/v3/x/oracle	[no test files]
+?   	github.com/umee-network/umee/v3/x/oracle/client/cli	[no test files]
+?   	github.com/umee-network/umee/v3/x/oracle/client/tests	[no test files]
+ok  	github.com/umee-network/umee/v3/x/oracle/keeper	1.138s
+?   	github.com/umee-network/umee/v3/x/oracle/simulations	[no test files]
+ok  	github.com/umee-network/umee/v3/x/oracle/types	0.279s
+FAIL
+
+
+========================================
+Kava 2022-10-31 12:28:13
+ok  	github.com/kava-labs/kava/app	2.402s
+ok  	github.com/kava-labs/kava/app/ante	10.851s
+?   	github.com/kava-labs/kava/app/params	[no test files]
+?   	github.com/kava-labs/kava/client	[no test files]
+?   	github.com/kava-labs/kava/cmd/kava	[no test files]
+?   	github.com/kava-labs/kava/cmd/kava/cmd	[no test files]
+ok  	github.com/kava-labs/kava/migrate	0.577s
+ok  	github.com/kava-labs/kava/migrate/utils	0.529s
+ok  	github.com/kava-labs/kava/x/auction	1.147s
+?   	github.com/kava-labs/kava/x/auction/client/cli	[no test files]
+?   	github.com/kava-labs/kava/x/auction/client/common	[no test files]
+?   	github.com/kava-labs/kava/x/auction/client/rest	[no test files]
+ok  	github.com/kava-labs/kava/x/auction/keeper	6.350s
+?   	github.com/kava-labs/kava/x/auction/legacy/v0_15	[no test files]
+?   	github.com/kava-labs/kava/x/auction/legacy/v0_16	[no test files]
+?   	github.com/kava-labs/kava/x/auction/legacy/v0_17	[no test files]
+?   	github.com/kava-labs/kava/x/auction/testutil	[no test files]
+ok  	github.com/kava-labs/kava/x/auction/types	0.433s
+ok  	github.com/kava-labs/kava/x/bep3	2.579s
+?   	github.com/kava-labs/kava/x/bep3/client/cli	[no test files]
+?   	github.com/kava-labs/kava/x/bep3/client/rest	[no test files]
+ok  	github.com/kava-labs/kava/x/bep3/keeper	10.085s
+ok  	github.com/kava-labs/kava/x/bep3/legacy/v0_17	0.741s
+ok  	github.com/kava-labs/kava/x/bep3/types	0.754s
+ok  	github.com/kava-labs/kava/x/cdp	5.002s
+?   	github.com/kava-labs/kava/x/cdp/client/cli	[no test files]
+?   	github.com/kava-labs/kava/x/cdp/client/rest	[no test files]
+ok  	github.com/kava-labs/kava/x/cdp/keeper	92.822s
+?   	github.com/kava-labs/kava/x/cdp/legacy/v0_15	[no test files]
+ok  	github.com/kava-labs/kava/x/cdp/legacy/v0_16	0.834s
+ok  	github.com/kava-labs/kava/x/cdp/simulation	0.039s [no tests to run]
+ok  	github.com/kava-labs/kava/x/cdp/types	0.524s
+ok  	github.com/kava-labs/kava/x/committee	2.231s
+?   	github.com/kava-labs/kava/x/committee/client	[no test files]
+ok  	github.com/kava-labs/kava/x/committee/client/cli	0.669s
+?   	github.com/kava-labs/kava/x/committee/client/common	[no test files]
+?   	github.com/kava-labs/kava/x/committee/client/rest	[no test files]
+ok  	github.com/kava-labs/kava/x/committee/keeper	6.880s
+?   	github.com/kava-labs/kava/x/committee/testutil	[no test files]
+ok  	github.com/kava-labs/kava/x/committee/types	1.299s
+ok  	github.com/kava-labs/kava/x/earn	1.218s
+?   	github.com/kava-labs/kava/x/earn/client	[no test files]
+?   	github.com/kava-labs/kava/x/earn/client/cli	[no test files]
+?   	github.com/kava-labs/kava/x/earn/client/rest	[no test files]
+ok  	github.com/kava-labs/kava/x/earn/keeper	8.139s
+?   	github.com/kava-labs/kava/x/earn/testutil	[no test files]
+ok  	github.com/kava-labs/kava/x/earn/types	0.713s
+?   	github.com/kava-labs/kava/x/earn/types/mocks	[no test files]
+ok  	github.com/kava-labs/kava/x/evmutil	1.019s
+?   	github.com/kava-labs/kava/x/evmutil/client/cli	[no test files]
+ok  	github.com/kava-labs/kava/x/evmutil/keeper	12.910s
+?   	github.com/kava-labs/kava/x/evmutil/testutil	[no test files]
+ok  	github.com/kava-labs/kava/x/evmutil/types	0.805s
+ok  	github.com/kava-labs/kava/x/hard	0.520s
+?   	github.com/kava-labs/kava/x/hard/client/cli	[no test files]
+?   	github.com/kava-labs/kava/x/hard/client/rest	[no test files]
+ok  	github.com/kava-labs/kava/x/hard/keeper	9.067s
+?   	github.com/kava-labs/kava/x/hard/legacy/v0_15	[no test files]
+ok  	github.com/kava-labs/kava/x/hard/legacy/v0_16	0.747s
+ok  	github.com/kava-labs/kava/x/hard/types	0.364s
+ok  	github.com/kava-labs/kava/x/incentive	1.767s
+?   	github.com/kava-labs/kava/x/incentive/client/cli	[no test files]
+?   	github.com/kava-labs/kava/x/incentive/client/rest	[no test files]
+ok  	github.com/kava-labs/kava/x/incentive/keeper	13.407s
+?   	github.com/kava-labs/kava/x/incentive/testutil	[no test files]
+ok  	github.com/kava-labs/kava/x/incentive/types	0.517s
+ok  	github.com/kava-labs/kava/x/issuance	0.794s
+?   	github.com/kava-labs/kava/x/issuance/client/cli	[no test files]
+?   	github.com/kava-labs/kava/x/issuance/client/rest	[no test files]
+ok  	github.com/kava-labs/kava/x/issuance/keeper	3.095s
+?   	github.com/kava-labs/kava/x/issuance/legacy/v0_15	[no test files]
+ok  	github.com/kava-labs/kava/x/issuance/legacy/v0_16	0.515s
+ok  	github.com/kava-labs/kava/x/issuance/simulation	0.043s [no tests to run]
+ok  	github.com/kava-labs/kava/x/issuance/types	0.345s
+ok  	github.com/kava-labs/kava/x/kavadist	0.919s
+?   	github.com/kava-labs/kava/x/kavadist/client	[no test files]
+?   	github.com/kava-labs/kava/x/kavadist/client/cli	[no test files]
+?   	github.com/kava-labs/kava/x/kavadist/client/rest	[no test files]
+ok  	github.com/kava-labs/kava/x/kavadist/keeper	1.524s
+?   	github.com/kava-labs/kava/x/kavadist/legacy/v0_15	[no test files]
+?   	github.com/kava-labs/kava/x/kavadist/legacy/v0_16	[no test files]
+ok  	github.com/kava-labs/kava/x/kavadist/simulation	0.410s
+?   	github.com/kava-labs/kava/x/kavadist/testutil	[no test files]
+ok  	github.com/kava-labs/kava/x/kavadist/types	0.495s
+?   	github.com/kava-labs/kava/x/liquid	[no test files]
+?   	github.com/kava-labs/kava/x/liquid/client/cli	[no test files]
+ok  	github.com/kava-labs/kava/x/liquid/keeper	7.920s
+ok  	github.com/kava-labs/kava/x/liquid/types	0.492s
+ok  	github.com/kava-labs/kava/x/pricefeed	0.860s
+?   	github.com/kava-labs/kava/x/pricefeed/client/cli	[no test files]
+?   	github.com/kava-labs/kava/x/pricefeed/client/rest	[no test files]
+ok  	github.com/kava-labs/kava/x/pricefeed/keeper	1.771s
+?   	github.com/kava-labs/kava/x/pricefeed/legacy/v0_15	[no test files]
+ok  	github.com/kava-labs/kava/x/pricefeed/legacy/v0_16	0.761s
+ok  	github.com/kava-labs/kava/x/pricefeed/simulation	0.516s [no tests to run]
+ok  	github.com/kava-labs/kava/x/pricefeed/types	0.391s
+?   	github.com/kava-labs/kava/x/router	[no test files]
+?   	github.com/kava-labs/kava/x/router/client/cli	[no test files]
+ok  	github.com/kava-labs/kava/x/router/keeper	0.844s
+?   	github.com/kava-labs/kava/x/router/testutil	[no test files]
+ok  	github.com/kava-labs/kava/x/router/types	0.573s
+ok  	github.com/kava-labs/kava/x/savings	0.434s
+?   	github.com/kava-labs/kava/x/savings/client/cli	[no test files]
+ok  	github.com/kava-labs/kava/x/savings/keeper	2.378s
+?   	github.com/kava-labs/kava/x/savings/types	[no test files]
+ok  	github.com/kava-labs/kava/x/swap	0.401s
+?   	github.com/kava-labs/kava/x/swap/client/cli	[no test files]
+?   	github.com/kava-labs/kava/x/swap/client/rest	[no test files]
+ok  	github.com/kava-labs/kava/x/swap/keeper	2.380s
+?   	github.com/kava-labs/kava/x/swap/legacy/v0_15	[no test files]
+ok  	github.com/kava-labs/kava/x/swap/legacy/v0_16	0.450s
+ok  	github.com/kava-labs/kava/x/swap/simulation	0.087s [no tests to run]
+?   	github.com/kava-labs/kava/x/swap/testutil	[no test files]
+ok  	github.com/kava-labs/kava/x/swap/types	0.391s
+?   	github.com/kava-labs/kava/x/swap/types/mocks	[no test files]
+?   	github.com/kava-labs/kava/x/validator-vesting	[no test files]
+?   	github.com/kava-labs/kava/x/validator-vesting/client/cli	[no test files]
+?   	github.com/kava-labs/kava/x/validator-vesting/client/rest	[no test files]
+?   	github.com/kava-labs/kava/x/validator-vesting/legacy/v0_15	[no test files]
+?   	github.com/kava-labs/kava/x/validator-vesting/types	[no test files]
+
+
+========================================
+Sifchain 2022-10-31 12:28:41
+ok  	github.com/Sifchain/sifnode/app	0.625s
+ok  	github.com/Sifchain/sifnode/app/ante	0.662s
+?   	github.com/Sifchain/sifnode/cmd/ebrelayer	[no test files]
+?   	github.com/Sifchain/sifnode/cmd/ebrelayer/contract	[no test files]
+?   	github.com/Sifchain/sifnode/cmd/ebrelayer/contract/generated/bindings/bridgebank	[no test files]
+?   	github.com/Sifchain/sifnode/cmd/ebrelayer/contract/generated/bindings/bridgeregistry	[no test files]
+?   	github.com/Sifchain/sifnode/cmd/ebrelayer/contract/generated/bindings/cosmosbridge	[no test files]
+?   	github.com/Sifchain/sifnode/cmd/ebrelayer/contract/generated/bindings/oracle	[no test files]
+?   	github.com/Sifchain/sifnode/cmd/ebrelayer/contract/generated/bindings/valset	[no test files]
+ok  	github.com/Sifchain/sifnode/cmd/ebrelayer/internal/bimap_with_default	0.173s
+ok  	github.com/Sifchain/sifnode/cmd/ebrelayer/internal/symbol_translator	0.269s
+ok  	github.com/Sifchain/sifnode/cmd/ebrelayer/relayer	0.608s
+ok  	github.com/Sifchain/sifnode/cmd/ebrelayer/txs	0.424s
+?   	github.com/Sifchain/sifnode/cmd/ebrelayer/types	[no test files]
+?   	github.com/Sifchain/sifnode/cmd/sifgen	[no test files]
+?   	github.com/Sifchain/sifnode/cmd/sifnoded	[no test files]
+ok  	github.com/Sifchain/sifnode/cmd/sifnoded/cmd	0.733s
+?   	github.com/Sifchain/sifnode/scripts/cli_tests	[no test files]
+?   	github.com/Sifchain/sifnode/scripts/ibc/channeldata	[no test files]
+?   	github.com/Sifchain/sifnode/scripts/ibc/tokenregistration	[no test files]
+?   	github.com/Sifchain/sifnode/test/load/margin	[no test files]
+?   	github.com/Sifchain/sifnode/tools/sifgen	[no test files]
+?   	github.com/Sifchain/sifnode/tools/sifgen/common	[no test files]
+?   	github.com/Sifchain/sifnode/tools/sifgen/common/types	[no test files]
+?   	github.com/Sifchain/sifnode/tools/sifgen/genesis	[no test files]
+ok  	github.com/Sifchain/sifnode/tools/sifgen/key	0.298s
+?   	github.com/Sifchain/sifnode/tools/sifgen/network	[no test files]
+?   	github.com/Sifchain/sifnode/tools/sifgen/network/types	[no test files]
+?   	github.com/Sifchain/sifnode/tools/sifgen/node	[no test files]
+?   	github.com/Sifchain/sifnode/tools/sifgen/node/types	[no test files]
+--- FAIL: TestCLI_AddKeyBackendTest (0.00s)
+panic: exec: "sifnoded": executable file not found in $PATH [recovered]
+	panic: exec: "sifnoded": executable file not found in $PATH
+
+goroutine 70 [running]:
+testing.tRunner.func1.2({0x139d8c0, 0xc0000ad8a0})
+	/usr/lib/go/src/testing/testing.go:1396 +0x24e
+testing.tRunner.func1()
+	/usr/lib/go/src/testing/testing.go:1399 +0x39f
+panic({0x139d8c0, 0xc0000ad8a0})
+	/usr/lib/go/src/runtime/panic.go:884 +0x212
+github.com/Sifchain/sifnode/tools/sifgen/utils.CLI.shellExecInput({{0x154954e, 0xb}, {0xc00016d100, 0x1c}, {0x1541ab0, 0x4}}, {0x1546333?, 0xc0000a1d58?}, {0xc00068e7b0, 0x2, ...}, ...)
+	/home/reece/Desktop/notional-chain-chores/Sifchain/tools/sifgen/utils/cli.go:267 +0x43e
+github.com/Sifchain/sifnode/tools/sifgen/utils.CLI.AddKey({{0x154954e, 0xb}, {0xc00016d100, 0x1c}, {0x1541ab0, 0x4}}, {0x1542592, 0x5}, {0x15c2705, 0x97}, ...)
+	/home/reece/Desktop/notional-chain-chores/Sifchain/tools/sifgen/utils/cli.go:124 +0x3af
+github.com/Sifchain/sifnode/tools/sifgen/utils.AddKeyToBackend({0x1541ab0, 0x4}, 0x4930d7?)
+	/home/reece/Desktop/notional-chain-chores/Sifchain/tools/sifgen/utils/cli_test.go:41 +0x159
+github.com/Sifchain/sifnode/tools/sifgen/utils.TestCLI_AddKeyBackendTest(0xc9?)
+	/home/reece/Desktop/notional-chain-chores/Sifchain/tools/sifgen/utils/cli_test.go:30 +0x28
+testing.tRunner(0xc0001611e0, 0x1bf9588)
+	/usr/lib/go/src/testing/testing.go:1446 +0x10b
+created by testing.(*T).Run
+	/usr/lib/go/src/testing/testing.go:1493 +0x35f
+FAIL	github.com/Sifchain/sifnode/tools/sifgen/utils	0.337s
+?   	github.com/Sifchain/sifnode/x/admin	[no test files]
+?   	github.com/Sifchain/sifnode/x/admin/client/cli	[no test files]
+?   	github.com/Sifchain/sifnode/x/admin/keeper	[no test files]
+?   	github.com/Sifchain/sifnode/x/admin/test	[no test files]
+?   	github.com/Sifchain/sifnode/x/admin/types	[no test files]
+ok  	github.com/Sifchain/sifnode/x/clp	20.587s
+ok  	github.com/Sifchain/sifnode/x/clp/client/cli	0.384s [no tests to run]
+?   	github.com/Sifchain/sifnode/x/clp/client/rest	[no test files]
+ok  	github.com/Sifchain/sifnode/x/clp/keeper	8.448s
+?   	github.com/Sifchain/sifnode/x/clp/legacy/v39	[no test files]
+?   	github.com/Sifchain/sifnode/x/clp/legacy/v42	[no test files]
+?   	github.com/Sifchain/sifnode/x/clp/test	[no test files]
+ok  	github.com/Sifchain/sifnode/x/clp/types	0.530s
+ok  	github.com/Sifchain/sifnode/x/dispensation	71.618s
+?   	github.com/Sifchain/sifnode/x/dispensation/client/cli	[no test files]
+?   	github.com/Sifchain/sifnode/x/dispensation/client/rest	[no test files]
+ok  	github.com/Sifchain/sifnode/x/dispensation/keeper	1.524s
+?   	github.com/Sifchain/sifnode/x/dispensation/legacy/v39	[no test files]
+?   	github.com/Sifchain/sifnode/x/dispensation/legacy/v42	[no test files]
+?   	github.com/Sifchain/sifnode/x/dispensation/test	[no test files]
+ok  	github.com/Sifchain/sifnode/x/dispensation/types	0.982s
+ok  	github.com/Sifchain/sifnode/x/dispensation/utils	0.677s
+ok  	github.com/Sifchain/sifnode/x/ethbridge	0.544s
+?   	github.com/Sifchain/sifnode/x/ethbridge/client	[no test files]
+?   	github.com/Sifchain/sifnode/x/ethbridge/client/cli	[no test files]
+?   	github.com/Sifchain/sifnode/x/ethbridge/client/rest	[no test files]
+ok  	github.com/Sifchain/sifnode/x/ethbridge/keeper	0.941s
+?   	github.com/Sifchain/sifnode/x/ethbridge/legacy/v39	[no test files]
+?   	github.com/Sifchain/sifnode/x/ethbridge/legacy/v42	[no test files]
+?   	github.com/Sifchain/sifnode/x/ethbridge/test	[no test files]
+ok  	github.com/Sifchain/sifnode/x/ethbridge/types	0.299s
+ok  	github.com/Sifchain/sifnode/x/ibctransfer	0.497s
+?   	github.com/Sifchain/sifnode/x/ibctransfer/helpers	[no test files]
+ok  	github.com/Sifchain/sifnode/x/ibctransfer/keeper	0.241s
+?   	github.com/Sifchain/sifnode/x/ibctransfer/keeper/testhelpers	[no test files]
+?   	github.com/Sifchain/sifnode/x/ibctransfer/types	[no test files]
+?   	github.com/Sifchain/sifnode/x/ibctransfer/types/mocks	[no test files]
+?   	github.com/Sifchain/sifnode/x/margin	[no test files]
+?   	github.com/Sifchain/sifnode/x/margin/client/cli	[no test files]
+?   	github.com/Sifchain/sifnode/x/margin/client/rest	[no test files]
+ok  	github.com/Sifchain/sifnode/x/margin/keeper	2.348s
+?   	github.com/Sifchain/sifnode/x/margin/test	[no test files]
+ok  	github.com/Sifchain/sifnode/x/margin/types	0.333s
+ok  	github.com/Sifchain/sifnode/x/oracle	0.326s
+ok  	github.com/Sifchain/sifnode/x/oracle/keeper	0.381s
+?   	github.com/Sifchain/sifnode/x/oracle/legacy/v39	[no test files]
+?   	github.com/Sifchain/sifnode/x/oracle/legacy/v42	[no test files]
+?   	github.com/Sifchain/sifnode/x/oracle/types	[no test files]
+?   	github.com/Sifchain/sifnode/x/tokenregistry	[no test files]
+?   	github.com/Sifchain/sifnode/x/tokenregistry/client/cli	[no test files]
+?   	github.com/Sifchain/sifnode/x/tokenregistry/client/rest	[no test files]
+ok  	github.com/Sifchain/sifnode/x/tokenregistry/handler	0.412s
+ok  	github.com/Sifchain/sifnode/x/tokenregistry/keeper	0.465s
+?   	github.com/Sifchain/sifnode/x/tokenregistry/test	[no test files]
+ok  	github.com/Sifchain/sifnode/x/tokenregistry/types	0.357s
+?   	github.com/Sifchain/sifnode/x/tokenregistry/types/mock	[no test files]
+ok  	github.com/Sifchain/sifnode/x/tokenregistry/utils	0.345s
+FAIL
+
+
+========================================
+LikeCoin 2022-10-31 12:28:46
+?   	github.com/likecoin/likecoin-chain/v3/app	[no test files]
+?   	github.com/likecoin/likecoin-chain/v3/backport/cosmos-sdk/v0.46.0-rc1/internal/conv	[no test files]
+?   	github.com/likecoin/likecoin-chain/v3/backport/cosmos-sdk/v0.46.0-rc1/x/nft	[no test files]
+?   	github.com/likecoin/likecoin-chain/v3/backport/cosmos-sdk/v0.46.0-rc1/x/nft/client/cli	[no test files]
+?   	github.com/likecoin/likecoin-chain/v3/backport/cosmos-sdk/v0.46.0-rc1/x/nft/keeper	[no test files]
+?   	github.com/likecoin/likecoin-chain/v3/backport/cosmos-sdk/v0.46.0-rc1/x/nft/module	[no test files]
+?   	github.com/likecoin/likecoin-chain/v3/backport/cosmos-sdk/v0.46.0-rc1/x/nft/simulation	[no test files]
+?   	github.com/likecoin/likecoin-chain/v3/bech32-migration/auth	[no test files]
+?   	github.com/likecoin/likecoin-chain/v3/bech32-migration/gov	[no test files]
+?   	github.com/likecoin/likecoin-chain/v3/bech32-migration/slashing	[no test files]
+?   	github.com/likecoin/likecoin-chain/v3/bech32-migration/staking	[no test files]
+?   	github.com/likecoin/likecoin-chain/v3/bech32-migration/test	[no test files]
+?   	github.com/likecoin/likecoin-chain/v3/bech32-migration/testutil	[no test files]
+?   	github.com/likecoin/likecoin-chain/v3/bech32-migration/utils	[no test files]
+?   	github.com/likecoin/likecoin-chain/v3/cmd/liked	[no test files]
+?   	github.com/likecoin/likecoin-chain/v3/cmd/liked/cmd	[no test files]
+ok  	github.com/likecoin/likecoin-chain/v3/dual_prefix_tests	1.365s
+ok  	github.com/likecoin/likecoin-chain/v3/ibc_tests	4.145s
+?   	github.com/likecoin/likecoin-chain/v3/ip	[no test files]
+?   	github.com/likecoin/likecoin-chain/v3/testutil	[no test files]
+?   	github.com/likecoin/likecoin-chain/v3/testutil/keeper	[no test files]
+?   	github.com/likecoin/likecoin-chain/v3/testutil/network	[no test files]
+?   	github.com/likecoin/likecoin-chain/v3/testutil/nullify	[no test files]
+?   	github.com/likecoin/likecoin-chain/v3/testutil/sample	[no test files]
+ok  	github.com/likecoin/likecoin-chain/v3/x/iscn	178.102s
+?   	github.com/likecoin/likecoin-chain/v3/x/iscn/client/cli	[no test files]
+?   	github.com/likecoin/likecoin-chain/v3/x/iscn/keeper	[no test files]
+ok  	github.com/likecoin/likecoin-chain/v3/x/iscn/types	0.203s
+FAIL	github.com/likecoin/likecoin-chain/v3/x/likenft [build failed]
+FAIL	github.com/likecoin/likecoin-chain/v3/x/likenft/client/cli [build failed]
+ok  	github.com/likecoin/likecoin-chain/v3/x/likenft/e2e_test	198.678s
+FAIL	github.com/likecoin/likecoin-chain/v3/x/likenft/keeper [build failed]
+?   	github.com/likecoin/likecoin-chain/v3/x/likenft/simulation	[no test files]
+ok  	github.com/likecoin/likecoin-chain/v3/x/likenft/types	0.370s
+ok  	github.com/likecoin/likecoin-chain/v3/x/likenft/utils	0.381s
+
+
+========================================
+Stride 2022-10-31 12:29:03
+?   	github.com/Stride-Labs/stride/app	[no test files]
+?   	github.com/Stride-Labs/stride/app/apptesting	[no test files]
+?   	github.com/Stride-Labs/stride/app/upgrades/v2	[no test files]
+?   	github.com/Stride-Labs/stride/cmd/strided	[no test files]
+?   	github.com/Stride-Labs/stride/cmd/strided/config	[no test files]
+?   	github.com/Stride-Labs/stride/docs	[no test files]
+?   	github.com/Stride-Labs/stride/testutil/keeper	[no test files]
+?   	github.com/Stride-Labs/stride/testutil/network	[no test files]
+?   	github.com/Stride-Labs/stride/testutil/nullify	[no test files]
+?   	github.com/Stride-Labs/stride/testutil/sample	[no test files]
+?   	github.com/Stride-Labs/stride/utils	[no test files]
+ok  	github.com/Stride-Labs/stride/x/epochs	0.486s
+?   	github.com/Stride-Labs/stride/x/epochs/client/cli	[no test files]
+ok  	github.com/Stride-Labs/stride/x/epochs/keeper	0.278s
+?   	github.com/Stride-Labs/stride/x/epochs/simulation	[no test files]
+?   	github.com/Stride-Labs/stride/x/epochs/types	[no test files]
+ok  	github.com/Stride-Labs/stride/x/icacallbacks	0.265s
+ok  	github.com/Stride-Labs/stride/x/icacallbacks/client/cli	30.282s
+ok  	github.com/Stride-Labs/stride/x/icacallbacks/keeper	0.447s
+?   	github.com/Stride-Labs/stride/x/icacallbacks/simulation	[no test files]
+ok  	github.com/Stride-Labs/stride/x/icacallbacks/types	0.130s
+?   	github.com/Stride-Labs/stride/x/interchainquery	[no test files]
+ok  	github.com/Stride-Labs/stride/x/interchainquery/keeper	3.295s
+?   	github.com/Stride-Labs/stride/x/interchainquery/types	[no test files]
+?   	github.com/Stride-Labs/stride/x/mint	[no test files]
+?   	github.com/Stride-Labs/stride/x/mint/client/cli	[no test files]
+?   	github.com/Stride-Labs/stride/x/mint/client/rest	[no test files]
+?   	github.com/Stride-Labs/stride/x/mint/keeper	[no test files]
+ok  	github.com/Stride-Labs/stride/x/mint/types	0.266s [no tests to run]
+ok  	github.com/Stride-Labs/stride/x/records	0.283s
+ok  	github.com/Stride-Labs/stride/x/records/client/cli	60.431s
+ok  	github.com/Stride-Labs/stride/x/records/keeper	1.047s
+?   	github.com/Stride-Labs/stride/x/records/simulation	[no test files]
+ok  	github.com/Stride-Labs/stride/x/records/types	0.279s
+ok  	github.com/Stride-Labs/stride/x/stakeibc	0.159s
+?   	github.com/Stride-Labs/stride/x/stakeibc/client	[no test files]
+ok  	github.com/Stride-Labs/stride/x/stakeibc/client/cli	45.355s
+?   	github.com/Stride-Labs/stride/x/stakeibc/client/rest	[no test files]
+ok  	github.com/Stride-Labs/stride/x/stakeibc/keeper	24.317s
+?   	github.com/Stride-Labs/stride/x/stakeibc/simulation	[no test files]
+ok  	github.com/Stride-Labs/stride/x/stakeibc/types	0.142s
+
+
+========================================
+Provenance 2022-10-31 12:29:43
+ok  	github.com/provenance-io/provenance/app	1.212s
+?   	github.com/provenance-io/provenance/app/params	[no test files]
+?   	github.com/provenance-io/provenance/client/docs/statik	[no test files]
+?   	github.com/provenance-io/provenance/cmd/dbmigrate	[no test files]
+?   	github.com/provenance-io/provenance/cmd/dbmigrate/cmd	[no test files]
+ok  	github.com/provenance-io/provenance/cmd/dbmigrate/utils	0.209s
+?   	github.com/provenance-io/provenance/cmd/provenanced	[no test files]
+ok  	github.com/provenance-io/provenance/cmd/provenanced/cmd	22.423s
+ok  	github.com/provenance-io/provenance/cmd/provenanced/config	1.079s
+ok  	github.com/provenance-io/provenance/internal/antewrapper	2.500s
+ok  	github.com/provenance-io/provenance/internal/handlers	61.115s
+ok  	github.com/provenance-io/provenance/internal/pioconfig	0.043s
+?   	github.com/provenance-io/provenance/internal/provwasm	[no test files]
+?   	github.com/provenance-io/provenance/internal/statesync	[no test files]
+?   	github.com/provenance-io/provenance/testutil	[no test files]
+ok  	github.com/provenance-io/provenance/x/attribute	1.249s
+ok  	github.com/provenance-io/provenance/x/attribute/client/cli	43.967s
+ok  	github.com/provenance-io/provenance/x/attribute/client/rest	19.158s
+ok  	github.com/provenance-io/provenance/x/attribute/keeper	2.081s
+ok  	github.com/provenance-io/provenance/x/attribute/legacy/v042	0.839s
+ok  	github.com/provenance-io/provenance/x/attribute/simulation	1.509s
+ok  	github.com/provenance-io/provenance/x/attribute/types	0.364s
+?   	github.com/provenance-io/provenance/x/attribute/wasm	[no test files]
+ok  	github.com/provenance-io/provenance/x/marker	2.172s
+ok  	github.com/provenance-io/provenance/x/marker/client/cli	80.338s
+ok  	github.com/provenance-io/provenance/x/marker/keeper	3.317s
+ok  	github.com/provenance-io/provenance/x/marker/legacy/v042	0.912s
+ok  	github.com/provenance-io/provenance/x/marker/simulation	66.376s
+ok  	github.com/provenance-io/provenance/x/marker/types	0.738s
+?   	github.com/provenance-io/provenance/x/marker/wasm	[no test files]
+ok  	github.com/provenance-io/provenance/x/metadata	1.597s
+ok  	github.com/provenance-io/provenance/x/metadata/client/cli	143.361s
+ok  	github.com/provenance-io/provenance/x/metadata/client/rest	17.915s
+ok  	github.com/provenance-io/provenance/x/metadata/keeper	6.625s
+ok  	github.com/provenance-io/provenance/x/metadata/legacy/v042	1.194s
+?   	github.com/provenance-io/provenance/x/metadata/simulation	[no test files]
+ok  	github.com/provenance-io/provenance/x/metadata/spec/examples/go	0.091s
+ok  	github.com/provenance-io/provenance/x/metadata/types	0.454s
+?   	github.com/provenance-io/provenance/x/metadata/types/p8e	[no test files]
+?   	github.com/provenance-io/provenance/x/metadata/wasm	[no test files]
+ok  	github.com/provenance-io/provenance/x/msgfees	1.739s
+ok  	github.com/provenance-io/provenance/x/msgfees/client/cli	37.271s
+ok  	github.com/provenance-io/provenance/x/msgfees/keeper	1.484s
+?   	github.com/provenance-io/provenance/x/msgfees/module	[no test files]
+ok  	github.com/provenance-io/provenance/x/msgfees/simulation	0.797s
+ok  	github.com/provenance-io/provenance/x/msgfees/types	0.196s
+?   	github.com/provenance-io/provenance/x/msgfees/wasm	[no test files]
+ok  	github.com/provenance-io/provenance/x/name	0.529s
+?   	github.com/provenance-io/provenance/x/name/client	[no test files]
+ok  	github.com/provenance-io/provenance/x/name/client/cli	34.942s
+ok  	github.com/provenance-io/provenance/x/name/keeper	1.149s
+ok  	github.com/provenance-io/provenance/x/name/legacy/v042	0.449s
+ok  	github.com/provenance-io/provenance/x/name/simulation	0.427s
+ok  	github.com/provenance-io/provenance/x/name/types	0.452s
+?   	github.com/provenance-io/provenance/x/name/wasm	[no test files]
+ok  	github.com/provenance-io/provenance/x/reward	0.543s
+ok  	github.com/provenance-io/provenance/x/reward/client/cli	32.674s
+ok  	github.com/provenance-io/provenance/x/reward/keeper	9.481s
+?   	github.com/provenance-io/provenance/x/reward/module	[no test files]
+ok  	github.com/provenance-io/provenance/x/reward/simulation	0.475s
+ok  	github.com/provenance-io/provenance/x/reward/types	0.342s
+
+
+========================================
+Regen 2022-10-31 12:30:48
+?   	github.com/regen-network/regen-ledger/v4/app	[no test files]
+ok  	github.com/regen-network/regen-ledger/v4/app/client/cli	0.794s
+?   	github.com/regen-network/regen-ledger/v4/app/client/docs/statik	[no test files]
+ok  	github.com/regen-network/regen-ledger/v4/app/simulation	0.850s
+ok  	github.com/regen-network/regen-ledger/v4/app/testsuite	266.744s
+?   	github.com/regen-network/regen-ledger/v4/app/upgrades	[no test files]
+ok  	github.com/regen-network/regen-ledger/v4/app/upgrades/v5	0.801s
+?   	github.com/regen-network/regen-ledger/v4/cmd/regen	[no test files]
+?   	github.com/regen-network/regen-ledger/v4/scripts	[no test files]
+
+
+========================================
+Osmosis 2022-10-31 12:33:04
+ok  	github.com/osmosis-labs/osmosis/v12/ante	0.717s
+ok  	github.com/osmosis-labs/osmosis/v12/app	2.876s
+ok  	github.com/osmosis-labs/osmosis/v12/app/apptesting	0.402s [no tests to run]
+?   	github.com/osmosis-labs/osmosis/v12/app/apptesting/osmoassert	[no test files]
+?   	github.com/osmosis-labs/osmosis/v12/app/keepers	[no test files]
+?   	github.com/osmosis-labs/osmosis/v12/app/params	[no test files]
+?   	github.com/osmosis-labs/osmosis/v12/app/upgrades	[no test files]
+ok  	github.com/osmosis-labs/osmosis/v12/app/upgrades/v10	3.391s
+?   	github.com/osmosis-labs/osmosis/v12/app/upgrades/v11	[no test files]
+ok  	github.com/osmosis-labs/osmosis/v12/app/upgrades/v12	4.583s
+?   	github.com/osmosis-labs/osmosis/v12/app/upgrades/v13	[no test files]
+?   	github.com/osmosis-labs/osmosis/v12/app/upgrades/v3	[no test files]
+ok  	github.com/osmosis-labs/osmosis/v12/app/upgrades/v4	3.902s
+?   	github.com/osmosis-labs/osmosis/v12/app/upgrades/v5	[no test files]
+?   	github.com/osmosis-labs/osmosis/v12/app/upgrades/v6	[no test files]
+?   	github.com/osmosis-labs/osmosis/v12/app/upgrades/v7	[no test files]
+ok  	github.com/osmosis-labs/osmosis/v12/app/upgrades/v8	0.515s
+?   	github.com/osmosis-labs/osmosis/v12/app/upgrades/v8/constants	[no test files]
+ok  	github.com/osmosis-labs/osmosis/v12/app/upgrades/v9	5.406s
+?   	github.com/osmosis-labs/osmosis/v12/client/docs/statik	[no test files]
+?   	github.com/osmosis-labs/osmosis/v12/cmd/osmosisd	[no test files]
+?   	github.com/osmosis-labs/osmosis/v12/cmd/osmosisd/cmd	[no test files]
+?   	github.com/osmosis-labs/osmosis/v12/cmd/querygen	[no test files]
+ok  	github.com/osmosis-labs/osmosis/v12/cmd/querygen/templates	0.148s
+ok  	github.com/osmosis-labs/osmosis/v12/osmomath	1.783s
+ok  	github.com/osmosis-labs/osmosis/v12/osmoutils	27.551s
+ok  	github.com/osmosis-labs/osmosis/v12/osmoutils/partialord	0.196s
+ok  	github.com/osmosis-labs/osmosis/v12/osmoutils/partialord/internal/dag	0.131s
+?   	github.com/osmosis-labs/osmosis/v12/simulation/executor	[no test files]
+?   	github.com/osmosis-labs/osmosis/v12/simulation/executor/internal/executortypes	[no test files]
+?   	github.com/osmosis-labs/osmosis/v12/simulation/executor/internal/pubsub	[no test files]
+?   	github.com/osmosis-labs/osmosis/v12/simulation/executor/internal/stats	[no test files]
+ok  	github.com/osmosis-labs/osmosis/v12/simulation/simtypes	0.522s
+?   	github.com/osmosis-labs/osmosis/v12/simulation/simtypes/random	[no test files]
+?   	github.com/osmosis-labs/osmosis/v12/simulation/simtypes/simlogger	[no test files]
+?   	github.com/osmosis-labs/osmosis/v12/simulation/simtypes/transitionmatrix	[no test files]
+ok  	github.com/osmosis-labs/osmosis/v12/store	69.431s
+ok  	github.com/osmosis-labs/osmosis/v12/store/legacy/v101	0.507s
+ok  	github.com/osmosis-labs/osmosis/v12/tests/e2e	0.651s
+?   	github.com/osmosis-labs/osmosis/v12/tests/e2e/configurer	[no test files]
+?   	github.com/osmosis-labs/osmosis/v12/tests/e2e/configurer/chain	[no test files]
+?   	github.com/osmosis-labs/osmosis/v12/tests/e2e/configurer/config	[no test files]
+?   	github.com/osmosis-labs/osmosis/v12/tests/e2e/containers	[no test files]
+ok  	github.com/osmosis-labs/osmosis/v12/tests/e2e/initialization	30.010s
+?   	github.com/osmosis-labs/osmosis/v12/tests/e2e/initialization/chain	[no test files]
+?   	github.com/osmosis-labs/osmosis/v12/tests/e2e/initialization/node	[no test files]
+?   	github.com/osmosis-labs/osmosis/v12/tests/e2e/util	[no test files]
+?   	github.com/osmosis-labs/osmosis/v12/tests/mocks	[no test files]
+ok  	github.com/osmosis-labs/osmosis/v12/tests/simulator	275.379s
+ok  	github.com/osmosis-labs/osmosis/v12/wasmbinding	23.317s
+ok  	github.com/osmosis-labs/osmosis/v12/wasmbinding/bindings	0.341s
+ok  	github.com/osmosis-labs/osmosis/v12/wasmbinding/test	77.589s
+?   	github.com/osmosis-labs/osmosis/v12/x/epochs	[no test files]
+ok  	github.com/osmosis-labs/osmosis/v12/x/epochs/client/cli	7.170s
+ok  	github.com/osmosis-labs/osmosis/v12/x/epochs/keeper	32.120s
+ok  	github.com/osmosis-labs/osmosis/v12/x/epochs/types	12.399s
+?   	github.com/osmosis-labs/osmosis/v12/x/gamm	[no test files]
+ok  	github.com/osmosis-labs/osmosis/v12/x/gamm/client/cli	46.433s
+?   	github.com/osmosis-labs/osmosis/v12/x/gamm/client/testutil	[no test files]
+ok  	github.com/osmosis-labs/osmosis/v12/x/gamm/keeper	72.017s
+ok  	github.com/osmosis-labs/osmosis/v12/x/gamm/keeper/internal/events	0.558s
+ok  	github.com/osmosis-labs/osmosis/v12/x/gamm/pool-models/balancer	37.586s
+ok  	github.com/osmosis-labs/osmosis/v12/x/gamm/pool-models/internal/cfmm_common	0.540s
+?   	github.com/osmosis-labs/osmosis/v12/x/gamm/pool-models/internal/test_helpers	[no test files]
+ok  	github.com/osmosis-labs/osmosis/v12/x/gamm/pool-models/stableswap	1.807s
+?   	github.com/osmosis-labs/osmosis/v12/x/gamm/simulation	[no test files]
+ok  	github.com/osmosis-labs/osmosis/v12/x/gamm/types	0.519s
+?   	github.com/osmosis-labs/osmosis/v12/x/gamm/utils	[no test files]
+ok  	github.com/osmosis-labs/osmosis/v12/x/ibc-rate-limit	72.687s
+?   	github.com/osmosis-labs/osmosis/v12/x/ibc-rate-limit/testutil	[no test files]
+ok  	github.com/osmosis-labs/osmosis/v12/x/ibc-rate-limit/types	0.424s
+?   	github.com/osmosis-labs/osmosis/v12/x/incentives	[no test files]
+ok  	github.com/osmosis-labs/osmosis/v12/x/incentives/client/cli	35.522s
+ok  	github.com/osmosis-labs/osmosis/v12/x/incentives/keeper	41.345s
+?   	github.com/osmosis-labs/osmosis/v12/x/incentives/simulation	[no test files]
+ok  	github.com/osmosis-labs/osmosis/v12/x/incentives/types	0.518s
+?   	github.com/osmosis-labs/osmosis/v12/x/lockup	[no test files]
+ok  	github.com/osmosis-labs/osmosis/v12/x/lockup/client/cli	39.556s
+?   	github.com/osmosis-labs/osmosis/v12/x/lockup/client/rest	[no test files]
+?   	github.com/osmosis-labs/osmosis/v12/x/lockup/client/testutil	[no test files]
+ok  	github.com/osmosis-labs/osmosis/v12/x/lockup/keeper	41.584s
+?   	github.com/osmosis-labs/osmosis/v12/x/lockup/simulation	[no test files]
+ok  	github.com/osmosis-labs/osmosis/v12/x/lockup/types	0.493s
+?   	github.com/osmosis-labs/osmosis/v12/x/mint	[no test files]
+ok  	github.com/osmosis-labs/osmosis/v12/x/mint/client/cli	3.396s
+?   	github.com/osmosis-labs/osmosis/v12/x/mint/client/rest	[no test files]
+ok  	github.com/osmosis-labs/osmosis/v12/x/mint/keeper	28.756s
+ok  	github.com/osmosis-labs/osmosis/v12/x/mint/simulation	0.165s
+ok  	github.com/osmosis-labs/osmosis/v12/x/mint/types	0.198s
+?   	github.com/osmosis-labs/osmosis/v12/x/pool-incentives	[no test files]
+?   	github.com/osmosis-labs/osmosis/v12/x/pool-incentives/client	[no test files]
+ok  	github.com/osmosis-labs/osmosis/v12/x/pool-incentives/client/cli	4.449s
+?   	github.com/osmosis-labs/osmosis/v12/x/pool-incentives/client/rest	[no test files]
+ok  	github.com/osmosis-labs/osmosis/v12/x/pool-incentives/keeper	18.203s
+ok  	github.com/osmosis-labs/osmosis/v12/x/pool-incentives/types	0.357s
+?   	github.com/osmosis-labs/osmosis/v12/x/superfluid	[no test files]
+?   	github.com/osmosis-labs/osmosis/v12/x/superfluid/client	[no test files]
+ok  	github.com/osmosis-labs/osmosis/v12/x/superfluid/client/cli	1.132s
+?   	github.com/osmosis-labs/osmosis/v12/x/superfluid/client/rest	[no test files]
+?   	github.com/osmosis-labs/osmosis/v12/x/superfluid/client/testutil	[no test files]
+ok  	github.com/osmosis-labs/osmosis/v12/x/superfluid/keeper	13.598s
+ok  	github.com/osmosis-labs/osmosis/v12/x/superfluid/keeper/gov	1.463s
+ok  	github.com/osmosis-labs/osmosis/v12/x/superfluid/keeper/internal/events	0.171s
+?   	github.com/osmosis-labs/osmosis/v12/x/superfluid/simulation	[no test files]
+ok  	github.com/osmosis-labs/osmosis/v12/x/superfluid/types	0.172s
+?   	github.com/osmosis-labs/osmosis/v12/x/tokenfactory	[no test files]
+ok  	github.com/osmosis-labs/osmosis/v12/x/tokenfactory/client/cli	2.072s
+ok  	github.com/osmosis-labs/osmosis/v12/x/tokenfactory/keeper	10.899s
+?   	github.com/osmosis-labs/osmosis/v12/x/tokenfactory/simulation	[no test files]
+ok  	github.com/osmosis-labs/osmosis/v12/x/tokenfactory/types	0.329s
+ok  	github.com/osmosis-labs/osmosis/v12/x/twap	9.341s
+?   	github.com/osmosis-labs/osmosis/v12/x/twap/client	[no test files]
+?   	github.com/osmosis-labs/osmosis/v12/x/twap/client/grpc	[no test files]
+?   	github.com/osmosis-labs/osmosis/v12/x/twap/client/queryproto	[no test files]
+?   	github.com/osmosis-labs/osmosis/v12/x/twap/twapmodule	[no test files]
+ok  	github.com/osmosis-labs/osmosis/v12/x/twap/types	0.127s
+?   	github.com/osmosis-labs/osmosis/v12/x/twap/types/twapmock	[no test files]
+ok  	github.com/osmosis-labs/osmosis/v12/x/txfees	0.523s
+ok  	github.com/osmosis-labs/osmosis/v12/x/txfees/client/cli	1.752s
+ok  	github.com/osmosis-labs/osmosis/v12/x/txfees/keeper	5.727s
+?   	github.com/osmosis-labs/osmosis/v12/x/txfees/keeper/txfee_filters	[no test files]
+?   	github.com/osmosis-labs/osmosis/v12/x/txfees/types	[no test files]
+?   	github.com/osmosis-labs/osmosis/v12/x/validator-preference/client/queryproto	[no test files]
+?   	github.com/osmosis-labs/osmosis/v12/x/validator-preference/types	[no test files]
+
+
