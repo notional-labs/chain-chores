@@ -1,6 +1,8 @@
-# repo-care
+# Chain Chores
 
-A script to automate repetitive repository care tasks for Notional-Labs.
+WIP
+
+A script to automate repetitive repository care tasks for sovereign L1 blockchains using the CosmosSDK.
 
 Examples:
 - Adding workflows & CI/CD YAML files
