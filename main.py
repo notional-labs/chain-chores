@@ -501,13 +501,20 @@ class Testing():
         output, err = p.communicate()
 
         output = output.decode("utf-8")
-        err = err.decode("utf-8")            
+        err = err.decode("utf-8")
 
-        if hideNoTestFound:
-            output = ""
+        updated_err = "" # fix go downloading writing to stderr since we don' care
+        for line in err.split("\n"):
+            if "go: downloading" not in line:                
+                updated_err += line + "\n"
+
+        if hideNoTestFound: 
+            # optionally hide the files which have no test files in given packages (frees up clutter)
+            new_output = ""
             for line in output.split("\n"):
                 if "no test files" not in line:
-                    output += line + "\n"
+                    new_output += line + "\n"
+            output = new_output
 
         # # save to a file as current_dir/testing.txt
         current_time = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")

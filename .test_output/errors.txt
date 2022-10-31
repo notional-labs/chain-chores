@@ -39,11 +39,6 @@ testutil/network/network.go:62:5: cannot use baseapp.SetMinGasPrices(val.AppConf
 
 
 ========================================
-FetchAI 2022-10-31 12:25:45
-go: downloading github.com/fetchai/cosmos-sdk v0.18.2
-
-
-========================================
 Emoney 2022-10-31 12:25:59
 # github.com/ixofoundation/ixo-blockchain/cmd
 cmd/test_helpers.go:40:122: not enough arguments in call to app.NewIxoApp
@@ -62,23 +57,7 @@ app/common_test.go:37:113: not enough arguments in call to NewIxoApp
 
 
 ========================================
-Gaia 2022-10-31 12:26:14
-go: downloading github.com/cosmos/ibc-go/v5 v5.0.1
-go: downloading github.com/strangelove-ventures/packet-forward-middleware/v5 v5.0.0-20221006203904-d5492a6827c1
-go: downloading github.com/gravity-devs/liquidity/v2 v2.0.1
-
-
-========================================
 Secret 2022-10-31 12:26:34
-go: downloading github.com/scrtlabs/cosmos-sdk v0.45.10-secret.1
-go: downloading github.com/miscreant/miscreant.go v0.0.0-20200214223636-26d376326b75
-go: downloading github.com/gonum/stat v0.0.0-20181125101827-41a0da705a5b
-go: downloading gonum.org/v1/gonum v0.12.0
-go: downloading github.com/gonum/matrix v0.0.0-20181209220409-c518dec07be9
-go: downloading github.com/gonum/floats v0.0.0-20181209220543-c233463c7e82
-go: downloading github.com/gonum/internal v0.0.0-20181124074243-f884aa714029
-go: downloading github.com/gonum/lapack v0.0.0-20181123203213-e4cdc5a0bff9
-go: downloading github.com/gonum/blas v0.0.0-20181208220705-f22b278b28ac
 # github.com/scrtlabs/SecretNetwork/x/registration.test
 /usr/lib/go/pkg/tool/linux_amd64/link: running gcc failed: exit status 1
 /usr/bin/ld: cannot find -lgo_cosmwasm: No such file or directory
@@ -105,72 +84,11 @@ collect2: error: ld returned 1 exit status
 collect2: error: ld returned 1 exit status
 
 
-
-========================================
-QuickSilver 2022-10-31 12:26:58
-go: downloading github.com/ingenuity-build/cosmos-sdk v0.45.6-ls.1
-go: downloading google.golang.org/grpc v1.46.2
-go: downloading golang.org/x/exp v0.0.0-20220914170420-dc92f8653013
-go: downloading github.com/osmosis-labs/osmosis/v9 v9.0.0
-go: downloading github.com/notional-labs/tm-db v0.6.7-0.20220413113722-16f0d618a72b
-go: downloading golang.org/x/term v0.0.0-20220411215600-e5f449aeb171
-
-
-========================================
-Evmos 2022-10-31 12:27:56
-go: downloading github.com/evmos/ethermint v0.6.1-0.20220919141022-34226aa7b1fa
-go: downloading github.com/cosmos/ibc-go/v5 v5.0.1
-go: downloading github.com/onsi/gomega v1.23.0
-go: downloading google.golang.org/genproto v0.0.0-20221025140454-527a21cfbd71
-go: downloading github.com/onsi/ginkgo/v2 v2.4.0
-go: downloading golang.org/x/xerrors v0.0.0-20220907171357-04be3eba64a2
-
-
-========================================
-Uume 2022-10-31 12:28:12
-go: downloading github.com/umee-network/cosmos-sdk v0.46.3-umee
-go: downloading github.com/umee-network/Gravity-Bridge/module v1.5.3-umee-2.0.20221006173606-324093db11fb
-go: downloading github.com/umee-network/bech32-ibc v0.3.0
-go: downloading github.com/ethereum/go-ethereum v1.10.25
-
-
-========================================
-Sifchain 2022-10-31 12:28:41
-go: downloading github.com/Sifchain/ibc-go/v2 v2.0.3-issue.850
-go: downloading github.com/ethereum/go-ethereum v1.10.13
-go: downloading github.com/vishalkuo/bimap v0.0.0-20180703190407-09cff2814645
-go: downloading github.com/joho/godotenv v1.3.0
-go: downloading github.com/sethvargo/go-password v0.2.0
-go: downloading github.com/yelinaung/go-haikunator v0.0.0-20150320004105-1249cae259af
-go: downloading github.com/MakeNowJust/heredoc v1.0.0
-go: downloading github.com/miguelmota/go-solidity-sha3 v0.1.1
-go: downloading github.com/deckarep/golang-set v1.7.1
-
-
 ========================================
 LikeCoin 2022-10-31 12:28:46
-go: downloading github.com/cosmos/ibc-go/v2 v2.4.2
+
 # github.com/likecoin/likecoin-chain/v3/x/likenft/testutil
 x/likenft/testutil/keeper_for_blind_box.go:17:19: undefined: NewMockAccountKeeper
 x/likenft/testutil/keeper_for_blind_box.go:18:16: undefined: NewMockBankKeeper
 x/likenft/testutil/keeper_for_blind_box.go:19:16: undefined: NewMockIscnKeeper
 x/likenft/testutil/keeper_for_blind_box.go:20:15: undefined: NewMockNftKeeper
-
-
-========================================
-Stride 2022-10-31 12:29:03
-go: downloading github.com/Stride-Labs/cosmos-sdk v0.45.9-dragonberry
-
-
-========================================
-Provenance 2022-10-31 12:29:43
-go: downloading github.com/provenance-io/cosmos-sdk v0.46.3-pio-1
-go: downloading github.com/provenance-io/ibc-go/v5 v5.0.0-pio-2
-go: downloading github.com/provenance-io/wasmd v0.29.0-pio-1
-
-
-========================================
-Osmosis 2022-10-31 12:33:04
-go: downloading github.com/mattn/go-sqlite3 v1.14.16
-
-
