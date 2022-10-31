@@ -36,6 +36,8 @@ from pick import pick
 from webbrowser import open as open_url
 
 from CHAINS import VALIDATING_CHAINS
+from Utils import cfiglet, cinput, cprint
+from Linting import Linting
 
 # === SETTINGS ===
 SYNC_FORKS = False
@@ -51,6 +53,7 @@ GO_MOD_REPLACES = { # ensure the right hand side is the latest non state berakin
 }
 
 # === FILE PATHS ===
+GIT_PATHS = ["parent", "fork"]
 current_dir = os.path.dirname(os.path.realpath(__file__))
 yml_files = os.path.join(current_dir, ".yml_files")
 test_output = os.path.join(current_dir, ".test_output")
@@ -58,12 +61,194 @@ WORKFLOWS = os.path.join(yml_files, "workflows")
 ISSUE_TEMPLATE = os.path.join(yml_files, "TEMPLATES")
 for paths in [test_output, yml_files, WORKFLOWS, ISSUE_TEMPLATE]:    
     os.makedirs(paths, exist_ok=True)
-
 os.chdir(current_dir)
 
-GIT_PATHS = ["parent", "fork"]
+# === Main Function ===
+def main():    
+    Chains().panel()
 
 # === CLASSES ===
+class Chains():
+    def __init__(self) -> None:
+        self.selected_chains = self.get_downloaded_chains()
+        if len(self.selected_chains) == 0:
+            self.download_chains()
+
+    def _select_chains(self, title, min_selection_count=0) -> list[str]:
+        chains = [c[0] for c in pick(self.get_downloaded_chains(), title, multiselect=True, min_selection_count=min_selection_count, indicator="=> ")]
+        if len(chains) == 0: chains = self.get_downloaded_chains()
+        return chains
+
+    def panel(self):
+        options = {            
+            "d": ["Download Chains", self.download_chains],
+            "chains": ["Get Downloaded", self.get_downloaded_chains, True],
+
+            "t": ["Test chains", self.test],
+            "b": ["Build chains", self.build],
+            # "lint": ["Test chains", self.linting],
+
+            "sdkv": ["Show SDK Versions", self.show_version, "SDK Versions", "sdk"],
+            "ibcv": ["Show IBC Versions", self.show_version, "IBC Versions", "ibc"],
+
+            "code": ["VSCode edit a chain", self.vscode_edit],            
+            "gomod": ["Update GoMod for a chain", self.edit_single_gomod],    
+            "mass-gomod": ["Update gomod for many chains", self.edit_mass_gomod], 
+
+            "flows": ["Workflows", self.workflows],   
+            "dbot": ["Adds dependabot if not already", self.dependabot],   
+
+
+            "web": ["Open chains github pages", self.website],   
+
+            "e": ["Exit", exit],
+        }
+        while True:            
+            cfiglet("&a", "Chain Chores", True)
+            for k, v in options.items():
+                print(f"[{k:^10}] {v[0]}")            
+            res = cinput("\n&fSelect an option: ").lower()
+            if res in options:
+                func = options[res][1]
+                if len(options[res]) >= 3:
+                    func(*options[res][2:])
+                else:
+                    func()
+            else:
+                cprint("&aInvalid option")    
+
+    def test(self):
+        chains = self._select_chains("Select chains you want to test. (space to select, none for all)")
+        to_run = []        
+        for chain in chains:                   
+            to_run.append(Testing(chain))
+
+        with mp.Pool(mp.cpu_count()) as p:
+            p.map(Testing.run_tests, to_run)   
+
+    def build(self):
+        chains = self._select_chains("Select chains you want to build. (space to select, none for all)")
+        to_run = []        
+        for chain in chains:            
+            to_run.append(Testing(chain))            
+        with mp.Pool(mp.cpu_count()) as p:
+            p.map(Testing.build_binary, to_run)
+
+
+    def website(self):        
+        chains = self._select_chains("Select a chain(s) to open the website for (space to select)")
+        location = pick(GIT_PATHS, "Open the 'parent' repo or 'fork' version? (select 1)")[0]
+        cprint(f"Opening Website for: {','.join(chains)}...")
+        for chain in chains:
+            info = VALIDATING_CHAINS.get(chain, None)
+            if info == None: continue
+            url_path = info[location].replace(".git", "").split(":")[1]            
+            open_url(f"https://github.com/{url_path}")                
+
+    def workflows(self):
+        # select a chain, and add workflows to it
+        chain = pick(self.selected_chains, "Select a chain to add workflows to")[0]
+        # os.chdir(os.path.join(current_dir, chain))
+        cprint(f"&aAdding workflows to {chain}")
+        Workflow(chain).add_workflows()
+
+    def dependabot(self): # combine with workflows?
+        chain = pick(self.selected_chains, "Select a chain to add dependabot to")[0]
+        cprint(f"&aAdding dependabot to {chain} if it is not already there")
+        Workflow(chain).add_dependabot()
+
+    def vscode_edit(self):
+        chains = self._select_chains("Select chains to edit in VSCode", min_selection_count=1)
+        for c in chains:
+            os.system(f"code {os.path.join(current_dir, c)}")        
+
+    def download_chains(self, title="Select chains to do download (space to select) [leave empty for all]"):
+        chain_options = sorted([chain for chain, _ in get_chains() if chain not in self.get_downloaded_chains()], key=str.lower, reverse=False)
+        if len(chain_options) == 0:
+            cinput("&eAll chains are downloaded already...\n&fEnter to continue")
+            return
+
+        pick_chains = [chain[0] for chain in pick(chain_options, title, multiselect=True, min_selection_count=0, indicator="=> ")]
+
+        if len(pick_chains) == 0:
+            res = input("No chains selected, [d]ownload all or [c] continue? (d/c): ").lower()
+            if res == "d":
+                self.selected_chains = chain_options
+                Git().download_chains_locally(self.selected_chains)
+        else:       
+            Git().download_chains_locally(pick_chains)
+
+        self.selected_chains = self.get_downloaded_chains()
+    
+    def get_downloaded_chains(self, show=False):        
+        valid_chains = [chain[0] for chain in get_chains()]
+        v = [folder for folder in os.listdir(current_dir) if os.path.isdir(folder) and folder in valid_chains]        
+        v.sort(key=str.lower)
+
+        if show: 
+            cinput(f"\n&a{'='*20} Downloaded Chains {'='*20}\n&f{', '.join(v)}\n\n(( Enter to continue... ))")
+        return v
+   
+    def show_version(self, title, value):        
+        print(f"{'='*20} {title} {'='*20}")
+        versions = {}
+        for chain in self.selected_chains:            
+            info = get_chain_info(chain)            
+            if info[value] not in versions:
+                versions[info[value]] = [chain]
+            else:
+                versions[info[value]].append(chain)
+
+        pp(versions, indent=4)
+        cinput("\n&ePress enter to continue...")
+
+    # TODO:
+    def edit_single_gomod(self, chain=None, simulate=False, pause=False):
+        # select chains we have downloaded
+        if chain == None:
+            chain = pick(self.get_downloaded_chains(), "Select chain to edit go.mod", multiselect=False, min_selection_count=1)[0]
+
+        info = get_chain_info(chain)        
+        replaces = [r[0] for r in pick(list(GO_MOD_REPLACES.keys()), f"{chain} select replace values (Spaces to select)\n\tCurrent: {info}", multiselect=True, min_selection_count=1, indicator="=> ")]
+        
+        # combine all replaces into a single list        
+        replace_values = []
+        for r in replaces:
+            replace_values.extend(GO_MOD_REPLACES[r])
+        cinput(replace_values)
+
+        GoMod(chain).go_mod_update(replace_values, simulate=simulate, pause=pause)
+
+    def edit_mass_gomod(self):
+        chains = self.get_downloaded_chains()
+
+        sort_by = pick(['sdk', 'ibc', "wasm"], "Sort by version:")[0]
+
+        options = {}
+        for c in chains:
+            info = get_chain_info(c)
+            sdkv, ibc, wasm = info['sdk'], info['ibc'], info['wasm']
+
+            new_c = f"{c} ({sdkv}, {ibc}"
+            if len(wasm) > 0:
+                new_c += f", {wasm}"
+            new_c += ")"
+
+            if sort_by not in options:
+                options[info[sort_by]] = [new_c]
+            else:
+                options[info[sort_by]].append(new_c)
+
+        # ssorts keys based off of the version of the value we want (ex: largest sdk version to smallest)
+        options = [options[k] for k in sorted(options.keys(), key=lambda x: [int(i) for i in x.replace("v", "").split(".") if len(x) > 0], reverse=True)]
+        options = [item for sublist in options for item in sublist]                
+
+        selected_chains = [chain[0].split(" ")[0] for chain in pick(options, "Select chains to edit go.mod (sdk, ibc, wasm)", multiselect=True, min_selection_count=1, indicator="=> ")]
+        print(f"selected_chains={selected_chains}")
+
+        for chain in selected_chains:
+            self.edit_single_gomod(chain=chain, simulate=SIMULATION, pause=True)  
+
 class GoMod():
     def __init__(self, chain):
         self.chain = chain        
@@ -107,246 +292,6 @@ class GoMod():
         if pause:
             input("\nPaused, Press enter to continue...")
         os.chdir(current_dir)
-
-class Utils():
-    # https://github.com/Reecepbcups/minecraft-panel/blob/main/src/utils/cosmetics.py    
-    @staticmethod
-    def getColorDict() -> dict:
-        return { 
-        '&1': '\u001b[38;5;4m', '&2': '\u001b[38;5;2m', '&3': '\u001b[38;5;6m', '&4': '\u001b[38;5;1m', '&5': '\u001b[38;5;5m', 
-        '&6': '\u001b[38;5;3m', '&7': '\u001b[38;5;7m', '&8': '\u001b[38;5;8m', '&0': '\u001b[38;5;0m', '&a': '\u001b[38;5;10m', 
-        '&b': '\u001b[38;5;14m', '&c': '\u001b[38;5;9m', '&d': '\u001b[38;5;13m', '&e': '\u001b[38;5;11m', '&f': '\u001b[38;5;15m', 
-        '&r': '\u001b[0m',
-    }
-
-    @staticmethod
-    def splitColors(myStr) -> list:
-        # "&at&bt&ct" -> ['', '&a', 't', '&b', 't', '&c', 't']
-        # _str = "&at&bt&ct"; splitColors(_str)
-        return re.split("(&[a-zA-Z0-9])", myStr)
-
-    @staticmethod
-    def cfiglet(clr, text, clearScreen=False): # prints fancy text
-        if clearScreen:
-            os.system('clear')
-        # standard, small, computer, bulbhead, cybersmall, cybermedium, digital,  doom, madrid, maxfour, mini, rounded
-        print(Utils.color(clr+pyfiglet.figlet_format(text, font="small")))
-
-    @staticmethod
-    def color(text):
-        '''
-        Translates the color codes in text to the color codes in colors
-        '''
-        colors = Utils.getColorDict()
-        text = text.replace("§", "&")
-        formatted = ""
-        i = 0
-        while i in range(0, len(text)):
-            
-            if text[i:i+2] in colors:
-                formatted += colors[text[i:i+2]]
-                i += 1
-            else:
-                formatted += text[i]
-            i += 1
-        return formatted + colors['&r']
-
-    def cprint(text):  
-        print(Utils.color(str(text)))  
-
-    def cinput(text=""):
-        msg = Utils.color(str(text))
-        try:
-            user_input = input(msg)
-            if user_input == "\x18": # ctrl + c
-                exit(0)
-            return user_input
-        except KeyboardInterrupt:
-            Utils.cprint("\n&cKeyboard Interrupt, Exiting...\n")
-            exit(0)
-        except ValueError:
-            Utils.cprint("\n&cExit on input, Exiting...\n")
-            exit(0)
-
-class Chains():
-    def __init__(self) -> None:
-        self.selected_chains = self.get_downloaded_chains()
-        if len(self.selected_chains) == 0:
-            self.download_chains()
-
-    def _select_chains(self, title, min_selection_count=0) -> list[str]:
-        chains = [c[0] for c in pick(self.get_downloaded_chains(), title, multiselect=True, min_selection_count=min_selection_count, indicator="=> ")]
-        if len(chains) == 0: chains = self.get_downloaded_chains()
-        return chains
-
-    def panel(self):
-        options = {            
-            "d": ["Download Chains", self.download_chains],
-            "chains": ["Get Downloaded", self.get_downloaded_chains, True],
-
-            "t": ["Test chains", self.test],
-            "b": ["Build chains", self.build],
-
-            "sdkv": ["Show SDK Versions", self.show_version, "SDK Versions", "sdk"],
-            "ibcv": ["Show IBC Versions", self.show_version, "IBC Versions", "ibc"],
-
-            "code": ["VSCode edit a chain", self.vscode_edit],            
-            "gomod": ["Update GoMod for a chain", self.edit_single_gomod],    
-            "mass-gomod": ["Update gomod for many chains", self.edit_mass_gomod], 
-
-            "flows": ["Workflows", self.workflows],   
-            "dbot": ["Adds dependabot if not already", self.dependabot],   
-
-
-            "web": ["Open chains github pages", self.website],   
-
-            "e": ["Exit", exit],
-        }
-        while True:            
-            Utils.cfiglet("&a", "Chain Chores", True)
-            for k, v in options.items():
-                print(f"[{k:^10}] {v[0]}")            
-            res = input("\nSelect an option: ").lower()
-            if res in options:
-                func = options[res][1]
-                if len(options[res]) >= 3:
-                    func(*options[res][2:])
-                else:
-                    func()
-            else:
-                print("Invalid option")    
-
-    def test(self):
-        chains = self._select_chains("Select chains you want to test. (space to select, none for all)")
-        to_run = []        
-        for chain in chains:                   
-            to_run.append(Testing(chain))
-
-        with mp.Pool(mp.cpu_count()) as p:
-            p.map(Testing.run_tests, to_run)   
-
-    def build(self):
-        chains = self._select_chains("Select chains you want to build. (space to select, none for all)")
-        to_run = []        
-        for chain in chains:            
-            to_run.append(Testing(chain))            
-        with mp.Pool(mp.cpu_count()) as p:
-            p.map(Testing.build_binary, to_run)
-
-
-    def website(self):        
-        chains = self._select_chains("Select a chain(s) to open the website for (space to select)")
-        location = pick(GIT_PATHS, "Open the 'parent' repo or 'fork' version? (select 1)")[0]
-        print(f"Opening Website for: {','.join(chains)}...")
-        for chain in chains:
-            info = VALIDATING_CHAINS.get(chain, None)
-            if info == None: continue
-            url_path = info[location].replace(".git", "").split(":")[1]            
-            open_url(f"https://github.com/{url_path}")                
-
-    def workflows(self):
-        # select a chain, and add workflows to it
-        chain = pick(self.selected_chains, "Select a chain to add workflows to")[0]
-        # os.chdir(os.path.join(current_dir, chain))
-        print(f"Adding workflows to {chain}")
-        Workflow(chain).add_workflows()
-
-    def dependabot(self): # combine with workflows?
-        chain = pick(self.selected_chains, "Select a chain to add dependabot to")[0]
-        print(f"Adding dependabot to {chain} if it is not already there")
-        Workflow(chain).add_dependabot()
-
-    def vscode_edit(self):
-        chains = self._select_chains("Select chains to edit in VSCode", min_selection_count=1)
-        for c in chains:
-            os.system(f"code {os.path.join(current_dir, c)}")        
-
-    def download_chains(self, title="Select chains to do download (space to select) [leave empty for all]"):
-        chain_options = sorted([chain for chain, _ in get_chains() if chain not in self.get_downloaded_chains()], key=str.lower, reverse=False)
-        if len(chain_options) == 0:
-            input("All chains are downloaded already...\nEnter to continue")
-            return
-
-        pick_chains = [chain[0] for chain in pick(chain_options, title, multiselect=True, min_selection_count=0, indicator="=> ")]
-
-        if len(pick_chains) == 0:
-            res = input("No chains selected, [d]ownload all or [c] continue? (d/c): ").lower()
-            if res == "d":
-                self.selected_chains = chain_options
-                Git().download_chains_locally(self.selected_chains)
-        else:       
-            Git().download_chains_locally(pick_chains)
-
-        self.selected_chains = self.get_downloaded_chains()
-    
-    def get_downloaded_chains(self, show=False):        
-        valid_chains = [chain[0] for chain in get_chains()]
-        v = [folder for folder in os.listdir(current_dir) if os.path.isdir(folder) and folder in valid_chains]        
-        v.sort(key=str.lower)
-
-        if show: 
-            input(f"\n{'='*20} Downloaded Chains {'='*20}\n{', '.join(v)}\n\n(( Enter to continue... ))")
-        return v
-   
-    def show_version(self, title, value):        
-        print(f"{'='*20} {title} {'='*20}")
-        versions = {}
-        for chain in self.selected_chains:            
-            info = get_chain_info(chain)            
-            if info[value] not in versions:
-                versions[info[value]] = [chain]
-            else:
-                versions[info[value]].append(chain)
-
-        pp(versions, indent=4)
-        input("\nPress enter to continue...")
-
-    # TODO:
-    def edit_single_gomod(self, chain=None, simulate=False, pause=False):
-        # select chains we have downloaded
-        if chain == None:
-            chain = pick(self.get_downloaded_chains(), "Select chain to edit go.mod", multiselect=False, min_selection_count=1)[0]
-
-        info = get_chain_info(chain)        
-        replaces = [r[0] for r in pick(list(GO_MOD_REPLACES.keys()), f"{chain} select replace values (Spaces to select)\n\tCurrent: {info}", multiselect=True, min_selection_count=1, indicator="=> ")]
-        
-        # combine all replaces into a single list        
-        replace_values = []
-        for r in replaces:
-            replace_values.extend(GO_MOD_REPLACES[r])
-        input(replace_values)
-
-        GoMod(chain).go_mod_update(replace_values, simulate=simulate, pause=pause)
-
-    def edit_mass_gomod(self):
-        chains = self.get_downloaded_chains()
-
-        sort_by = pick(['sdk', 'ibc', "wasm"], "Sort by version:")[0]
-
-        options = {}
-        for c in chains:
-            info = get_chain_info(c)
-            sdkv, ibc, wasm = info['sdk'], info['ibc'], info['wasm']
-
-            new_c = f"{c} ({sdkv}, {ibc}"
-            if len(wasm) > 0:
-                new_c += f", {wasm}"
-            new_c += ")"
-
-            if sort_by not in options:
-                options[info[sort_by]] = [new_c]
-            else:
-                options[info[sort_by]].append(new_c)
-
-        # ssorts keys based off of the version of the value we want (ex: largest sdk version to smallest)
-        options = [options[k] for k in sorted(options.keys(), key=lambda x: [int(i) for i in x.replace("v", "").split(".") if len(x) > 0], reverse=True)]
-        options = [item for sublist in options for item in sublist]                
-
-        selected_chains = [chain[0].split(" ")[0] for chain in pick(options, "Select chains to edit go.mod (sdk, ibc, wasm)", multiselect=True, min_selection_count=1, indicator="=> ")]
-        print(f"selected_chains={selected_chains}")
-
-        for chain in selected_chains:
-            self.edit_single_gomod(chain=chain, simulate=SIMULATION, pause=True)  
 
 class Git():
     def __init__(self) -> None:
@@ -395,17 +340,7 @@ class Git():
         # pull after we sync to the new files in the notional repo which we will build off of
         os.system("git pull origin")  
         # os.system("git pull upstream")
-        os.chdir(current_dir)
-
-def main():    
-    chains = Chains()
-    chains.panel()
-
-    # workflows
-    # for chain in chains.selected_chains:        
-    #     Workflow(chain).add_workflows()
-    # for chain, _ in get_chains():               
-        # # lint(chain)        
+        os.chdir(current_dir)   
 
 # === Logic === (move these into Chains class)
 def get_chains():
@@ -474,18 +409,18 @@ class Testing():
         '''
         os.chdir(os.path.join(current_dir, self.chain))        
         if not os.path.isfile("Makefile"):
-            print(f"[!] No Makefile, {self.chain} (go install ./...)")
+            cprint(f"&6[!] No Makefile, {self.chain} (go install ./...)")
             os.system("go install ./...")
             return
         
         with open("Makefile", "r") as f:
             data = f.read()
             if "install:" not in data:
-                print(f"[!] No 'install' in makefile, {self.chain} (go install ./...)")
+                cprint(f"&6[!] No 'install' in makefile, {self.chain} (go install ./...)")
                 os.system("go install ./...")
                 return
         
-        print(f"[+] Building {self.chain} from Makefile install")
+        cprint(f"&a[+] Building {self.chain} from Makefile install")
         os.system("make install")
         os.chdir(os.path.join(current_dir))
 
@@ -494,7 +429,7 @@ class Testing():
         go test ./... and saves output to a single file appending more on each run
         '''
         os.chdir(os.path.join(current_dir, self.chain))
-        print(f"[+] Running tests for {self.chain}")
+        cprint(f"&e[+] Running tests for {self.chain}")
         
         # run go test ./... and save output to a file including stderr and stdout
         p = Popen(["go", "test", "./..."], stdout=PIPE, stderr=PIPE)
@@ -527,42 +462,12 @@ class Testing():
                 f.write(f"="*40)               
                 f.write(f"\n{self.chain} {current_time}\n{err}\n\n")
         
-        print(f"[+] Test finished for {self.chain}")
+        cprint(f"&a[+] Test finished for {self.chain}")
         os.chdir(os.path.join(current_dir))
             
         
 
-# === Linting ===
-class Linting():
-    # TODO: save output from these commands to their own folder / files for review
-    # Try and make it so we can click on the Txt file to open the folder based on absolute path?
-    def __init__(self, folder_name) -> None:
-        self.folder_name = folder_name        
 
-    def lint_all(self):
-        print(f"Linting {self.folder_name}...")            
-        self.auto_fix()
-        self.gofmt()
-        self.govet()
-        self.tidy()
-
-    def auto_fix(self):
-        self._cmd("golangci-lint run --fix")
-
-    def gofmt(self):
-        self._cmd("gofmt -s -w .")
-    
-    def govet(self):
-        self._cmd("go vet ./...")
-
-    def tidy(self):
-        self._cmd("go mod tidy")
-
-    def _cmd(self, cmd):
-        os.chdir(os.path.join(current_dir, self.folder_name))
-        os.system(cmd)
-        os.chdir(current_dir)
-    
 
 # === Workflows ===
 class Workflow():
