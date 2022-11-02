@@ -25,6 +25,7 @@ class Linting():
         self.gofmt()
         self.govet()
         self.tidy()
+        print(f"Lint for {self.folder_name} complete!")
 
     def auto_fix(self):
         self._cmd("golangci-lint run --fix")

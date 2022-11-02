@@ -87,7 +87,7 @@ class Chains():
 
             "t": ["Test chains", self.test],
             "b": ["Build chains", self.build],
-            # "lint": ["Test chains", self.linting],
+            "lint": ["Test chains", self.linting],
 
             "sdkv": ["Show SDK Versions", self.show_version, "SDK Versions", "sdk"],
             "ibcv": ["Show IBC Versions", self.show_version, "IBC Versions", "ibc"],
@@ -117,6 +117,11 @@ class Chains():
                     func()
             else:
                 cprint("&aInvalid option")    
+
+    def linting(self):
+        chains = self._select_chains("Select chains to lint")
+        for chain in chains:
+            Linting(chain).lint_all()
 
     def pull_latest_down(self):
         '''
