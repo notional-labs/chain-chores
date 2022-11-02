@@ -38,6 +38,7 @@ from webbrowser import open as open_url
 from CHAINS import VALIDATING_CHAINS
 from Utils import cfiglet, cinput, cprint
 from Linting import Linting
+from Conversion import convert_commands_to_google_format
 
 # === SETTINGS ===
 SYNC_FORKS = False
@@ -88,6 +89,7 @@ class Chains():
             "t": ["Test chains", self.test],
             "b": ["Build chains", self.build],
             "lint": ["Test chains", self.linting],
+            "google": ["Convert to Google CLI", self.google_cli_convert],
 
             "sdkv": ["Show SDK Versions", self.show_version, "SDK Versions", "sdk"],
             "ibcv": ["Show IBC Versions", self.show_version, "IBC Versions", "ibc"],
@@ -117,6 +119,12 @@ class Chains():
                     func()
             else:
                 cprint("&aInvalid option")    
+
+    def google_cli_convert(self):
+        chains = self._select_chains("Select chains you want to convert CLI for. (space to select, none for all)")
+        for chain in chains:
+            convert_commands_to_google_format(chain)            
+            print(f"&aConverted {chain}")
 
     def linting(self):
         chains = self._select_chains("Select chains to lint")
