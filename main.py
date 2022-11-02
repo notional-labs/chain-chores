@@ -20,11 +20,11 @@ VERSION BUMPING:
 
 TODO: 
 - when we update code, we need to create a new git branch for us to PR off of (do not build off of main) [probably fine with the vscode option]
+- Multiple panels ex: repo management (download, pull/fetch, and sync branches)
 '''
 
 import multiprocessing as mp
 import datetime
-import pyfiglet
 import shutil
 import os
 import re
@@ -82,6 +82,7 @@ class Chains():
     def panel(self):
         options = {            
             "d": ["Download Chains", self.download_chains],
+            "p": ["Pull Latest Down", self.pull_latest_down],
             "chains": ["Get Downloaded", self.get_downloaded_chains, True],
 
             "t": ["Test chains", self.test],
@@ -116,6 +117,13 @@ class Chains():
                     func()
             else:
                 cprint("&aInvalid option")    
+
+    def pull_latest_down(self):
+        '''
+        Pulls syncs, and fetches the latest changes for already downloaded chains                        
+        '''
+        chains = self._select_chains("Select chains you want to pull. (space to select, none for all)")        
+        Git().download_chains_locally(chains)
 
     def test(self):
         chains = self._select_chains("Select chains you want to test. (space to select, none for all)")
@@ -310,7 +318,7 @@ class Git():
         with mp.Pool(mp.cpu_count()) as pool:
             pool.starmap(self.pull_latest, to_run)
 
-    def sync_forks(self, repo_link:str = "", enabled:bool =SYNC_FORKS):
+    def sync_forks(self, repo_link:str = "", enabled:bool = SYNC_FORKS):
         '''
         NOTE: You must already be in the repo dir to run this.
         '''
@@ -325,7 +333,7 @@ class Git():
         # git clone if it is not there already, if it is, cd into dir and git pull    
         os.chdir(current_dir)
 
-        parent_link = VALIDATING_CHAINS[folder_name]["parent"]    
+        # parent_link = VALIDATING_CHAINS[folder_name]["parent"]    
         repo_link = VALIDATING_CHAINS[folder_name]["fork"]    
         
         if not os.path.isdir(os.path.join(current_dir, folder_name)):        
