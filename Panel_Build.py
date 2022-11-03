@@ -28,6 +28,14 @@ class BuildPanel():
     def test(self):
         chains = select_chains("Select chains you want to test. (space to select, none for all)")
         to_run = []        
+        
+        # clear old test since we are running new ones
+        from main import test_output # TODO: bad.
+        with open(os.path.join(test_output, "testing.txt"), "w") as f:
+            f.write("")
+        with open(os.path.join(test_output, "errors.txt"), "w") as f:
+            f.write("")
+
         for chain in chains:                   
             to_run.append(Testing(chain))
 
