@@ -68,11 +68,11 @@ VALIDATING_CHAINS = {
         "parent": "git@github.com:likecoin/likecoin-chain.git",
         "fork": "git@github.com:notional-labs/likecoin-chain.git"
     },
-    # "Cyber": {
-    #     "branch": "main",
-    #     "parent": "git@github.com:cybercongress/go-cyber.git",
-    #     "fork": "git@github.com:notional-labs/go-cyber.git"
-    # },
+    "Cyber": {
+        "branch": "main",
+        "parent": "git@github.com:cybercongress/go-cyber.git",
+        "fork": "git@github.com:notional-labs/go-cyber.git"
+    },
     "Cheqd": {
         "branch": "main",
         "parent": "git@github.com:cheqd/cheqd-node.git",
