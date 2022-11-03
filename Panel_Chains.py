@@ -55,7 +55,8 @@ class Git():
 
     def download_chains_locally(self, select_chains: list = []):
         to_run = []
-        sync_forks = input("Sync forks as well when you download? (y/n): ").lower() == "y"
+        cprint(f"&fDownloading {len(select_chains)} chains...")
+        sync_forks = cinput("&eSync forks as well when you download? (y/n): ").lower() == "y"
         for chain, loc in get_chains():
             if len(select_chains) > 0 and chain not in select_chains:
                 continue

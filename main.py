@@ -61,6 +61,7 @@ GO_MOD_REPLACES = {
     "iavl": [
         ["github.com/cosmos/iavl v0.19.*", "github.com/cosmos/iavl v0.19.4 // indirect"],        
     ],
+    # todo: way to add a replacement? ex: like was needed for dragonberry ics
 }
 
 MAJOR_REPOS = {
@@ -93,7 +94,9 @@ class Chains():
     def __init__(self) -> None:        
         if len(get_downloaded_chains()) == 0:
             chains = sorted([c[0] for c in get_chains()])
-            select_download = [c[0] for c in pick(chains, "Select chains to download", min_selection_count=1, multiselect=True, indicator="=>")]
+            select_download = [c[0] for c in pick(chains, "Select chains to download (none to download all)", min_selection_count=0, multiselect=True, indicator="=>")]
+            if len(select_download) == 0:
+                select_download = chains
             Git().download_chains_locally(select_download)
 
     def panel(self):
@@ -118,4 +121,7 @@ class Chains():
             os.system(f"code {os.path.join(current_dir, c)}")
 
 if __name__ == "__main__":
-    main()
+    try:
+        main()
+    except KeyboardInterrupt:
+        cprint("&cKeyboard Exit (^C)...")
