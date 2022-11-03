@@ -12,15 +12,15 @@ def _main():
 class GoModPanel():
     def panel(self, main_panel_func):
         options = {            
-            "g": ["Update GoMod for a chain", self.edit_single_gomod],    
-            "m": ["Update GoMod for many chains\n", self.edit_mass_gomod], 
+            "1": ["Update GoMod for a chain", self.edit_single_gomod],    
+            "2": ["Update GoMod for many chains\n", self.edit_mass_gomod], 
 
-            "main": ["Main Panel", main_panel_func],
+            "m": ["Main Panel", main_panel_func],
             "e": ["Exit", exit],
         }
         aliases = {}
         while True:
-            selector("&e", "Git", options=options, aliases=aliases)
+            selector("&e", "Go Mod", options=options, aliases=aliases)
 
     # TODO:
     def edit_single_gomod(self, chain=None, simulate=False, pause=False):
@@ -37,7 +37,6 @@ class GoModPanel():
         replace_values = []
         for r in replaces:
             replace_values.extend(GO_MOD_REPLACES[r])
-        cinput(replace_values)
 
         GoMod(chain).go_mod_update(replace_values, simulate=simulate, pause=pause)
 
@@ -89,6 +88,7 @@ class GoMod():
         with open("go.mod", "r") as f:
             data = f.read()
             
+        successful_replacements = []
         for replacements in replace_values:
             old = replacements[0]
             new = replacements[1]        
@@ -104,10 +104,18 @@ class GoMod():
                     # get the matches in string form from matches                         
                     print(f"{self.chain:<10} Would replace '{matches.group(0)}'\t-> {new}")    
                 else:                
-                    print(f"Replacing {old} with {new}")                
+                    # print(f"Replacing {matches.group(0)} => {new}")      
                     data = re.sub(old, new, data)
+                    successful_replacements.append([matches.group(0), new])
 
         if simulate == False:
+            # prettyprint successful_replacements
+            if len(successful_replacements) > 0:
+                cprint(f"&aSuccessfully replaced &f{len(successful_replacements)} &avalues in &f{self.chain}")
+                for r in successful_replacements:
+                    cprint(f"\t&c{r[0]} &f-> &a{r[1]}")
+                cinput("&6Press enter to continue and write to gomod...")
+
             with open("go.mod", "w") as f:
                 print(f"Writing go.mod for {self.chain}")
                 f.write(data)

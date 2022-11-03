@@ -14,10 +14,6 @@ Goal:
 - Add options for many different chains
 - Get latest values in go.mod, toggle for state breaking or just minor version patches <- useful for security patches. Bump them
 
-VERSION BUMPING:
-- Get current version from go.mod (ex: ibc-go v3.3.0)
-- Bump to v3.3.1
-
 TODO: 
 - when we update code, we need to create a new git branch for us to PR off of (do not build off of main) [probably fine with the vscode option]
 - Multiple panels ex: repo management (download, pull/fetch, and sync branches)
@@ -63,12 +59,22 @@ GO_MOD_REPLACES = {
         ["github.com/cosmos/cosmos-sdk v0.46.*", "github.com/cosmos/cosmos-sdk v0.46.4"],
         ["github.com/cosmos/cosmos-sdk v0.45.*", "github.com/cosmos/cosmos-sdk v0.45.10"],
     ],    
+    "wasmd": [
+        ["github.com/CosmWasm/wasmd v0.29.*", "github.com/CosmWasm/wasmd v0.29.1"],        
+    ],    
+    "wasmvm": [
+        ["github.com/CosmWasm/wasmvm v1.*.*", "github.com/CosmWasm/wasmvm v1.1.1 // indirect"],        
+    ],
+    "iavl": [
+        ["github.com/cosmos/iavl v0.19.*", "github.com/cosmos/iavl v0.19.4 // indirect"],        
+    ],
 }
 
 MAJOR_REPOS = {
     "cosmos-sdk": "cosmos/cosmos-sdk",
     "ibc-go": "cosmos/ibc-go",
     "wasm": "CosmWasm/wasmd",
+    "wasmvm": "CosmWasm/wasmvm",
     "tm": "tendermint/tendermint",
     "iavl": "cosmos/iavl",
 }
@@ -91,9 +97,11 @@ def main():
 
 # === Panels ===
 class Chains():
-    def __init__(self) -> None:
-        if get_downloaded_chains() == 0:
-            Git().download_chains_locally()
+    def __init__(self) -> None:        
+        if len(get_downloaded_chains()) == 0:
+            chains = sorted([c[0] for c in get_chains()])
+            select_download = [c[0] for c in pick(chains, "Select chains to download", min_selection_count=1, multiselect=True, indicator="=>")]
+            Git().download_chains_locally(select_download)
 
     def panel(self):
         options = {            

@@ -23,7 +23,7 @@ class GithubPanel():
         }
         aliases = {}
         while True:
-            selector("&f", "Versions", options=options, aliases=aliases)
+            selector("&f", "Github", options=options, aliases=aliases)
 
     def website(self):
         chains = select_chains("Select a chain(s) to open the website for (space to select)")
