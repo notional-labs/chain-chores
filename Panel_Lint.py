@@ -1,5 +1,39 @@
-import os
+from Utils import *
 
+from Conversion import convert_commands_to_google_format
+
+def _main():
+    from main import main
+    LintPanel().panel(main)
+
+class LintPanel():
+    def panel(self, main_panel_func):
+        options = {            
+            "l": ["Lint chains", self.linting],
+            "d": ["Convert to Google CLI", self.google_cli_convert],
+
+            "": [""], # BLANK SPACE
+            "m": ["Main Panel", main_panel_func],
+            "e": ["Exit", exit],
+        }
+        aliases = {}
+        while True:
+            selector("&6", "Lint Panel", options=options, aliases=aliases)
+
+    def google_cli_convert(self):
+        chains = select_chains("Select chains you want to convert CLI for. (space to select, none for all)")
+        for chain in chains:
+            convert_commands_to_google_format(chain)            
+            print(f"&aConverted {chain}")
+
+    def linting(self):
+        chains = select_chains("Select chains to lint")
+        for chain in chains: # mp?
+            Linting(chain).lint_all()
+
+
+
+# === Linting ===
 '''
 TODO: save output into its own lint dir? .linting/{CHAIN} ? if there is any things to do / fix
 
@@ -8,10 +42,6 @@ or a way to open all after lint & auto fix + fmt to do so
 
 Custom cosmos linter in the future? Help with proto and things like that
 '''
-
-current_dir = os.path.dirname(os.path.realpath(__file__))
-
-# === Linting ===
 class Linting():  
     def __init__(self, folder_name) -> None:
         self.folder_name = folder_name
@@ -44,3 +74,6 @@ class Linting():
         os.system(cmd)
         os.chdir(current_dir)
     
+
+if __name__ == "__main__":
+    _main()

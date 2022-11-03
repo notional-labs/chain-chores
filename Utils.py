@@ -2,7 +2,115 @@ import pyfiglet
 import re
 import os
 
+from pick import pick
 
+current_dir = os.path.dirname(os.path.realpath(__file__))
+
+# === Chain Utils ===
+def get_chains():
+    from CHAINS import VALIDATING_CHAINS
+    for chain, locations in VALIDATING_CHAINS.items():
+        yield chain, locations   
+
+def select_chains(title, min_selection_count=0) -> list[str]:
+    chains = [c[0] for c in pick(get_downloaded_chains(), title, multiselect=True, min_selection_count=min_selection_count, indicator="=> ")]
+    if len(chains) == 0: chains = get_downloaded_chains()
+    return chains
+
+def get_downloaded_chains(show=False):        
+    valid_chains = [chain[0] for chain in get_chains()]
+    v = [folder for folder in os.listdir(current_dir) if os.path.isdir(folder) and folder in valid_chains]        
+    v.sort(key=str.lower)
+
+    if show: cinput(f"\n&a{'='*20} Downloaded Chains {'='*20}\n&f{', '.join(v)}\n\n(( Enter to continue... ))")
+    return v
+
+
+
+# === Chain Info & Versions ===
+def get_chain_info(folder_name):
+    sdk_version, ibc_version, wasm_version, wasmvm = "", "", "", ""
+
+    with open(os.path.join(current_dir, folder_name, "go.mod"), "r") as f:
+        data = f.read()
+    
+    for line in data.split("\n"):
+        if re.search(r"(.*)\sv\d+\.\d+\.\d+", line):
+            version = line.split(" ")[1] # -1 or 2 = // indirect in some cases
+            if not re.search(r"\d", version):
+                # if version does not contain any numbers, then continue
+                continue
+
+            if "=>" in line: continue
+
+            if "github.com/CosmWasm/wasmd" in line:
+                wasm_version = line.split(" ")[1] or ""
+            elif "github.com/CosmWasm/wasmvm" in line:
+                wasmvm = line.split(" ")[1] or ""
+            elif "github.com/cosmos/ibc-go" in line:
+                ibc_version = line.split(" ")[1] or ""
+            elif "github.com/cosmos/cosmos-sdk" in line:
+                sdk_version = line.split(" ")[1] or ""
+            elif "github.com/tendermint/tendermint" in line:
+                tm_version = line.split(" ")[1] or ""
+            elif "github.com/cosmos/iavl" in line:
+                iavl = line.split(" ")[1] or ""
+    return {
+        "sdk": sdk_version,
+        "ibc": ibc_version,
+        "wasm": wasm_version,
+        "wasmvm": wasmvm,
+        "tm": tm_version,
+        "iavl": iavl,
+    }
+
+def get_chain_versions():
+    sdk_chain_version, ibc_version, wasm_ver, tm_ver, iavl_ver = {}, {}, {}, {}, {}
+
+    for chain, _ in get_chains():
+        info = get_chain_info(chain)
+        sdk_version = info["sdk"]
+        ibc = info["ibc"]
+        wasm = info["wasm"]
+        tm = info["tm"]
+        iavl = info["iavl"]
+        
+        sdk_chain_version.get(sdk_version, []).append(chain)        
+        ibc_version.get(ibc, []).append(chain)
+        wasm_ver.get(wasm, []).append(chain)
+        tm_ver.get(tm, []).append(chain)
+        iavl_ver.get(iavl, []).append(chain)
+    return {
+        "sdk": sdk_chain_version,
+        "ibc": ibc_version,
+        "wasm": wasm_ver,
+        "tm": tm_ver,
+        "iavl": iavl_ver,
+    }
+
+
+
+# === Panel selector ===
+def selector(color, title, options, aliases):
+    cfiglet(color, title, True)
+    for k, v in options.items():
+        if k == "": print("")
+        else: print(f"[{k:^3}] {v[0]}")            
+    res = cinput("\n&fSelect an option: ").lower()
+    if res in aliases: res = aliases[res]
+    if res in options and res != "":                
+        func = options[res][1]
+        if len(options[res]) >= 3:
+            func(*options[res][2:])
+        else:
+            func()
+    else:
+        cprint("&aInvalid option")
+
+
+
+
+# ====== Colors ======
 # https://github.com/Reecepbcups/minecraft-panel/blob/main/src/utils/cosmetics.py    
 def getColorDict() -> dict:
     return { 
