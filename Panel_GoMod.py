@@ -102,7 +102,7 @@ class GoModPanel():
 
         success_chains = []
         for chain in chains:
-            res = GoMod(chain).go_mod_update(replace_values, simulate=simulate, pause=pause, branch_name=bname, vscode_prompt=False, skip_write_validation=True)
+            res = GoMod(chain).go_mod_update(replace_values, simulate=simulate, pause=pause, branch_name=bname, vscode_prompt=False, skip_write_validation=True, commit_and_push=True)
             if res == True:
                 success_chains.append(chain)
 
@@ -129,7 +129,13 @@ class GoMod():
     def __init__(self, chain):
         self.chain = chain        
 
-    def go_mod_update(self, replace_values: list[list[str]] = [], simulate: bool = False, pause: bool = False, branch_name: str = "", vscode_prompt=False, skip_write_validation=False) -> bool:
+    def go_mod_update(
+        self, 
+        replace_values: list[list[str]] = [], simulate: bool = False, 
+        pause: bool = False, branch_name: str = "", vscode_prompt=False, 
+        skip_write_validation=False, commit_and_push=False
+    ) -> bool:
+
         from main import VALIDATING_CHAINS
         SUCCESS = False
 
@@ -194,9 +200,14 @@ class GoMod():
                     print('stderr', stderr)
                     break
             
-            if simulate == False and len(branch_name) > 0:            
+            if len(branch_name) > 0:            
                 cprint(f"Creating new branch {branch_name}")
-                Git().create_branch(self.chain, branch_name, cd_dir=False)   
+                Git().create_branch(self.chain, branch_name, cd_dir=False)
+                if commit_and_push:
+                    cprint(f"Committing changes for {branch_name}")
+                    # Git().commit(self.chain, cd_dir=False, vscode_prompt=vscode_prompt)
+                    Git().commit(self.chain, "chore(deps): Version Bumps [chain-chores automatic]")
+                    Git().push(self.chain, branch_name, repo_name="origin") # our fork
 
             if vscode_prompt:
                 open_in_vscode_prompt([self.chain])       

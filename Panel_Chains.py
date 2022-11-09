@@ -214,9 +214,19 @@ class Git():
         if cd_dir: os.chdir(current_dir)
 
     def push(self, folder_name, branch_name, repo_name="origin", cd_dir=False):
-        if cd_dir: os.chdir(os.path.join(current_dir, folder_name))
-        os.system(f"git push {repo_name} {branch_name}")
+        if cd_dir: os.chdir(os.path.join(current_dir, folder_name))        
+        os.system(f"git push -u {repo_name} {branch_name}")
         if cd_dir: os.chdir(current_dir)
+
+    def pull_request(self, folder_name, branch_name, changes="", cd_dir=False):
+        # if cd_dir: os.chdir(os.path.join(current_dir, folder_name))
+        # os.system(f"git push {repo_name} {branch_name}")
+        # if cd_dir: os.chdir(current_dir)
+
+        # https://cli.github.com/manual/gh_pr_create
+        cinput("pull_requests is a WIP")
+        os.system(f"gh pr create --web")        
+
 
 if __name__ == "__main__":
     _main()
