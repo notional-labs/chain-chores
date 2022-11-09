@@ -109,9 +109,18 @@ class Git():
             repo_link = repo_link.replace('git@github.com:', '').replace('.git', '')
         
         API = f"https://api.github.com/repos/{repo_link}/tags"
+        print(API)
         v = requests.get(API).json()
         versions = []
-        for doc in v:
+        for doc in v:            
+            if isinstance(v, str):                
+                if 'api rate limit' in v.lower():
+                    cprint("&cYou have reached the github api rate limit. Try again later.")
+                    exit(1)
+                else:
+                    cprint(f"&c{v}")
+                    exit(1)
+
             if "tag_name" in doc.keys():
                 tag_name = doc.get("tag_name")
             else:

@@ -36,34 +36,6 @@ from Panel_GoMod import GoModPanel
 # === SETTINGS ===
 SIMULATION = True
 
-GO_MOD_REPLACES = {
-    # make the right hand side the latest version from query 'panel -> v -> v   '
-    "ibc": [
-        ["cosmos/ibc-go/v5 v5.*.*", "cosmos/ibc-go/v5 v5.0.1"],
-        ["cosmos/ibc-go/v4 v4.*.*", "cosmos/ibc-go/v4 v4.2.0"],
-        ["cosmos/ibc-go/v3 v3.*.*", "cosmos/ibc-go/v3 v3.4.0"],
-    ],
-    "tendermint": [
-        ["tendermint/tendermint v0.34.*", "tendermint/tendermint v0.34.22"],
-        ["tendermint/tendermint v0.33.*", "tendermint/tendermint v0.33.9"],
-        ["tendermint/tendermint v0.32.*", "tendermint/tendermint v0.32.14"],
-    ],    
-    "sdk": [
-        ["cosmos/cosmos-sdk v0.46.*", "cosmos/cosmos-sdk v0.46.4"],
-        ["cosmos/cosmos-sdk v0.45.*", "cosmos/cosmos-sdk v0.45.10"],
-    ],    
-    "wasmd": [
-        ["CosmWasm/wasmd v0.29.*", "CosmWasm/wasmd v0.29.2"],        
-    ],    
-    "wasmvm": [
-        ["CosmWasm/wasmvm v1.*.*", "CosmWasm/wasmvm v1.1.1 // indirect"],        
-    ],
-    "iavl": [
-        ["cosmos/iavl v0.19.*", "cosmos/iavl v0.19.4 // indirect"],        
-    ],
-    # todo: way to add a replacement? ex: like was needed for dragonberry ics
-}
-
 MAJOR_REPOS = {
     "cosmos-sdk": "cosmos/cosmos-sdk",
     "ibc-go": "cosmos/ibc-go",
@@ -71,6 +43,51 @@ MAJOR_REPOS = {
     "wasmvm": "CosmWasm/wasmvm",
     "tm": "tendermint/tendermint",
     "iavl": "cosmos/iavl",
+}
+
+GO_MOD_REPLACES = {
+    # Keys here = MAJOR_REPOS.keys()    
+    "ibc-go": {
+        "versions": ['5', '4', '3'], # for version checks, we compare latest in replace list -. each version here
+        "replace": [
+            ["cosmos/ibc-go/v5 v5.*.*", "cosmos/ibc-go/v5 v5.0.1"],
+            ["cosmos/ibc-go/v4 v4.*.*", "cosmos/ibc-go/v4 v4.2.0"],
+            ["cosmos/ibc-go/v3 v3.*.*", "cosmos/ibc-go/v3 v3.4.0"],
+        ],
+    },
+    "tm": {
+        "versions": ['34', '32', '32'],
+        "replace": [
+            ["tendermint/tendermint v0.34.*", "tendermint/tendermint v0.34.22"],
+            ["tendermint/tendermint v0.33.*", "tendermint/tendermint v0.33.9"],
+            ["tendermint/tendermint v0.32.*", "tendermint/tendermint v0.32.14"],
+        ],
+    },
+    "cosmos-sdk": {
+        "versions": ['46', '45'],
+        "replace": [
+            ["cosmos/cosmos-sdk v0.46.*", "cosmos/cosmos-sdk v0.46.4"],
+            ["cosmos/cosmos-sdk v0.45.*", "cosmos/cosmos-sdk v0.45.10"],
+        ],
+    },
+    "wasm": {
+        "versions": ['29', '28'],
+        "replace": [
+            ["CosmWasm/wasmd v0.29.*", "CosmWasm/wasmd v0.29.2"],
+        ],
+    }, 
+    "wasmvm": {
+        "versions": ['1'],
+        "replace": [
+            ["CosmWasm/wasmvm v1.*.*", "CosmWasm/wasmvm v1.1.1 // indirect"],  
+        ],
+    }, 
+    "iavl": {
+        "versions": ['19', '18'],
+        "replace": [
+            ["cosmos/iavl v0.19.*", "cosmos/iavl v0.19.4 // indirect"], 
+        ],
+    },    
 }
 
 # === FILE PATHS ===

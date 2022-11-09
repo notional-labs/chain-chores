@@ -36,7 +36,7 @@ class GoModPanel():
         # combine all replaces into a single list        
         replace_values = []
         for r in replaces:
-            replace_values.extend(GO_MOD_REPLACES[r])
+            replace_values.extend(GO_MOD_REPLACES[r]['replace'])
 
         GoMod(chain).go_mod_update(replace_values, simulate=simulate, pause=pause)
 
