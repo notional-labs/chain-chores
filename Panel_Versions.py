@@ -30,7 +30,7 @@ class VersionPanel():
         while True:
             selector("&e", "Versions", options=options, aliases=aliases)
 
-    def get_latest_versions(self):
+    def get_latest_versions(self, per_group: int = 3):
         from main import MAJOR_REPOS
 
         repo = pick(list(MAJOR_REPOS.keys()), "Select a repo to view latest versions", multiselect=False)[0]
@@ -39,27 +39,13 @@ class VersionPanel():
         # ignore_tags = [x[0] for x in pick(["-rc", "beta", "alpha"], "Tags to Ignore:", multiselect=True, min_selection_count=0, indicator='=> ')]
         tags = Git().get_latest_tags(repo_link, ignore_tags_substrings=[])        
 
-        # loop through tags, if multiple tags have the same prefix, set the prefix in the list to the version.
-        # Example: cosmovisor/v1.1.0, cosmovisor/v1.2.0 is grouped into cosmovisor: [v1.1.0, v1.2.0]
-        # Some tags may not have a /, so they are grouped into the root list 'versions'        
-        grouped = {}
-        for tag in tags:
-            if '/' in tag:
-                prefix = tag.split('/')[0]
-                value = tag.split('/')[1]
-                if prefix not in grouped:
-                    grouped[prefix] = [value]
-                else:
-                    grouped[prefix].append(value)
-            else:
-                if 'versions' not in grouped:
-                    grouped['versions'] = [tag]
-                else:
-                    grouped['versions'].append(tag)
-        
-        grouped = {k: sorted(v, reverse=True) for k, v in grouped.items()}        
+        new = {}
+        for k, v in tags.items():
+            # print(k, sorted(v), '\n')
+            new[k] = sorted(v, key=lambda x: x.number)[-per_group::] # latest X number
+            new[k] = [i.real for i in new[k]] # show their real value ex: 0.44.5
 
-        pp(grouped, indent=4)
+        pp(new, indent=4)
         cinput("\n&ePress enter to continue...")
 
 

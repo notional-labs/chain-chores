@@ -1,8 +1,34 @@
 from Utils import *
 
+from dataclasses import dataclass
+
 import multiprocessing as mp
 import shutil
 import requests
+import re
+
+@dataclass
+class Version:
+    def __init__(self, real: str, number: int = 0):
+        self.real = real        
+        self.number = number
+
+    # create a sort / compare function
+    def __lt__(self, other):        
+        return self.number < other.number and self.sub_version < other.sub_version
+
+    def __gt__(self, other):
+        return self.number > other.number and self.sub_version > other.sub_version
+
+    def __eq__(self, other):
+        return self.number == other.number and self.sub_version == other.sub_version        
+
+    real: str
+     # ex: 0.44.5 = 445. Useful for sorting
+    number: int 
+    # ex: -alpha1, -beta1, -rc1 (sort first character then sub number. a=0, ...)
+    # so -alpha2 = 02. -beta2 = 22, -rc2 = 272 (r = 27)
+    sub_version: int 
 
 def _main():
     from main import main
@@ -78,15 +104,18 @@ class Git():
             print("You need to install github cli (gh) to sync forks. See https://cli.github.com/")
             return
 
-    def get_latest_tags(self, repo_link:str = "", ignore_tags_substrings:list = []):
+    def get_latest_tags(self, repo_link:str = "", ignore_tags_substrings:list = []) -> dict[str, list]:        
         if 'git@github.com:' in repo_link:
             repo_link = repo_link.replace('git@github.com:', '').replace('.git', '')
         
-        API = f"https://api.github.com/repos/{repo_link}/releases" # /releases or /tags?
+        API = f"https://api.github.com/repos/{repo_link}/tags"
         v = requests.get(API).json()
         versions = []
         for doc in v:
-            tag_name = doc["tag_name"]
+            if "tag_name" in doc.keys():
+                tag_name = doc.get("tag_name")
+            else:
+                tag_name = doc.get("name")
             ignore = False
             if len(ignore_tags_substrings) > 0:
                 for sub in ignore_tags_substrings:
@@ -96,7 +125,41 @@ class Git():
             if not ignore:
                 versions.append(tag_name)
 
-        return sorted(versions)
+        versions = sorted(versions)        
+        return self._sort_groups(versions)
+
+    def _sort_groups(self, versions: list) -> dict:
+        # now we loop through these and return a dict of teh X latest values
+        groups = {}
+        for ver in versions:      
+            ver = str(ver.replace('v', ''))
+
+            # print(ver.split('.'))
+            if len(ver.split('.')) > 3:
+                continue # wasmd 0.27.0-junity.0 ?
+
+            start, middle, end = ver.split('.')    
+            
+            if start == '0': start = middle            
+            if start not in groups: groups[start] = []    
+
+            subversion = "00" # 00 by default
+            s, m, e = ver.split('.') # since we update start -> middle
+
+            subv2 = e
+            if '-' in e:
+                # if it has a sub tag, we get the first char + version number to sort these
+                e, subv = e.split('-')        
+                subv1 = ord(subv[0])-97 if subv else 0        
+                # subv2 = int(subv[-1]) if subv else 0
+                subv2 = re.findall(r'\d+', subv) if subv else 0        
+                subv2 = sum([int(i) for i in subv2]) if subv2 else 0        
+                subversion = f"{subv1}{subv2}"    
+
+            n = Version(ver, int(s + m + e) + float(f"0.{subv2}"))
+            n.sub_version = int(subversion)
+            groups[start].append(n)
+        return groups
 
     def pull_latest(self, folder_name, repo_sync=False):
         # git clone if it is not there already, if it is, cd into dir and git pull    

@@ -39,27 +39,27 @@ SIMULATION = True
 GO_MOD_REPLACES = {
     # make the right hand side the latest version from query 'panel -> v -> v   '
     "ibc": [
-        ["github.com/cosmos/ibc-go/v5 v5.*.*", "github.com/cosmos/ibc-go/v5 v5.0.1"],
-        ["github.com/cosmos/ibc-go/v4 v4.*.*", "github.com/cosmos/ibc-go/v4 v4.1.1"],
-        ["github.com/cosmos/ibc-go/v3 v3.*.*", "github.com/cosmos/ibc-go/v3 v3.3.1"],
+        ["cosmos/ibc-go/v5 v5.*.*", "cosmos/ibc-go/v5 v5.0.1"],
+        ["cosmos/ibc-go/v4 v4.*.*", "cosmos/ibc-go/v4 v4.2.0"],
+        ["cosmos/ibc-go/v3 v3.*.*", "cosmos/ibc-go/v3 v3.4.0"],
     ],
     "tendermint": [
-        ["github.com/tendermint/tendermint v0.34.*", "github.com/tendermint/tendermint v0.34.22"],
-        ["github.com/tendermint/tendermint v0.33.*", "github.com/tendermint/tendermint v0.33.9"],
-        ["github.com/tendermint/tendermint v0.32.*", "github.com/tendermint/tendermint v0.33.14"],
+        ["tendermint/tendermint v0.34.*", "tendermint/tendermint v0.34.22"],
+        ["tendermint/tendermint v0.33.*", "tendermint/tendermint v0.33.9"],
+        ["tendermint/tendermint v0.32.*", "tendermint/tendermint v0.32.14"],
     ],    
     "sdk": [
-        ["github.com/cosmos/cosmos-sdk v0.46.*", "github.com/cosmos/cosmos-sdk v0.46.4"],
-        ["github.com/cosmos/cosmos-sdk v0.45.*", "github.com/cosmos/cosmos-sdk v0.45.10"],
+        ["cosmos/cosmos-sdk v0.46.*", "cosmos/cosmos-sdk v0.46.4"],
+        ["cosmos/cosmos-sdk v0.45.*", "cosmos/cosmos-sdk v0.45.10"],
     ],    
     "wasmd": [
-        ["github.com/CosmWasm/wasmd v0.29.*", "github.com/CosmWasm/wasmd v0.29.1"],        
+        ["CosmWasm/wasmd v0.29.*", "CosmWasm/wasmd v0.29.2"],        
     ],    
     "wasmvm": [
-        ["github.com/CosmWasm/wasmvm v1.*.*", "github.com/CosmWasm/wasmvm v1.1.1 // indirect"],        
+        ["CosmWasm/wasmvm v1.*.*", "CosmWasm/wasmvm v1.1.1 // indirect"],        
     ],
     "iavl": [
-        ["github.com/cosmos/iavl v0.19.*", "github.com/cosmos/iavl v0.19.4 // indirect"],        
+        ["cosmos/iavl v0.19.*", "cosmos/iavl v0.19.4 // indirect"],        
     ],
     # todo: way to add a replacement? ex: like was needed for dragonberry ics
 }
