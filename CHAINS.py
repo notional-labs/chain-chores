@@ -46,7 +46,8 @@ VALIDATING_CHAINS = {
     "Akash": {
         "branch": "master",
         "parent": "git@github.com:ovrclk/akash.git",
-        "fork": "git@github.com:notional-labs/akash.git"
+        "fork": "git@github.com:notional-labs/akash.git",
+        "ignore_updates": ['cosmos-sdk']
     },
     "Sentinel": {
         "branch": "development",
@@ -146,7 +147,8 @@ VALIDATING_CHAINS = {
     "QuickSilver": {
         "branch": "main",
         "parent": "git@github.com:ingenuity-build/quicksilver.git",
-        "fork": "git@github.com:notional-labs/quicksilver.git"
+        "fork": "git@github.com:notional-labs/quicksilver.git",
+        "ignore_updates": ['cosmos-sdk']
     },
     "Jackal": {
         "branch": "master",

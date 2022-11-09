@@ -13,8 +13,10 @@ class GoModPanel():
     def panel(self, main_panel_func):
         options = {            
             "1": ["Update GoMod for a chain", self.edit_single_gomod],    
-            "2": ["Update GoMod for many chains\n", self.edit_mass_gomod], 
+            "2": ["Update GoMod for many chains", self.edit_mass_gomod], 
+            "3": ["Apply all updates", self.apply_all], 
 
+            "": [""],
             "m": ["Main Panel", main_panel_func],
             "e": ["Exit", exit],
         }
@@ -62,7 +64,7 @@ class GoModPanel():
             else:
                 options[info[sort_by]].append(new_c)
 
-        # ssorts keys based off of the version of the value we want (ex: largest sdk version to smallest)
+        # sorts keys based off of the version of the value we want (ex: largest sdk version to smallest)
         options = [options[k] for k in sorted(options.keys(), key=lambda x: [int(i) for i in x.replace("v", "").split(".") if len(x) > 0], reverse=True)]
         options = [item for sublist in options for item in sublist]                
 
@@ -73,11 +75,26 @@ class GoModPanel():
             self.edit_single_gomod(chain=chain, simulate=SIMULATION, pause=True)
             
 
+    def apply_all(self, simulate=True, pause=False):
+        from main import get_chain_info, SIMULATION, GO_MOD_REPLACES, VALIDATING_CHAINS
+        chains = get_downloaded_chains()              
+        replaces = [r[0] for r in pick(list(GO_MOD_REPLACES.keys()), f"Select replace values (Spaces to select)\n\tCurrent", multiselect=True, min_selection_count=1, indicator="=> ")]
+        # combine all replaces into a single list        
+        replace_values = []
+        for r in replaces:
+            replace_values.extend(GO_MOD_REPLACES[r]['replace'])        
+
+        for chain in chains:
+            GoMod(chain).go_mod_update(replace_values, simulate=simulate, pause=pause)
+        cinput("Press enter to continue...")
+
+
 class GoMod():
     def __init__(self, chain):
         self.chain = chain        
 
     def go_mod_update(self, replace_values: list[list[str]] = [], simulate: bool = False, pause: bool = False):
+        from main import VALIDATING_CHAINS
         os.chdir(os.path.join(current_dir, self.chain))
         
         if "go.mod" not in os.listdir():
@@ -93,6 +110,17 @@ class GoMod():
             old = replacements[0]
             new = replacements[1]        
             matches = re.search(old, data)
+
+            # ignore_updates = []
+            skip = False
+            if 'ignore_updates' in VALIDATING_CHAINS[self.chain].keys():
+                for repl in replacements:
+                    for ignore in VALIDATING_CHAINS[self.chain]['ignore_updates']:
+                        if ignore.lower() in repl.lower():
+                            skip = True
+            
+            if skip:            
+                continue            
 
             if matches: # allow for us to use regex
                 if matches.group(0) == new:
