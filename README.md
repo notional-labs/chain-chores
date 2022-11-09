@@ -14,7 +14,11 @@ Examples:
 - Mass updating go dependency versions (ex: IBC-go 3.3.0 -> 3.3.1)
 - Linting and GoFmt locally if needed
 
-
 Install:
+
 - `python3 -m pip install -r requirements.txt`
 - `python3 main.py`
+
+TODO:
+
+- pylint

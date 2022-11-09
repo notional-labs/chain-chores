@@ -108,8 +108,7 @@ class Git():
         if 'git@github.com:' in repo_link:
             repo_link = repo_link.replace('git@github.com:', '').replace('.git', '')
         
-        API = f"https://api.github.com/repos/{repo_link}/tags"
-        print(API)
+        API = f"https://api.github.com/repos/{repo_link}/tags"        
         v = requests.get(API).json()
         versions = []
         for doc in v:            
@@ -190,6 +189,34 @@ class Git():
         os.system("git pull origin")  
         # os.system("git pull upstream")
         os.chdir(current_dir)   
+
+    def create_branch(self, folder_name, branch_name, cd_dir=False):
+        if cd_dir: os.chdir(os.path.join(current_dir, folder_name))
+
+        branches = []        
+        for b in os.popen("git branch").read().split('\n'):
+            if len(b) == 0: continue
+            if b.startswith('*'): b = b[1:]
+            b = b.strip()
+            branches.append(b)
+
+        # print('branches', branches)
+        if branch_name in branches:
+            os.system(f"git checkout {branch_name}")
+        else: # create
+            os.system(f"git checkout -b {branch_name}")            
+        if cd_dir: os.chdir(current_dir)
+
+    def commit(self, folder_name, commit_msg, cd_dir=False):
+        if cd_dir: os.chdir(os.path.join(current_dir, folder_name))
+        os.system(f"git add .")
+        os.system(f"git commit -m '{commit_msg}'")
+        if cd_dir: os.chdir(current_dir)
+
+    def push(self, folder_name, branch_name, repo_name="origin", cd_dir=False):
+        if cd_dir: os.chdir(os.path.join(current_dir, folder_name))
+        os.system(f"git push {repo_name} {branch_name}")
+        if cd_dir: os.chdir(current_dir)
 
 if __name__ == "__main__":
     _main()

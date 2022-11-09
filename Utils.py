@@ -29,7 +29,7 @@ def get_downloaded_chains(show=False):
 
 # === Chain Info & Versions ===
 def get_chain_info(folder_name):
-    sdk_version, ibc_version, wasm_version, wasmvm = "", "", "", ""
+    sdk_version, ibc_version, wasm_version, wasmvm, iavl = "", "", "", "", ""
 
     with open(os.path.join(current_dir, folder_name, "go.mod"), "r") as f:
         data = f.read()

@@ -60,25 +60,37 @@ class VersionPanel():
         limit = 3
         for k, v in GO_MOD_REPLACES.items():    
             repo_link = MAJOR_REPOS.get(k, None)
-            tags = Git().get_latest_tags(repo_link, ignore_tags_substrings=[])    
-
+            tags = Git().get_latest_tags(repo_link, ignore_tags_substrings=[])
             # gets the latest versions for a given group & their major version groups.
             latest[k] = {k2: [i.real for i in sorted(v2, key=lambda x: x.number)[-limit::]] for k2, v2 in tags.items()}   
-            # {'ibc-go': {'3': ['3.3.0', '3.3.1', '3.4.0'], '4': ['4.1.0', '4.1.1', '4.2.0'], '5': ['5.0.0-rc1', '5.0.0-rc2', '5.0.1'], '6': ['6.0.0-alpha1', '6.0.0-beta1']}}     
+            # {'ibc-go': {'3': ['3.3.0', '3.3.1', '3.4.0'], '4': ['4.1.0', '4.1.1', '4.2.0'], '5': ['5.0.0-rc1', '5.0.0-rc2', '5.0.1'], '6': ['6.0.0-alpha1', '6.0.0-beta1']}}    
             
+            # DEBUGGING
+            # latest['iavl'] = {'13': ['0.13.1', '0.13.2', '0.13.3'], '14': ['0.14.1', '0.14.2', '0.14.3'], '15': ['0.15.1', '0.15.2', '0.15.3'], '16': ['0.16.0'], '17': ['0.17.1', '0.17.2', '0.17.3'], '18': ['0.18.0'], '19': ['0.19.2', '0.19.3', '0.19.4']}
+
             for r in GO_MOD_REPLACES[k]['replace']:
-                plain_version = str(r[1]).split(" ")[-1].replace('v', '')
+                # plain_version = str(r[1]).split(" ")[-1].replace('v', '')
+                plain_version = str(r[1]).split(" ", 1)[-1].replace('v', '')
+                if '// indirect' in plain_version:
+                    plain_version = plain_version.split(" ", 1)[0]                
+
+                l = len(plain_version.split('.'))
+                if l > 3:
+                    # print('broken version', plain_version)
+                    continue # weird versioning with wasmd
+
                 s, m, e = plain_version.split('.')
-                if s == '0': s = m
-                
+                if s == '0': s = m                           
+
                 if s in latest[k]:
                     # print(latest[k][s]) # ['5.0.0-rc1', '5.0.0-rc2', '5.0.1']
-                    latest_ver = latest[k][s][-1]
+                    latest_ver = latest[k][s][-1]            
+                    # print('latest_ver', latest_ver)        
 
-                    if plain_version not in s:
-                        print(f"WARNING: {k} {plain_version} not in latest tags for {s}. -> latest: {latest_ver}")
-                    elif plain_version != latest_ver:
-                        print(f"UPDATE: {k} {plain_version} is the latest version for {s}. latest: {latest_ver}")
+                    if plain_version != latest_ver:                        
+                        print(f"UPDATE: {k} (v{s}) {plain_version} -> {latest_ver}")
+
+        input("Press enter to continue...")
 
     def show_version(self, title, value):        
         print(f"{'='*20} {title} {'='*20}")

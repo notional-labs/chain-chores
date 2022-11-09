@@ -46,7 +46,8 @@ MAJOR_REPOS = {
 }
 
 GO_MOD_REPLACES = {
-    # Keys here = MAJOR_REPOS.keys()    
+    # Keys here = MAJOR_REPOS.keys()  
+    # # Get updates -> `main.py -> v -> u` to check updates
     "ibc-go": {
         "versions": ['5', '4', '3'], # for version checks, we compare latest in replace list -. each version here
         "replace": [
@@ -83,7 +84,7 @@ GO_MOD_REPLACES = {
         ],
     }, 
     "iavl": {
-        "versions": ['19', '18'],
+        "versions": ['19'],
         "replace": [
             ["cosmos/iavl v0.19.*", "cosmos/iavl v0.19.4 // indirect"], 
         ],
