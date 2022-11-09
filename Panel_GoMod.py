@@ -102,7 +102,7 @@ class GoModPanel():
 
         success_chains = []
         for chain in chains:
-            res = GoMod(chain).go_mod_update(replace_values, simulate=simulate, pause=pause, branch_name=bname, vscode_prompt=False)
+            res = GoMod(chain).go_mod_update(replace_values, simulate=simulate, pause=pause, branch_name=bname, vscode_prompt=False, skip_write_validation=True)
             if res == True:
                 success_chains.append(chain)
 
