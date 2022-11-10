@@ -69,6 +69,11 @@ VALIDATING_CHAINS = {
         "parent": "git@github.com:likecoin/likecoin-chain.git",
         "fork": "git@github.com:notional-labs/likecoin-chain.git"
     },
+    "LoyalLabs": {
+        "branch": "master",
+        "parent": "git@github.com:LoyalLabs/loyal.git",
+        "fork": "git@github.com:notional-labs/loyal.git"
+    },
     "Cyber": {
         "branch": "main",
         "parent": "git@github.com:cybercongress/go-cyber.git",
@@ -129,10 +134,11 @@ VALIDATING_CHAINS = {
         "parent": "git@github.com:fetchai/fetchd.git",
         "fork": "git@github.com:notional-labs/fetchd.git"
     },
-    "Uume": {
+    "Umee": {
         "branch": "main",
         "parent": "git@github.com:umee-network/umee.git",
-        "fork": "git@github.com:notional-labs/umee.git"
+        "fork": "git@github.com:notional-labs/umee.git",
+        "ignore_updates": ["cosmos-sdk", "wasm"]
     },
     "Passage3D": {
         "branch": "main",

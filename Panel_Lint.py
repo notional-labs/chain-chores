@@ -30,6 +30,7 @@ class LintPanel():
         chains = select_chains("Select chains to lint")
         for chain in chains: # mp?
             Linting(chain).lint_all()
+        input("Press enter to continue...")
 
 
 
@@ -42,6 +43,8 @@ or a way to open all after lint & auto fix + fmt to do so
 
 Custom cosmos linter in the future? Help with proto and things like that
 '''
+
+# TODO: save the output of these (stderr/stdout to a text file WITHIN the chain DIR? or here in chain tools as .lint_output)
 class Linting():  
     def __init__(self, folder_name) -> None:
         self.folder_name = folder_name

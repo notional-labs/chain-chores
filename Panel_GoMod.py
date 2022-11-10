@@ -45,9 +45,8 @@ class GoModPanel():
         for r in replaces:
             replace_values.extend(GO_MOD_REPLACES[r]['replace'])
 
-        res = GoMod(chain).go_mod_update(replace_values, simulate=simulate, pause=pause, branch_name=branch_name(), vscode_prompt=True)
-        if res == True:
-            open_in_vscode_prompt(chain)
+        GoMod(chain).go_mod_update(replace_values, simulate=simulate, pause=pause, branch_name=branch_name(), vscode_prompt=True)
+
 
     def edit_mass_gomod(self):
         from main import get_chain_info, SIMULATION

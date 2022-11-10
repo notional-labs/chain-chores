@@ -51,7 +51,7 @@ GO_MOD_REPLACES = {
     "ibc-go": {
         "versions": ['5', '4', '3'], # for version checks, we compare latest in replace list -. each version here
         "replace": [
-            ["cosmos/ibc-go/v5 v5.*.*", "cosmos/ibc-go/v5 v5.0.1"],
+            ["cosmos/ibc-go/v5 v5.*.*", "cosmos/ibc-go/v5 v5.1.0"],
             ["cosmos/ibc-go/v4 v4.*.*", "cosmos/ibc-go/v4 v4.2.0"],
             ["cosmos/ibc-go/v3 v3.*.*", "cosmos/ibc-go/v3 v3.4.0"],
         ],
@@ -59,7 +59,7 @@ GO_MOD_REPLACES = {
     "tm": {
         "versions": ['34', '32', '32'],
         "replace": [
-            ["tendermint/tendermint v0.34.*", "tendermint/tendermint v0.34.22"],
+            ["tendermint/tendermint v0.34.*", "tendermint/tendermint v0.34.23"],
             ["tendermint/tendermint v0.33.*", "tendermint/tendermint v0.33.9"],
             ["tendermint/tendermint v0.32.*", "tendermint/tendermint v0.32.14"],
         ],
@@ -68,7 +68,7 @@ GO_MOD_REPLACES = {
         "versions": ['46', '45'],
         "replace": [
             ["cosmos/cosmos-sdk v0.46.*", "cosmos/cosmos-sdk v0.46.4"],
-            ["cosmos/cosmos-sdk v0.45.*", "cosmos/cosmos-sdk v0.45.10"],
+            ["cosmos/cosmos-sdk v0.45.*", "cosmos/cosmos-sdk v0.45.11"],
         ],
     },
     "wasm": {
@@ -118,13 +118,23 @@ class Chains():
             Git().download_chains_locally(select_download)
 
     def panel(self):
+        '''
+        Gomod -> 1, select options
+        lint -> save to the other terminal / in a txt file?
+        Create a Makefile for new chains?
+        make install
+        go test
+        add test_node.sh script and auto fill variables
+        '''
         options = {            
             "v": ["Version Panel", VersionPanel().panel, self.panel],
             "c": ["Chains Panel", ChainsPanel().panel, self.panel],   
             "g": ["Github Panel", GithubPanel().panel, self.panel],
             "l": ["Linting Panel", LintPanel().panel, self.panel],            
             "b": ["Build/Test Panel", BuildPanel().panel, self.panel],
-            "m": ["GoMod Panel\n", GoModPanel().panel, self.panel],            
+            "m": ["GoMod Panel\n", GoModPanel().panel, self.panel],
+            "": [""],        
+            "all": ["everything", exit, self.panel], # do everything for a single chain (1->9)            
 
             "vsc": ["VSCode edit a chain", self.vscode_edit],
 

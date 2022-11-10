@@ -225,6 +225,7 @@ class Git():
 
         # https://cli.github.com/manual/gh_pr_create
         cinput("pull_requests is a WIP")
+        # TODO: add https://github.com/notional-labs/chain-chores to the body?
         os.system(f"gh pr create --web")        
 
 
