@@ -46,7 +46,7 @@ class GoModPanel():
             replace_values.extend(GO_MOD_REPLACES[r]['replace'])
 
         commit_and_push = cinput("Commit and push? (y/n): ").lower().startswith("y")
-        make_pr = cinput("Create pull request on web? (y/n): ").lower().startswith("y")
+        make_pr = commit_and_push and cinput("Create pull request on web? (y/n): ").lower().startswith("y")
 
         GoMod(chain).go_mod_update(replace_values, simulate=simulate, pause=pause, branch_name=branch_name(), vscode_prompt=True, commit_and_push=commit_and_push, make_pr=make_pr)
 

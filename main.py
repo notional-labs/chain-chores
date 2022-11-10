@@ -80,13 +80,14 @@ GO_MOD_REPLACES = {
     "wasmvm": {
         "versions": ['1'],
         "replace": [
-            ["CosmWasm/wasmvm v1.*.*", "CosmWasm/wasmvm v1.1.1 // indirect"],  
+            ["CosmWasm/wasmvm v1.*.*", "CosmWasm/wasmvm v1.1.1"],  
         ],
     }, 
     "iavl": {
-        "versions": ['19'],
+        "versions": ['19', '17'],
         "replace": [
-            ["cosmos/iavl v0.19.*", "cosmos/iavl v0.19.4 // indirect"], 
+            ["cosmos/iavl v0.19.*", "cosmos/iavl v0.19.4"],
+            ["cosmos/iavl v0.17.*", "cosmos/iavl v0.17.3"],
         ],
     },    
 }

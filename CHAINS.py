@@ -148,7 +148,8 @@ VALIDATING_CHAINS = {
     "Stride": {
         "branch": "main",
         "parent": "git@github.com:Stride-Labs/stride.git",
-        "fork": "git@github.com:notional-labs/stride.git"
+        "fork": "git@github.com:notional-labs/stride.git",
+        "ignore_updates": ["cosmos-sdk"]
     },
     "QuickSilver": {
         "branch": "main",
