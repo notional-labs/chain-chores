@@ -127,12 +127,12 @@ class Chains():
         add test_node.sh script and auto fill variables
         '''
         options = {            
-            "v": ["Version Panel", VersionPanel().panel, self.panel],
-            "c": ["Chains Panel", ChainsPanel().panel, self.panel],   
-            "g": ["Github Panel", GithubPanel().panel, self.panel],
-            "l": ["Linting Panel", LintPanel().panel, self.panel],            
-            "b": ["Build/Test Panel", BuildPanel().panel, self.panel],
-            "m": ["GoMod Panel\n", GoModPanel().panel, self.panel],
+            "v": ["Versions", VersionPanel().panel, self.panel],
+            "c": ["Chains", ChainsPanel().panel, self.panel],   
+            "g": ["Github/Workflows", GithubPanel().panel, self.panel],
+            "l": ["Linting", LintPanel().panel, self.panel],            
+            "b": ["Build/Test", BuildPanel().panel, self.panel],
+            "m": ["GoMod\n", GoModPanel().panel, self.panel],
             "": [""],        
             "all": ["everything", exit, self.panel], # do everything for a single chain (1->9)            
 

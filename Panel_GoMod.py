@@ -45,7 +45,10 @@ class GoModPanel():
         for r in replaces:
             replace_values.extend(GO_MOD_REPLACES[r]['replace'])
 
-        GoMod(chain).go_mod_update(replace_values, simulate=simulate, pause=pause, branch_name=branch_name(), vscode_prompt=True)
+        commit_and_push = cinput("Commit and push? (y/n): ").lower().startswith("y")
+        make_pr = cinput("Create pull request on web? (y/n): ").lower().startswith("y")
+
+        GoMod(chain).go_mod_update(replace_values, simulate=simulate, pause=pause, branch_name=branch_name(), vscode_prompt=True, commit_and_push=commit_and_push, make_pr=make_pr)
 
 
     def edit_mass_gomod(self):
@@ -74,11 +77,12 @@ class GoModPanel():
         # exit(1)
 
         # sorts keys based off of the version of the value we want (ex: largest sdk version to smallest)
-        # options = [options[k] for k in sorted(options.keys(), key=lambda x: [int(i) for i in x.replace("v", "").split(".") if len(x) > 0], reverse=True)]
-        # options = [item for sublist in options for item in sublist]
         options = [options[k] for k in sorted(options.keys(), reverse=True)]
+        final = []
+        for opt in options:            
+            final.extend(opt)
 
-        selected_chains = [chain[0].split(" ")[0] for chain in pick(options, "Select chains to edit go.mod (sdk, ibc, wasm)", multiselect=True, min_selection_count=1, indicator="=> ")]
+        selected_chains = [chain[0].split(" ")[0] for chain in pick(final, "Select chains to edit go.mod (sdk, ibc, wasm)", multiselect=True, min_selection_count=1, indicator="=> ")]
         print(f"selected_chains={selected_chains}")
 
         for chain in selected_chains:
@@ -99,9 +103,16 @@ class GoModPanel():
 
         bname = branch_name()
 
+        commit_and_push = cinput("Commit and push? (y/n): ").lower().startswith("y")
+        pull_request = cinput("Create pull request on web? (y/n): ").lower().startswith("y")
+
         success_chains = []
         for chain in chains:
-            res = GoMod(chain).go_mod_update(replace_values, simulate=simulate, pause=pause, branch_name=bname, vscode_prompt=False, skip_write_validation=True, commit_and_push=True)
+            res = GoMod(chain).go_mod_update(
+                replace_values, simulate=simulate, pause=pause, branch_name=bname, 
+                vscode_prompt=False, skip_write_validation=True, 
+                commit_and_push=commit_and_push, make_pr=pull_request
+            )
             if res == True:
                 success_chains.append(chain)
 
@@ -120,7 +131,7 @@ def open_in_vscode_prompt(chains: str | list):
 
 def branch_name() -> str:
     t = date.today()
-    default_name = f'gomod_{t.strftime("%b_%d").lower()}'
+    default_name = f'cchores_gomod_{t.strftime("%b_%d").lower()}'
     branch_name = cinput(f"&eBranch name: &7{default_name} : ") or default_name
     return branch_name
 
@@ -132,7 +143,8 @@ class GoMod():
         self, 
         replace_values: list[list[str]] = [], simulate: bool = False, 
         pause: bool = False, branch_name: str = "", vscode_prompt=False, 
-        skip_write_validation=False, commit_and_push=False
+        skip_write_validation=False, commit_and_push=False,
+        make_pr=False
     ) -> bool:
 
         from main import VALIDATING_CHAINS
@@ -151,7 +163,8 @@ class GoMod():
         successful_replacements = []
         for replacements in replace_values:
             old = replacements[0]
-            new = replacements[1]        
+            new = replacements[1]
+            # Example: old: cosmos/cosmos-sdk v0.46.*. new: cosmos/cosmos-sdk v0.46.4    
             matches = re.search(old, data)
 
             # ignore_updates = []
@@ -162,7 +175,13 @@ class GoMod():
                         if ignore.lower() in repl.lower():
                             skip = True
             
-            if skip:            
+            # SKip custom forks of a replacement
+            base = new.split(" ")[0] # ex: cosmos/cosmos-sdk            
+            if f"{base} =>" in data:
+                cprint(f"&e[{self.chain}] Custom fork: {base}. Skipping.")
+                skip = True
+
+            if skip: 
                 continue            
 
             if matches: # allow for us to use regex
@@ -206,7 +225,12 @@ class GoMod():
                     cprint(f"Committing changes for {branch_name}")
                     # Git().commit(self.chain, cd_dir=False, vscode_prompt=vscode_prompt)
                     Git().commit(self.chain, "chore(deps): Version Bumps [chain-chores automatic]")
-                    Git().push(self.chain, branch_name, repo_name="origin") # our fork
+                    Git().push(self.chain, branch_name=branch_name, repo_name="origin") # our fork
+                    if make_pr:
+                        changes = ""
+                        for r in successful_replacements:                            
+                            changes += f"- {r[0]} -> {r[1]}\n"
+                        Git().pull_request(self.chain, cd_dir=False, changes=changes)
 
             if vscode_prompt:
                 open_in_vscode_prompt([self.chain])       

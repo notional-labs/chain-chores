@@ -213,20 +213,21 @@ class Git():
         os.system(f"git commit -m '{commit_msg}'")
         if cd_dir: os.chdir(current_dir)
 
-    def push(self, folder_name, branch_name, repo_name="origin", cd_dir=False):
+    def push(self, folder_name="", branch_name="", repo_name="origin", cd_dir=False):
         if cd_dir: os.chdir(os.path.join(current_dir, folder_name))        
         os.system(f"git push -u {repo_name} {branch_name}")
         if cd_dir: os.chdir(current_dir)
 
-    def pull_request(self, folder_name, branch_name, changes="", cd_dir=False):
-        # if cd_dir: os.chdir(os.path.join(current_dir, folder_name))
-        # os.system(f"git push {repo_name} {branch_name}")
-        # if cd_dir: os.chdir(current_dir)
+    def pull_request(self, folder_name="", branch_name="", title="chore(deps) Dependency Bumps [chain-chores]", changes="", cd_dir=False):
+        if cd_dir: os.chdir(os.path.join(current_dir, folder_name))        
+        # https://cli.github.com/manual/gh_pr_create        
 
-        # https://cli.github.com/manual/gh_pr_create
-        cinput("pull_requests is a WIP")
-        # TODO: add https://github.com/notional-labs/chain-chores to the body?
-        os.system(f"gh pr create --web")        
+        if len(changes) > 0: 
+            changes = f"\nChanges:\n{changes}"
+
+        cmd = f"gh pr create --web --title '{title}' --body 'Generated with [chain-chores](https://github.com/notional-labs/chain-chores)\n{changes}'"
+        os.system(cmd)
+        if cd_dir: os.chdir(current_dir)
 
 
 if __name__ == "__main__":
