@@ -130,8 +130,8 @@ def open_in_vscode_prompt(chains: str | list):
             os.system(f"code {os.path.join(current_dir, chain)}")
 
 def branch_name() -> str:
-    t = date.today()
-    default_name = f'cchores_gomod_{t.strftime("%b_%d").lower()}'
+    # t = date.today()
+    default_name = f'cchores_gomod'
     branch_name = cinput(f"&eBranch name: &7{default_name} : ") or default_name
     return branch_name
 
@@ -164,18 +164,22 @@ class GoMod():
         for replacements in replace_values:
             old = replacements[0]
             new = replacements[1]
-            # Example: old: cosmos/cosmos-sdk v0.46.*. new: cosmos/cosmos-sdk v0.46.4    
-            matches = re.search(old, data)
 
-            # ignore_updates = []
+
+            # Example: old: cosmos/cosmos-sdk v0.46.*. new: cosmos/cosmos-sdk v0.46.4    
+            matches = re.search(old, data)            
+            
+            # isIndirect = '// indirect' in old
+
             skip = False
+            # manually ignore things, can likely remove this in the future.
             if 'ignore_updates' in VALIDATING_CHAINS[self.chain].keys():
                 for repl in replacements:
                     for ignore in VALIDATING_CHAINS[self.chain]['ignore_updates']:
                         if ignore.lower() in repl.lower():
                             skip = True
             
-            # SKip custom forks of a replacement
+            # Skip custom forks of a replacement
             base = new.split(" ")[0] # ex: cosmos/cosmos-sdk            
             if f"{base} =>" in data:
                 cprint(f"&e[{self.chain}] Custom fork: {base}. Skipping.")
@@ -194,9 +198,14 @@ class GoMod():
                     # get the matches in string form from matches                         
                     print(f"{self.chain:<10} Would replace '{matches.group(0)}'\t-> {new}")    
                 else:                
-                    # print(f"Replacing {matches.group(0)} => {new}")      
-                    data = re.sub(old, new, data)
-                    successful_replacements.append([matches.group(0), new])
+                    old = matches.group(0)
+                    if '// indirect' in old:
+                        new.rstrip()
+                        new += ' // indirect'
+
+                    if old != new:
+                        data = re.sub(old, new, data)
+                        successful_replacements.append([old, new])
 
         if simulate == False:
             # prettyprint successful_replacements
@@ -224,7 +233,7 @@ class GoMod():
                 if commit_and_push:
                     cprint(f"Committing changes for {branch_name}")
                     # Git().commit(self.chain, cd_dir=False, vscode_prompt=vscode_prompt)
-                    Git().commit(self.chain, "chore(deps): Version Bumps [chain-chores automatic]")
+                    Git().commit(self.chain, "chore(deps): Dependency Bumps [chain-chores]")
                     Git().push(self.chain, branch_name=branch_name, repo_name="origin") # our fork
                     if make_pr:
                         changes = ""

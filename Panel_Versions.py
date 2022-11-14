@@ -68,10 +68,9 @@ class VersionPanel():
             # DEBUGGING
             # latest['iavl'] = {'13': ['0.13.1', '0.13.2', '0.13.3'], '14': ['0.14.1', '0.14.2', '0.14.3'], '15': ['0.15.1', '0.15.2', '0.15.3'], '16': ['0.16.0'], '17': ['0.17.1', '0.17.2', '0.17.3'], '18': ['0.18.0'], '19': ['0.19.2', '0.19.3', '0.19.4']}
 
-            for r in GO_MOD_REPLACES[k]['replace']:
-                # plain_version = str(r[1]).split(" ")[-1].replace('v', '')
-                plain_version = str(r[1]).split(" ", 1)[-1].replace('v', '')
-                if '// indirect' in plain_version:
+            for r in GO_MOD_REPLACES[k]['replace']:                
+                plain_version = str(r[1]).split(" ", 1)[-1].replace('v', '')                                
+                if '// indirect' in plain_version:                    
                     plain_version = plain_version.split(" ", 1)[0]                
 
                 l = len(plain_version.split('.'))

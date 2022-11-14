@@ -3,11 +3,12 @@
 # # "Konstellation": "",
 
 VALIDATING_CHAINS = {
-    "Osmosis": {
-        "branch": "main",
-        "parent": "git@github.com:osmosis-labs/osmosis.git",
-        "fork": "git@github.com:notional-labs/osmosis.git"
-    },
+    # our fork is broken atm
+    # "Osmosis": {
+    #     "branch": "main",
+    #     "parent": "git@github.com:osmosis-labs/osmosis.git",
+    #     "fork": "git@github.com:notional-labs/osmosis.git"
+    # },
     "Gaia": {
         "branch": "main",
         "parent": "git@github.com:cosmos/gaia.git",
@@ -47,7 +48,7 @@ VALIDATING_CHAINS = {
         "branch": "master",
         "parent": "git@github.com:ovrclk/akash.git",
         "fork": "git@github.com:notional-labs/akash.git",
-        "ignore_updates": ['cosmos-sdk']
+        # "ignore_updates": ['cosmos-sdk']
     },
     "Sentinel": {
         "branch": "development",
@@ -138,7 +139,7 @@ VALIDATING_CHAINS = {
         "branch": "main",
         "parent": "git@github.com:umee-network/umee.git",
         "fork": "git@github.com:notional-labs/umee.git",
-        "ignore_updates": ["cosmos-sdk", "wasm"]
+        # "ignore_updates": ["cosmos-sdk", "wasm"]
     },
     "Passage3D": {
         "branch": "main",
@@ -149,13 +150,13 @@ VALIDATING_CHAINS = {
         "branch": "main",
         "parent": "git@github.com:Stride-Labs/stride.git",
         "fork": "git@github.com:notional-labs/stride.git",
-        "ignore_updates": ["cosmos-sdk"]
+        # "ignore_updates": ["cosmos-sdk"]
     },
     "QuickSilver": {
         "branch": "main",
         "parent": "git@github.com:ingenuity-build/quicksilver.git",
         "fork": "git@github.com:notional-labs/quicksilver.git",
-        "ignore_updates": ['cosmos-sdk']
+        # "ignore_updates": ['cosmos-sdk']
     },
     "Jackal": {
         "branch": "master",
