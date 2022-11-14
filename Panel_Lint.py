@@ -11,6 +11,9 @@ class LintPanel():
         options = {            
             "l": ["Lint chains", self.linting],
             "d": ["Convert to Google CLI", self.google_cli_convert],
+            "": [""], # BLANK SPACE
+
+            "rs": ["Remove starport", self.remover_starport],
 
             "": [""], # BLANK SPACE
             "m": ["Main Panel", main_panel_func],
@@ -30,6 +33,15 @@ class LintPanel():
         chains = select_chains("Select chains to lint")
         for chain in chains: # mp?
             Linting(chain).lint_all()
+        input("Press enter to continue...")
+
+    def remover_starport(self):
+        # TODO:
+        # chains = select_chains("Select chains to remove starport from")
+        chains = ['cerberus']
+        for chain in chains: # mp?
+            # Starport(chain).gomod()
+            Starport(chain).files()
         input("Press enter to continue...")
 
 
@@ -77,6 +89,70 @@ class Linting():
         os.system(cmd)
         os.chdir(current_dir)
     
+
+class Starport():
+    '''
+    WIP
+    Remove starport CLI stuff yuck
+    '''
+
+    def __init__(self, folder: str) -> None:        
+        self.folder = folder
+
+    def gomod(self):
+        os.chdir(os.path.join(current_dir, self.folder))
+        # remove 'tendermint/starport' line from the go.mod file
+        with open("go.mod", "r") as f:
+            lines = f.readlines()
+        with open("go.mod", "w") as f:
+            for line in lines:
+                if "tendermint/starport" not in line:
+                    f.write(line)
+        os.chdir(current_dir)
+
+    def files(self):
+        os.chdir(os.path.join(current_dir, self.folder))
+
+        # loop through ALL files
+        for root, dirs, files in os.walk(os.path.join(current_dir, self.folder), topdown=True):
+            # print(root, dirs, files)
+            # if file is .go
+            for name in files:
+                # continue
+                if name.endswith(".go"):                    
+                    # print(name)
+                    # continue
+                    path = os.path.join(root, name)
+                
+                    with open(path, "r") as f:
+                        lines = f.readlines()
+
+                    new_lines = self._remove_instances(lines)
+
+                    with open(path, "w") as f:
+                        f.writelines(new_lines)
+
+                    print(f"Removed starport from {path}")
+                    
+                    # exit()
+
+    def _remove_instances(self, lines):
+        new_lines = []
+        for line in lines:
+            if 'starport' in line:
+                continue
+
+            if 'cosmoscmd.EncodingConfig' in line:
+                line = line.replace('cosmoscmd.EncodingConfig', 'encparams.EncodingConfig')
+            if 'cosmoscmd.App' in line:
+                line = line.replace('cosmoscmd.App', '*App')
+
+            new_lines.append(line)
+
+        return new_lines
+
+
+
 
 if __name__ == "__main__":
     _main()
