@@ -67,7 +67,7 @@ GO_MOD_REPLACES = {
     "cosmos-sdk": {
         "versions": ['46', '45'],
         "replace": [
-            ["cosmos/cosmos-sdk v0.46.*", "cosmos/cosmos-sdk v0.46.4"],
+            ["cosmos/cosmos-sdk v0.46.*", "cosmos/cosmos-sdk v0.46.5"],
             ["cosmos/cosmos-sdk v0.45.*", "cosmos/cosmos-sdk v0.45.11"],
         ],
     },

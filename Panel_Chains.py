@@ -225,7 +225,7 @@ class Git():
         if len(changes) > 0: 
             changes = f"\nChanges:\n{changes}"
 
-        cmd = f"gh pr create --web --title '{title}' --body 'Generated with [chain-chores](https://github.com/notional-labs/chain-chores)\n{changes}'"
+        cmd = f"gh pr create --web --title '{title}' --body 'Generated with [chain-chores](https://github.com/notional-labs/chain-chores) [Ignoring any custom forks you may use]\nContact if there are any issues [Twitter](https://twitter.com/Reecepbcups_)\n{changes}'"
         os.system(cmd)
         if cd_dir: os.chdir(current_dir)
 
