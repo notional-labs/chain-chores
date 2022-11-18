@@ -1,13 +1,35 @@
-# # "Injective": "",    
-# # "Ki": "", # ??  
 # # "Konstellation": "",
 
 VALIDATING_CHAINS = {
-    # our fork is broken atm
-    # "Osmosis": {
+    # "Osmosis": { # Custom Forks, ignores
     #     "branch": "main",
     #     "parent": "git@github.com:osmosis-labs/osmosis.git",
     #     "fork": "git@github.com:notional-labs/osmosis.git"
+    # },
+    # "Akash": { # Modified SDK & Tendermint
+    #     "branch": "master",
+    #     "parent": "git@github.com:ovrclk/akash.git",
+    #     "fork": "git@github.com:notional-labs/akash.git",    
+    # },
+    # "Umee": {# IGNORE, they use their own custom forks
+    #     "branch": "main",
+    #     "parent": "git@github.com:umee-network/umee.git",
+    #     "fork": "git@github.com:notional-labs/umee.git",    
+    # },
+    # "Provenance": {
+    #     "branch": "main",
+    #     "parent": "git@github.com:provenance-io/provenance.git",
+    #     "fork": "git@github.com:notional-labs/provenance.git"
+    # },
+    # "Stride": {
+    #     "branch": "main",
+    #     "parent": "git@github.com:Stride-Labs/stride.git",
+    #     "fork": "git@github.com:notional-labs/stride.git",        
+    # },
+    # "QuickSilver": {
+    #     "branch": "main",
+    #     "parent": "git@github.com:ingenuity-build/quicksilver.git",
+    #     "fork": "git@github.com:notional-labs/quicksilver.git",        
     # },
     "Gaia": {
         "branch": "main",
@@ -43,12 +65,6 @@ VALIDATING_CHAINS = {
         "branch": "master",
         "parent": "git@github.com:regen-network/regen-ledger.git",
         "fork": "git@github.com:notional-labs/regen-ledger.git"
-    },
-    "Akash": {
-        "branch": "master",
-        "parent": "git@github.com:ovrclk/akash.git",
-        "fork": "git@github.com:notional-labs/akash.git",
-        # "ignore_updates": ['cosmos-sdk']
     },
     "Sentinel": {
         "branch": "development",
@@ -115,11 +131,6 @@ VALIDATING_CHAINS = {
         "parent": "git@github.com:evmos/evmos.git",
         "fork": "git@github.com:notional-labs/evmos.git"
     },
-    "Provenance": {
-        "branch": "main",
-        "parent": "git@github.com:provenance-io/provenance.git",
-        "fork": "git@github.com:notional-labs/provenance.git"
-    },
     "Vidulum": {
         "branch": "main",
         "parent": "git@github.com:vidulum/mainnet.git",
@@ -135,31 +146,24 @@ VALIDATING_CHAINS = {
         "parent": "git@github.com:fetchai/fetchd.git",
         "fork": "git@github.com:notional-labs/fetchd.git"
     },
-    # "Umee": {# IGNORE, they use their own custom forks
-    #     "branch": "main",
-    #     "parent": "git@github.com:umee-network/umee.git",
-    #     "fork": "git@github.com:notional-labs/umee.git",    
-    # },
     "Passage3D": {
         "branch": "main",
         "parent": "git@github.com:envadiv/Passage3D.git",
         "fork": "git@github.com:notional-labs/Passage3D.git"
-    },
-    "Stride": {
-        "branch": "main",
-        "parent": "git@github.com:Stride-Labs/stride.git",
-        "fork": "git@github.com:notional-labs/stride.git",
-        # "ignore_updates": ["cosmos-sdk"]
-    },
-    "QuickSilver": {
-        "branch": "main",
-        "parent": "git@github.com:ingenuity-build/quicksilver.git",
-        "fork": "git@github.com:notional-labs/quicksilver.git",
-        # "ignore_updates": ['cosmos-sdk']
     },
     "Jackal": {
         "branch": "master",
         "parent": "git@github.com:JackalLabs/canine-chain.git",
         "fork": "git@github.com:notional-labs/canine-chain.git"
     },
+    "Cerberus": {
+        "branch": "release/v2.0.1",
+        "parent": "git@github.com:cerberus-zone/cerberus.git",
+        "fork": "git@github.com:notional-labs/cerberus.git"
+    },    
+    "Konstellation": {
+        "branch": "master",
+        "parent": "git@github.com:knstl/konstellation.git",
+        "fork": "git@github.com:notional-labs/konstellation.git"
+    },    
 }
