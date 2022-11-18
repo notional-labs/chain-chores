@@ -135,12 +135,11 @@ VALIDATING_CHAINS = {
         "parent": "git@github.com:fetchai/fetchd.git",
         "fork": "git@github.com:notional-labs/fetchd.git"
     },
-    "Umee": {
-        "branch": "main",
-        "parent": "git@github.com:umee-network/umee.git",
-        "fork": "git@github.com:notional-labs/umee.git",
-        # "ignore_updates": ["cosmos-sdk", "wasm"]
-    },
+    # "Umee": {# IGNORE, they use their own custom forks
+    #     "branch": "main",
+    #     "parent": "git@github.com:umee-network/umee.git",
+    #     "fork": "git@github.com:notional-labs/umee.git",    
+    # },
     "Passage3D": {
         "branch": "main",
         "parent": "git@github.com:envadiv/Passage3D.git",
